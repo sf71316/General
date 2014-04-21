@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="boss" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="boss" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="boss">
+      <s:element name="BossGateway">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cmd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BossGatewayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BossGatewayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ynDev">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ynDevResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ynDevResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="sgMapping">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="sgMappingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sgMappingResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="devCluster">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cm" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="devClusterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="devClusterResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSSLBasicPackage">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSSLBasicPackageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSSLBasicPackageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccWithPkg">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telPwd" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccWithPkgResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateAccWithPkgResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="setUserResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="removeUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="removeUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="removeUserResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setMaster">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setMasterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="setMasterResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateAccountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="sgToDevice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pkgName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="sgToDeviceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sgToDeviceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddPackage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pkgName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddPackageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddPackageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemovePackage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pkgName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemovePackageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RemovePackageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadAccountSubscriberGroups">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadAccountSubscriberGroupsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadAccountSubscriberGroupsResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountbyDeviceExternalId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="dev" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountbyDeviceExternalIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountbyDeviceExternalIdResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_GetDeviceSG">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="dev" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_GetDeviceSGResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="log_GetDeviceSGResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_GetUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_GetUserResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="AccountDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountDetailsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_getAccDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="log_getAccDetailsResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDupSG">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accPlusSG" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDupSGResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDupSGResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="xboxMPF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xboxMac" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="xboxMPFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xboxMPFResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="stbToPurchase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accREC" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="stbToPurchaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stbToPurchaseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QuanTuen">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QuanTuenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QuanTuenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getMSWDSeq">
+        <s:complexType />
+      </s:element>
+      <s:element name="getMSWDSeqResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getMSWDSeqResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ttt">
+        <s:complexType />
+      </s:element>
+      <s:element name="tttResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tttResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XMLsgMapping2coss">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XMLsgMapping2cossResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XMLsgMapping2cossResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BossGatewaySoapIn">
+    <wsdl:part name="parameters" element="tns:BossGateway" />
+  </wsdl:message>
+  <wsdl:message name="BossGatewaySoapOut">
+    <wsdl:part name="parameters" element="tns:BossGatewayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ynDevSoapIn">
+    <wsdl:part name="parameters" element="tns:ynDev" />
+  </wsdl:message>
+  <wsdl:message name="ynDevSoapOut">
+    <wsdl:part name="parameters" element="tns:ynDevResponse" />
+  </wsdl:message>
+  <wsdl:message name="sgMappingSoapIn">
+    <wsdl:part name="parameters" element="tns:sgMapping" />
+  </wsdl:message>
+  <wsdl:message name="sgMappingSoapOut">
+    <wsdl:part name="parameters" element="tns:sgMappingResponse" />
+  </wsdl:message>
+  <wsdl:message name="devClusterSoapIn">
+    <wsdl:part name="parameters" element="tns:devCluster" />
+  </wsdl:message>
+  <wsdl:message name="devClusterSoapOut">
+    <wsdl:part name="parameters" element="tns:devClusterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSSLBasicPackageSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSSLBasicPackage" />
+  </wsdl:message>
+  <wsdl:message name="GetSSLBasicPackageSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSSLBasicPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccWithPkgSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateAccWithPkg" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccWithPkgSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateAccWithPkgResponse" />
+  </wsdl:message>
+  <wsdl:message name="setUserSoapIn">
+    <wsdl:part name="parameters" element="tns:setUser" />
+  </wsdl:message>
+  <wsdl:message name="setUserSoapOut">
+    <wsdl:part name="parameters" element="tns:setUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="removeUserSoapIn">
+    <wsdl:part name="parameters" element="tns:removeUser" />
+  </wsdl:message>
+  <wsdl:message name="removeUserSoapOut">
+    <wsdl:part name="parameters" element="tns:removeUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="setMasterSoapIn">
+    <wsdl:part name="parameters" element="tns:setMaster" />
+  </wsdl:message>
+  <wsdl:message name="setMasterSoapOut">
+    <wsdl:part name="parameters" element="tns:setMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateAccount" />
+  </wsdl:message>
+  <wsdl:message name="CreateAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="sgToDeviceSoapIn">
+    <wsdl:part name="parameters" element="tns:sgToDevice" />
+  </wsdl:message>
+  <wsdl:message name="sgToDeviceSoapOut">
+    <wsdl:part name="parameters" element="tns:sgToDeviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddPackageSoapIn">
+    <wsdl:part name="parameters" element="tns:AddPackage" />
+  </wsdl:message>
+  <wsdl:message name="AddPackageSoapOut">
+    <wsdl:part name="parameters" element="tns:AddPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemovePackageSoapIn">
+    <wsdl:part name="parameters" element="tns:RemovePackage" />
+  </wsdl:message>
+  <wsdl:message name="RemovePackageSoapOut">
+    <wsdl:part name="parameters" element="tns:RemovePackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadAccountSubscriberGroupsSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadAccountSubscriberGroups" />
+  </wsdl:message>
+  <wsdl:message name="ReadAccountSubscriberGroupsSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadAccountSubscriberGroupsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountbyDeviceExternalIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountbyDeviceExternalId" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountbyDeviceExternalIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountbyDeviceExternalIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="log_GetDeviceSGSoapIn">
+    <wsdl:part name="parameters" element="tns:log_GetDeviceSG" />
+  </wsdl:message>
+  <wsdl:message name="log_GetDeviceSGSoapOut">
+    <wsdl:part name="parameters" element="tns:log_GetDeviceSGResponse" />
+  </wsdl:message>
+  <wsdl:message name="log_GetUserSoapIn">
+    <wsdl:part name="parameters" element="tns:log_GetUser" />
+  </wsdl:message>
+  <wsdl:message name="log_GetUserSoapOut">
+    <wsdl:part name="parameters" element="tns:log_GetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AccountDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:AccountDetails" />
+  </wsdl:message>
+  <wsdl:message name="AccountDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:AccountDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="log_getAccDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:log_getAccDetails" />
+  </wsdl:message>
+  <wsdl:message name="log_getAccDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:log_getAccDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDupSGSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDupSG" />
+  </wsdl:message>
+  <wsdl:message name="GetDupSGSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDupSGResponse" />
+  </wsdl:message>
+  <wsdl:message name="xboxMPFSoapIn">
+    <wsdl:part name="parameters" element="tns:xboxMPF" />
+  </wsdl:message>
+  <wsdl:message name="xboxMPFSoapOut">
+    <wsdl:part name="parameters" element="tns:xboxMPFResponse" />
+  </wsdl:message>
+  <wsdl:message name="stbToPurchaseSoapIn">
+    <wsdl:part name="parameters" element="tns:stbToPurchase" />
+  </wsdl:message>
+  <wsdl:message name="stbToPurchaseSoapOut">
+    <wsdl:part name="parameters" element="tns:stbToPurchaseResponse" />
+  </wsdl:message>
+  <wsdl:message name="QuanTuenSoapIn">
+    <wsdl:part name="parameters" element="tns:QuanTuen" />
+  </wsdl:message>
+  <wsdl:message name="QuanTuenSoapOut">
+    <wsdl:part name="parameters" element="tns:QuanTuenResponse" />
+  </wsdl:message>
+  <wsdl:message name="getMSWDSeqSoapIn">
+    <wsdl:part name="parameters" element="tns:getMSWDSeq" />
+  </wsdl:message>
+  <wsdl:message name="getMSWDSeqSoapOut">
+    <wsdl:part name="parameters" element="tns:getMSWDSeqResponse" />
+  </wsdl:message>
+  <wsdl:message name="tttSoapIn">
+    <wsdl:part name="parameters" element="tns:ttt" />
+  </wsdl:message>
+  <wsdl:message name="tttSoapOut">
+    <wsdl:part name="parameters" element="tns:tttResponse" />
+  </wsdl:message>
+  <wsdl:message name="XMLsgMapping2cossSoapIn">
+    <wsdl:part name="parameters" element="tns:XMLsgMapping2coss" />
+  </wsdl:message>
+  <wsdl:message name="XMLsgMapping2cossSoapOut">
+    <wsdl:part name="parameters" element="tns:XMLsgMapping2cossResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="BossGateway">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">BossGateway入口</wsdl:documentation>
+      <wsdl:input message="tns:BossGatewaySoapIn" />
+      <wsdl:output message="tns:BossGatewaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ynDev">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">回傳account下是否還有設備</wsdl:documentation>
+      <wsdl:input message="tns:ynDevSoapIn" />
+      <wsdl:output message="tns:ynDevSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="sgMapping">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">xml入口</wsdl:documentation>
+      <wsdl:input message="tns:sgMappingSoapIn" />
+      <wsdl:output message="tns:sgMappingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="devCluster">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">devCluster入口 SG_DEVIC08開頭SG</wsdl:documentation>
+      <wsdl:input message="tns:devClusterSoapIn" />
+      <wsdl:output message="tns:devClusterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSSLBasicPackage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">取得SSL基本頻道</wsdl:documentation>
+      <wsdl:input message="tns:GetSSLBasicPackageSoapIn" />
+      <wsdl:output message="tns:GetSSLBasicPackageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccWithPkg">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Internet用戶開戶並同時增加訂購頻道套餐</wsdl:documentation>
+      <wsdl:input message="tns:CreateAccWithPkgSoapIn" />
+      <wsdl:output message="tns:CreateAccWithPkgSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">setUser</wsdl:documentation>
+      <wsdl:input message="tns:setUserSoapIn" />
+      <wsdl:output message="tns:setUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">removeUser</wsdl:documentation>
+      <wsdl:input message="tns:removeUserSoapIn" />
+      <wsdl:output message="tns:removeUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setMaster">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">setMaster:成功6/失敗0/異常10</wsdl:documentation>
+      <wsdl:input message="tns:setMasterSoapIn" />
+      <wsdl:output message="tns:setMasterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">建新帳號</wsdl:documentation>
+      <wsdl:input message="tns:CreateAccountSoapIn" />
+      <wsdl:output message="tns:CreateAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="sgToDevice">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">sg--&gt;device</wsdl:documentation>
+      <wsdl:input message="tns:sgToDeviceSoapIn" />
+      <wsdl:output message="tns:sgToDeviceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddPackage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加1~n個用戶組(套餐)</wsdl:documentation>
+      <wsdl:input message="tns:AddPackageSoapIn" />
+      <wsdl:output message="tns:AddPackageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemovePackage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">移除1~n個用戶組(套餐)</wsdl:documentation>
+      <wsdl:input message="tns:RemovePackageSoapIn" />
+      <wsdl:output message="tns:RemovePackageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadAccountSubscriberGroups">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">讀取用戶組(套餐)</wsdl:documentation>
+      <wsdl:input message="tns:ReadAccountSubscriberGroupsSoapIn" />
+      <wsdl:output message="tns:ReadAccountSubscriberGroupsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountbyDeviceExternalId">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">從設備讀取用戶帳號</wsdl:documentation>
+      <wsdl:input message="tns:GetAccountbyDeviceExternalIdSoapIn" />
+      <wsdl:output message="tns:GetAccountbyDeviceExternalIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="log_GetDeviceSG">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">讀取設備下SG</wsdl:documentation>
+      <wsdl:input message="tns:log_GetDeviceSGSoapIn" />
+      <wsdl:output message="tns:log_GetDeviceSGSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="log_GetUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">讀取User_AccountExternalId_ExternalID</wsdl:documentation>
+      <wsdl:input message="tns:log_GetUserSoapIn" />
+      <wsdl:output message="tns:log_GetUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AccountDetails">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">回傳account下的明細資料</wsdl:documentation>
+      <wsdl:input message="tns:AccountDetailsSoapIn" />
+      <wsdl:output message="tns:AccountDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="log_getAccDetails">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">取得帳號的明細</wsdl:documentation>
+      <wsdl:input message="tns:log_getAccDetailsSoapIn" />
+      <wsdl:output message="tns:log_getAccDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDupSG">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查詢SG by Account</wsdl:documentation>
+      <wsdl:input message="tns:GetDupSGSoapIn" />
+      <wsdl:output message="tns:GetDupSGSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="xboxMPF">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">啟動xboxMPF功能 in:MAC</wsdl:documentation>
+      <wsdl:input message="tns:xboxMPFSoapIn" />
+      <wsdl:output message="tns:xboxMPFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="stbToPurchase">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">由stb呼叫購買2參數</wsdl:documentation>
+      <wsdl:input message="tns:stbToPurchaseSoapIn" />
+      <wsdl:output message="tns:stbToPurchaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QuanTuen">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">區分全區or屯區</wsdl:documentation>
+      <wsdl:input message="tns:QuanTuenSoapIn" />
+      <wsdl:output message="tns:QuanTuenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getMSWDSeq">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">取得coss排程table序號</wsdl:documentation>
+      <wsdl:input message="tns:getMSWDSeqSoapIn" />
+      <wsdl:output message="tns:getMSWDSeqSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ttt">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">test發送簡訊</wsdl:documentation>
+      <wsdl:input message="tns:tttSoapIn" />
+      <wsdl:output message="tns:tttSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="XMLsgMapping2coss">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">xmlMapping_sg2coss</wsdl:documentation>
+      <wsdl:input message="tns:XMLsgMapping2cossSoapIn" />
+      <wsdl:output message="tns:XMLsgMapping2cossSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BossGateway">
+      <soap:operation soapAction="boss/BossGateway" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ynDev">
+      <soap:operation soapAction="boss/ynDev" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sgMapping">
+      <soap:operation soapAction="boss/sgMapping" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="devCluster">
+      <soap:operation soapAction="boss/devCluster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSSLBasicPackage">
+      <soap:operation soapAction="boss/GetSSLBasicPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccWithPkg">
+      <soap:operation soapAction="boss/CreateAccWithPkg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setUser">
+      <soap:operation soapAction="boss/setUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <soap:operation soapAction="boss/removeUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setMaster">
+      <soap:operation soapAction="boss/setMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccount">
+      <soap:operation soapAction="boss/CreateAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sgToDevice">
+      <soap:operation soapAction="boss/sgToDevice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPackage">
+      <soap:operation soapAction="boss/AddPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemovePackage">
+      <soap:operation soapAction="boss/RemovePackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadAccountSubscriberGroups">
+      <soap:operation soapAction="boss/ReadAccountSubscriberGroups" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountbyDeviceExternalId">
+      <soap:operation soapAction="boss/GetAccountbyDeviceExternalId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_GetDeviceSG">
+      <soap:operation soapAction="boss/log_GetDeviceSG" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_GetUser">
+      <soap:operation soapAction="boss/log_GetUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountDetails">
+      <soap:operation soapAction="boss/AccountDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_getAccDetails">
+      <soap:operation soapAction="boss/log_getAccDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDupSG">
+      <soap:operation soapAction="boss/GetDupSG" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="xboxMPF">
+      <soap:operation soapAction="boss/xboxMPF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stbToPurchase">
+      <soap:operation soapAction="boss/stbToPurchase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QuanTuen">
+      <soap:operation soapAction="boss/QuanTuen" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMSWDSeq">
+      <soap:operation soapAction="boss/getMSWDSeq" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ttt">
+      <soap:operation soapAction="boss/ttt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XMLsgMapping2coss">
+      <soap:operation soapAction="boss/XMLsgMapping2coss" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BossGateway">
+      <soap12:operation soapAction="boss/BossGateway" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ynDev">
+      <soap12:operation soapAction="boss/ynDev" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sgMapping">
+      <soap12:operation soapAction="boss/sgMapping" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="devCluster">
+      <soap12:operation soapAction="boss/devCluster" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSSLBasicPackage">
+      <soap12:operation soapAction="boss/GetSSLBasicPackage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccWithPkg">
+      <soap12:operation soapAction="boss/CreateAccWithPkg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setUser">
+      <soap12:operation soapAction="boss/setUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <soap12:operation soapAction="boss/removeUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setMaster">
+      <soap12:operation soapAction="boss/setMaster" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateAccount">
+      <soap12:operation soapAction="boss/CreateAccount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sgToDevice">
+      <soap12:operation soapAction="boss/sgToDevice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPackage">
+      <soap12:operation soapAction="boss/AddPackage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemovePackage">
+      <soap12:operation soapAction="boss/RemovePackage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadAccountSubscriberGroups">
+      <soap12:operation soapAction="boss/ReadAccountSubscriberGroups" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountbyDeviceExternalId">
+      <soap12:operation soapAction="boss/GetAccountbyDeviceExternalId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_GetDeviceSG">
+      <soap12:operation soapAction="boss/log_GetDeviceSG" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_GetUser">
+      <soap12:operation soapAction="boss/log_GetUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountDetails">
+      <soap12:operation soapAction="boss/AccountDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log_getAccDetails">
+      <soap12:operation soapAction="boss/log_getAccDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDupSG">
+      <soap12:operation soapAction="boss/GetDupSG" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="xboxMPF">
+      <soap12:operation soapAction="boss/xboxMPF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stbToPurchase">
+      <soap12:operation soapAction="boss/stbToPurchase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QuanTuen">
+      <soap12:operation soapAction="boss/QuanTuen" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMSWDSeq">
+      <soap12:operation soapAction="boss/getMSWDSeq" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ttt">
+      <soap12:operation soapAction="boss/ttt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XMLsgMapping2coss">
+      <soap12:operation soapAction="boss/XMLsgMapping2coss" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://172.27.77.8/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://172.27.77.8/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

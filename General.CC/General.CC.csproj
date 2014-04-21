@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{44534055-B3B5-4A94-B459-9D37AB1600B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>General.CC</RootNamespace>
+    <AssemblyName>General.CC</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Nonshipping>true</Nonshipping>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collection\FileEntityCollection.cs" />
+    <Compile Include="ConfirmButton\ConfirmArgs.cs" />
+    <Compile Include="ConfirmButton\ConfirmButton.cs" />
+    <Compile Include="DatePicker\DatePicker.cs" />
+    <Compile Include="DatePicker\Resources\ControlResources.cs" />
+    <Compile Include="DatePicker\Support\ClientScriptProxy.cs" />
+    <Compile Include="DatePicker\Support\JavaScriptMinifier.cs" />
+    <Compile Include="DatePicker\Support\wwScriptCompressionModule.cs" />
+    <Compile Include="DatePicker\Support\wwWebUtils.cs" />
+    <Compile Include="Entity\FileUploadEntity.cs" />
+    <Compile Include="FileUploader\Resources\ControlResources.cs" />
+    <Compile Include="FileUploader\Uploadify.cs" />
+    <Compile Include="FileUploader\Utility\ClientScriptProxy.cs" />
+    <Compile Include="FileUploader\Utility\UploadHandlerBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FileUploader\Resources\uploadify.css" />
+    <EmbeddedResource Include="FileUploader\Resources\uploadify.swf" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="FileUploader\Uploadify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FileUploader\Resources\jquery.uploadify.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DatePicker\Resources\calendar.gif" />
+    <EmbeddedResource Include="DatePicker\Resources\jquery.js" />
+    <EmbeddedResource Include="DatePicker\Resources\ui.datepicker.css" />
+    <EmbeddedResource Include="DatePicker\Resources\ui.datepicker.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

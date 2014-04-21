@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.microsoft.com/iptv/oss/diagnostics" elementFormDefault="qualified" targetNamespace="http://www.microsoft.com/iptv/oss/diagnostics" id="schema3" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://microsoft.com/wsdl/types/" />
+  <xs:element name="SendMigrateRequestToDevice">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="deviceExternalId" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="bootstrapURL" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendMigrateRequestToDeviceResponse">
+    <xs:complexType />
+  </xs:element>
+  <xs:element name="ReadDeviceState">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="device" type="tns:Device" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="Device">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Principal">
+        <xs:attribute name="AccountExternalId" type="xs:string" />
+        <xs:attribute name="Pin" type="xs:string" />
+        <xs:attribute xmlns:q1="http://microsoft.com/wsdl/types/" name="ID" type="q1:guid" use="required" />
+        <xs:attribute name="Version" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Principal" abstract="true">
+    <xs:attribute name="ExternalID" type="xs:string" />
+    <xs:attribute name="Status" type="tns:PrincipalStatus" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="PrincipalStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="enabled" />
+      <xs:enumeration value="disabled" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ReadDeviceStateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="ReadDeviceStateResult" type="tns:DeviceState" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="DeviceState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Invalid" />
+      <xs:enumeration value="StandBy" />
+      <xs:enumeration value="DoNotDisturb" />
+      <xs:enumeration value="PowerOn" />
+      <xs:enumeration value="OffLine" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

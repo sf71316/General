@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A38DD1E0-5DA1-4322-AFC4-5019308253D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>General.Data</RootNamespace>
+    <AssemblyName>General.Data</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <OutputPath>bin\Test\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|x86'">
+    <OutputPath>bin\x86\Test\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.12.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Dapper.1.13\lib\net35\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attribute\DataSourceColumnAttribute.cs" />
+    <Compile Include="Attribute\TableMappingAttribute.cs" />
+    <Compile Include="Base\DbInstance.cs" />
+    <Compile Include="Base\Provider\DapperProvider.cs" />
+    <Compile Include="interface\IDapper.cs" />
+    <Compile Include="Base\Provider\ProviderBase.cs" />
+    <Compile Include="Command\CommandBuilderBase.cs" />
+    <Compile Include="Base\DataBase.cs" />
+    <Compile Include="Base\Provider\DefaultProvider.cs" />
+    <Compile Include="Command\DeleteCommandBuilder.cs" />
+    <Compile Include="Command\Expression\DataExpressionNode.cs" />
+    <Compile Include="Command\Expression\ExpressionNode.cs" />
+    <Compile Include="Command\Expression\ExpressionNodeType.cs" />
+    <Compile Include="Command\Expression\ExpressionTraversalType.cs" />
+    <Compile Include="Command\Expression\ExpressionTree.cs" />
+    <Compile Include="Command\Expression\ParameterExpressionNode.cs" />
+    <Compile Include="Command\InsertCommandBuilder.cs" />
+    <Compile Include="Command\SelectCommandBuilder.cs" />
+    <Compile Include="Command\UpdateCommandBuilder.cs" />
+    <Compile Include="Enum\Provider.cs" />
+    <Compile Include="Event\DbEventArgs.cs" />
+    <Compile Include="Extensions\DataRecord.cs" />
+    <Compile Include="Extensions\DataRow.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="interface\ICollectionBase.cs" />
+    <Compile Include="interface\ICommand.cs" />
+    <Compile Include="interface\ICommandCondition.cs" />
+    <Compile Include="interface\ICommandEntity.cs" />
+    <Compile Include="interface\IDACAdapter.cs" />
+    <Compile Include="interface\IEntity.cs" />
+    <Compile Include="interface\IFill.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TypeConverters\BooleanConverter.cs" />
+    <Compile Include="TypeConverters\ByteConverter.cs" />
+    <Compile Include="TypeConverters\CharConverter.cs" />
+    <Compile Include="TypeConverters\DateTimeConverter.cs" />
+    <Compile Include="TypeConverters\DecimalConverter.cs" />
+    <Compile Include="TypeConverters\DoubleConverter.cs" />
+    <Compile Include="TypeConverters\EnumConverter.cs" />
+    <Compile Include="TypeConverters\FloatConverter.cs" />
+    <Compile Include="TypeConverters\DefaultConverter.cs" />
+    <Compile Include="TypeConverters\GuildConverter.cs" />
+    <Compile Include="TypeConverters\IntegerConverter.cs" />
+    <Compile Include="TypeConverters\ITypeConverter.cs" />
+    <Compile Include="TypeConverters\LongConverter.cs" />
+    <Compile Include="TypeConverters\NullableConverter.cs" />
+    <Compile Include="TypeConverters\ShortConverter.cs" />
+    <Compile Include="TypeConverters\StringConverter.cs" />
+    <Compile Include="TypeConverters\TypeConverterFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir) D:\dll\General\</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

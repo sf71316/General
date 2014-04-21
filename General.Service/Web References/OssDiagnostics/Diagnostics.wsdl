@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:i0="http://tempuri.org/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.microsoft.com/iptv/oss/diagnostics" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.microsoft.com/iptv/oss/diagnostics" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://tempuri.org/" location="http://localhost/ossNotifications/Diagnostics.asmx?wsdl=wsdl1" />
+  <wsdl:types>
+    <s:schema targetNamespace="http://www.microsoft.com/iptv/oss/diagnostics">
+      <s:import schemaLocation="http://localhost/ossNotifications/Diagnostics.asmx?schema=schema1" namespace="http://tempuri.org/" />
+      <s:import schemaLocation="http://localhost/ossNotifications/Diagnostics.asmx?schema=schema2" namespace="http://microsoft.com/wsdl/types/" />
+      <s:include schemaLocation="http://localhost/ossNotifications/Diagnostics.asmx?schema=schema3" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SendMigrateRequestToDeviceSoapIn">
+    <wsdl:part name="parameters" element="tns:SendMigrateRequestToDevice" />
+  </wsdl:message>
+  <wsdl:message name="SendMigrateRequestToDeviceSoapOut">
+    <wsdl:part name="parameters" element="tns:SendMigrateRequestToDeviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadDeviceStateSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadDeviceState" />
+  </wsdl:message>
+  <wsdl:message name="ReadDeviceStateSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadDeviceStateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="DiagnosticsSoap">
+    <wsdl:operation name="SendMigrateRequestToDevice">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends a rebootstrap request to a device</wsdl:documentation>
+      <wsdl:input message="tns:SendMigrateRequestToDeviceSoapIn" />
+      <wsdl:output message="tns:SendMigrateRequestToDeviceSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ossDiagnosticsNotificationsSoap">
+    <wsdl:operation name="ReadDeviceState">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns device state for a device</wsdl:documentation>
+      <wsdl:input message="tns:ReadDeviceStateSoapIn" />
+      <wsdl:output message="tns:ReadDeviceStateSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DiagnosticsSoap" type="tns:DiagnosticsSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMigrateRequestToDevice">
+      <soap:operation soapAction="http://www.microsoft.com/iptv/oss/diagnostics/SendMigrateRequestToDevice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ossDiagnosticsNotificationsSoap" type="tns:ossDiagnosticsNotificationsSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReadDeviceState">
+      <soap:operation soapAction="http://www.microsoft.com/iptv/oss/diagnostics/ReadDeviceState" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DiagnosticsSoap12" type="tns:DiagnosticsSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMigrateRequestToDevice">
+      <soap12:operation soapAction="http://www.microsoft.com/iptv/oss/diagnostics/SendMigrateRequestToDevice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ossDiagnosticsNotificationsSoap1" type="tns:ossDiagnosticsNotificationsSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReadDeviceState">
+      <soap12:operation soapAction="http://www.microsoft.com/iptv/oss/diagnostics/ReadDeviceState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Diagnostics">
+    <wsdl:port name="DiagnosticsNotificationsWSSoap" binding="i0:DiagnosticsNotificationsWSSoap">
+      <soap:address location="http://localhost/ossNotifications/Diagnostics.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DiagnosticsSoap" binding="tns:DiagnosticsSoap">
+      <soap:address location="http://localhost/ossNotifications/Diagnostics.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ossDiagnosticsNotificationsSoap" binding="tns:ossDiagnosticsNotificationsSoap">
+      <soap:address location="http://localhost/ossNotifications/Diagnostics.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DiagnosticsNotificationsWSSoap1" binding="i0:DiagnosticsNotificationsWSSoap1">
+      <soap12:address location="http://localhost/ossNotifications/Diagnostics.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DiagnosticsSoap12" binding="tns:DiagnosticsSoap12">
+      <soap12:address location="http://localhost/ossNotifications/Diagnostics.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ossDiagnosticsNotificationsSoap1" binding="tns:ossDiagnosticsNotificationsSoap1">
+      <soap12:address location="http://localhost/ossNotifications/Diagnostics.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

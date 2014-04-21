@@ -1,0 +1,10 @@
+D:\Project\ASPNET\General\General.Log\bin\Release\General.Log.dll.config
+D:\Project\ASPNET\General\General.Log\bin\Release\General.Log.dll
+D:\Project\ASPNET\General\General.Log\bin\Release\General.Log.pdb
+D:\Project\ASPNET\General\General.Log\bin\Release\General.Data.dll
+D:\Project\ASPNET\General\General.Log\bin\Release\General.dll
+D:\Project\ASPNET\General\General.Log\bin\Release\General.pdb
+D:\Project\ASPNET\General\General.Log\bin\Release\General.Data.pdb
+D:\Project\ASPNET\General\General.Log\obj\Release\General.Log.csprojResolveAssemblyReference.cache
+D:\Project\ASPNET\General\General.Log\obj\Release\General.Log.dll
+D:\Project\ASPNET\General\General.Log\obj\Release\General.Log.pdb

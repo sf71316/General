@@ -1,0 +1,7 @@
+D:\Project\ASPNET\General\Gerenal.Data\bin\Release\General.Data.dll
+D:\Project\ASPNET\General\Gerenal.Data\bin\Release\General.Data.pdb
+D:\Project\ASPNET\General\Gerenal.Data\obj\Release\General.Data.Properties.Resources.resources
+D:\Project\ASPNET\General\Gerenal.Data\obj\Release\General.Data.csproj.GenerateResource.Cache
+D:\Project\ASPNET\General\Gerenal.Data\obj\Release\General.Data.dll
+D:\Project\ASPNET\General\Gerenal.Data\obj\Release\General.Data.pdb
+D:\Project\ASPNET\General\Gerenal.Data\obj\Release\General.Data.csprojResolveAssemblyReference.cache

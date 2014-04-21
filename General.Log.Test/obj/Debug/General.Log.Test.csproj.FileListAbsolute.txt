@@ -1,0 +1,8 @@
+D:\Project\ASPNET\General\General.Log.Test\bin\Debug\General.Log.Test.dll.config
+D:\Project\ASPNET\General\General.Log.Test\bin\Debug\General.Log.Test.dll
+D:\Project\ASPNET\General\General.Log.Test\bin\Debug\General.Log.Test.pdb
+D:\Project\ASPNET\General\General.Log.Test\obj\Debug\General.Log.Test.csprojResolveAssemblyReference.cache
+D:\Project\ASPNET\General\General.Log.Test\obj\Debug\General.Log.Test.dll
+D:\Project\ASPNET\General\General.Log.Test\obj\Debug\General.Log.Test.pdb
+D:\Project\ASPNET\General\General.Log.Test\bin\Debug\General.Log.dll
+D:\Project\ASPNET\General\General.Log.Test\bin\Debug\General.Log.pdb

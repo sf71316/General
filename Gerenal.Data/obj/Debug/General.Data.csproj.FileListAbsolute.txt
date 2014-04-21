@@ -1,0 +1,10 @@
+D:\Project\ASPNET\General\Gerenal.Data\bin\Debug\General.Data.dll
+D:\Project\ASPNET\General\Gerenal.Data\bin\Debug\General.Data.pdb
+D:\Project\ASPNET\General\Gerenal.Data\bin\Debug\Dapper.dll
+D:\Project\ASPNET\General\Gerenal.Data\bin\Debug\Dapper.pdb
+D:\Project\ASPNET\General\Gerenal.Data\obj\Debug\General.Data.Properties.Resources.resources
+D:\Project\ASPNET\General\Gerenal.Data\obj\Debug\General.Data.csproj.GenerateResource.Cache
+D:\Project\ASPNET\General\Gerenal.Data\obj\Debug\General.Data.dll
+D:\Project\ASPNET\General\Gerenal.Data\obj\Debug\General.Data.pdb
+D:\Project\ASPNET\General\Gerenal.Data\obj\Debug\General.Data.csprojResolveAssemblyReference.cache
+D:\Project\ASPNET\General\Gerenal.Data\bin\Debug\Dapper.xml

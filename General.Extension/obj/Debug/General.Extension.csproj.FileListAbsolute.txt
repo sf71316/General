@@ -1,0 +1,4 @@
+D:\Project\ASPNET\General\General.Extension\bin\Debug\General.Extension.dll
+D:\Project\ASPNET\General\General.Extension\bin\Debug\General.Extension.pdb
+D:\Project\ASPNET\General\General.Extension\obj\Debug\General.Extension.dll
+D:\Project\ASPNET\General\General.Extension\obj\Debug\General.Extension.pdb

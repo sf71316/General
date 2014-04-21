@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://localhost/MSTV_WS/osschannel/ChannelManagement.asmx?wsdl" docRef="http://localhost/MSTV_WS/osschannel/ChannelManagement.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://localhost/MSTV_WS/osschannel/ChannelManagement.asmx" xmlns:q1="Microsoft.TV2.Oss.Channel" binding="q1:ChannelManagementSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://localhost/MSTV_WS/osschannel/ChannelManagement.asmx" xmlns:q2="Microsoft.TV2.Oss.Channel" binding="q2:ChannelManagementSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

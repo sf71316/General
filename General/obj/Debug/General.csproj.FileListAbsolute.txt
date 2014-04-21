@@ -1,0 +1,7 @@
+D:\Project\ASPNET\General\General\bin\Debug\General.dll
+D:\Project\ASPNET\General\General\bin\Debug\General.pdb
+D:\Project\ASPNET\General\General\obj\Debug\General.dll
+D:\Project\ASPNET\General\General\obj\Debug\General.pdb
+D:\Project\ASPNET\General\General\bin\Debug\Newtonsoft.Json.dll
+D:\Project\ASPNET\General\General\bin\Debug\Newtonsoft.Json.xml
+D:\Project\ASPNET\General\General\obj\Debug\General.csprojResolveAssemblyReference.cache

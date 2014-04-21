@@ -1,0 +1,14 @@
+E:\Project\General\General.CC\bin\Debug\General.CC.dll
+E:\Project\General\General.CC\bin\Debug\General.CC.pdb
+E:\Project\General\General.CC\obj\Debug\ResolveAssemblyReference.cache
+E:\Project\General\General.CC\obj\Debug\General.CC.dll
+E:\Project\General\General.CC\obj\Debug\General.CC.pdb
+D:\wwwroot\General\General.CC\bin\Debug\General.CC.dll
+D:\wwwroot\General\General.CC\bin\Debug\General.CC.pdb
+D:\wwwroot\General\General.CC\obj\Debug\ResolveAssemblyReference.cache
+D:\wwwroot\General\General.CC\obj\Debug\General.CC.dll
+D:\wwwroot\General\General.CC\obj\Debug\General.CC.pdb
+D:\Project\ASPNET\General\General.CC\bin\Debug\General.CC.dll
+D:\Project\ASPNET\General\General.CC\bin\Debug\General.CC.pdb
+D:\Project\ASPNET\General\General.CC\obj\Debug\General.CC.dll
+D:\Project\ASPNET\General\General.CC\obj\Debug\General.CC.pdb

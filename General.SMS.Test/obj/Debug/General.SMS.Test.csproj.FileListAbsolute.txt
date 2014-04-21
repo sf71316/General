@@ -1,0 +1,11 @@
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\General.SMS.Test.dll
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\General.SMS.Test.pdb
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\General.SMS.dll
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\General.dll
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\Newtonsoft.Json.dll
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\General.SMS.pdb
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\General.pdb
+D:\Project\ASPNET\General\General.SMS.Test\bin\Debug\Newtonsoft.Json.xml
+D:\Project\ASPNET\General\General.SMS.Test\obj\Debug\General.SMS.Test.csprojResolveAssemblyReference.cache
+D:\Project\ASPNET\General\General.SMS.Test\obj\Debug\General.SMS.Test.dll
+D:\Project\ASPNET\General\General.SMS.Test\obj\Debug\General.SMS.Test.pdb

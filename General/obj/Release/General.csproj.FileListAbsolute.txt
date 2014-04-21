@@ -1,0 +1,7 @@
+D:\Project\ASPNET\General\General\bin\Release\General.dll
+D:\Project\ASPNET\General\General\bin\Release\General.pdb
+D:\Project\ASPNET\General\General\obj\Release\General.dll
+D:\Project\ASPNET\General\General\obj\Release\General.pdb
+D:\Project\ASPNET\General\General\obj\Release\General.csprojResolveAssemblyReference.cache
+D:\Project\ASPNET\General\General\bin\Release\Newtonsoft.Json.dll
+D:\Project\ASPNET\General\General\bin\Release\Newtonsoft.Json.xml

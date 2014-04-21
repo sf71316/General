@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.microsoft.com/iptv/oss/configuration" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.microsoft.com/iptv/oss/configuration" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.microsoft.com/iptv/oss/configuration">
+      <s:element name="NotifyClientsOfNTPChange">
+        <s:complexType />
+      </s:element>
+      <s:element name="NotifyClientsOfNTPChangeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="StartGroupUpgrade">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupExternalId" type="tns:ExternalId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ExternalId" abstract="true" />
+      <s:complexType name="StringExternalId">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ExternalId">
+            <s:attribute name="Id" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GroupExternalId">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:StringExternalId" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="StartGroupUpgradeResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="StopGroupUpgrade">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupExternalId" type="tns:ExternalId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StopGroupUpgradeResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="NotifyClientsOfNTPChangeSoapIn">
+    <wsdl:part name="parameters" element="tns:NotifyClientsOfNTPChange" />
+  </wsdl:message>
+  <wsdl:message name="NotifyClientsOfNTPChangeSoapOut">
+    <wsdl:part name="parameters" element="tns:NotifyClientsOfNTPChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="StartGroupUpgradeSoapIn">
+    <wsdl:part name="parameters" element="tns:StartGroupUpgrade" />
+  </wsdl:message>
+  <wsdl:message name="StartGroupUpgradeSoapOut">
+    <wsdl:part name="parameters" element="tns:StartGroupUpgradeResponse" />
+  </wsdl:message>
+  <wsdl:message name="StopGroupUpgradeSoapIn">
+    <wsdl:part name="parameters" element="tns:StopGroupUpgrade" />
+  </wsdl:message>
+  <wsdl:message name="StopGroupUpgradeSoapOut">
+    <wsdl:part name="parameters" element="tns:StopGroupUpgradeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ConfigurationSoap">
+    <wsdl:operation name="NotifyClientsOfNTPChange">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sends a notification to all devices with the list of NTP servers</wsdl:documentation>
+      <wsdl:input message="tns:NotifyClientsOfNTPChangeSoapIn" />
+      <wsdl:output message="tns:NotifyClientsOfNTPChangeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StartGroupUpgrade">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Schedules the start of a batch of upgrade notifications to devices in this group.</wsdl:documentation>
+      <wsdl:input message="tns:StartGroupUpgradeSoapIn" />
+      <wsdl:output message="tns:StartGroupUpgradeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StopGroupUpgrade">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Stops any pending upgrade notifications to devices in this group.</wsdl:documentation>
+      <wsdl:input message="tns:StopGroupUpgradeSoapIn" />
+      <wsdl:output message="tns:StopGroupUpgradeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ConfigurationSoap" type="tns:ConfigurationSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NotifyClientsOfNTPChange">
+      <soap:operation soapAction="http://www.microsoft.com/iptv/oss/configuration/NotifyClientsOfNTPChange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartGroupUpgrade">
+      <soap:operation soapAction="http://www.microsoft.com/iptv/oss/configuration/StartGroupUpgrade" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StopGroupUpgrade">
+      <soap:operation soapAction="http://www.microsoft.com/iptv/oss/configuration/StopGroupUpgrade" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ConfigurationSoap12" type="tns:ConfigurationSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NotifyClientsOfNTPChange">
+      <soap12:operation soapAction="http://www.microsoft.com/iptv/oss/configuration/NotifyClientsOfNTPChange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartGroupUpgrade">
+      <soap12:operation soapAction="http://www.microsoft.com/iptv/oss/configuration/StartGroupUpgrade" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StopGroupUpgrade">
+      <soap12:operation soapAction="http://www.microsoft.com/iptv/oss/configuration/StopGroupUpgrade" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Configuration">
+    <wsdl:port name="ConfigurationSoap" binding="tns:ConfigurationSoap">
+      <soap:address location="http://localhost:7777/ossNotifications/Configuration.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ConfigurationSoap12" binding="tns:ConfigurationSoap12">
+      <soap12:address location="http://localhost:7777/ossNotifications/Configuration.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

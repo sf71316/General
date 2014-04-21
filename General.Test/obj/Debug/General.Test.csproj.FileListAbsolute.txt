@@ -1,0 +1,16 @@
+D:\Project\ASPNET\General\General.Test\bin\Debug\General.Test.dll
+D:\Project\ASPNET\General\General.Test\bin\Debug\General.Test.pdb
+D:\Project\ASPNET\General\General.Test\bin\Debug\General.dll
+D:\Project\ASPNET\General\General.Test\bin\Debug\General.pdb
+D:\Project\ASPNET\General\General.Test\obj\Debug\General.Test.dll
+D:\Project\ASPNET\General\General.Test\obj\Debug\General.Test.pdb
+E:\Project\General\General.Test\bin\Debug\General.Test.dll
+E:\Project\General\General.Test\bin\Debug\General.Test.pdb
+E:\Project\General\General.Test\bin\Debug\General.dll
+E:\Project\General\General.Test\bin\Debug\General.pdb
+E:\Project\General\General.Test\obj\Debug\General.Test.csprojResolveAssemblyReference.cache
+E:\Project\General\General.Test\obj\Debug\General.Test.dll
+E:\Project\General\General.Test\obj\Debug\General.Test.pdb
+D:\Project\ASPNET\General\General.Test\bin\Debug\Newtonsoft.Json.dll
+D:\Project\ASPNET\General\General.Test\bin\Debug\Newtonsoft.Json.xml
+D:\Project\ASPNET\General\General.Test\obj\Debug\General.Test.csprojResolveAssemblyReference.cache

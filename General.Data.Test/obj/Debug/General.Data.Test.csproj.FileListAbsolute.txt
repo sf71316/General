@@ -1,0 +1,15 @@
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.Data.Test.dll.config
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.Data.Test.dll
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.Data.Test.pdb
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.Data.dll
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.Data.pdb
+D:\Project\ASPNET\General\General.Data.Test\obj\Debug\General.Data.Test.csprojResolveAssemblyReference.cache
+D:\Project\ASPNET\General\General.Data.Test\obj\Debug\General.Data.Test.dll
+D:\Project\ASPNET\General\General.Data.Test\obj\Debug\General.Data.Test.pdb
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.dll
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\Newtonsoft.Json.dll
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\General.pdb
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\Newtonsoft.Json.xml
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\Dapper.dll
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\Dapper.pdb
+D:\Project\ASPNET\General\General.Data.Test\bin\Debug\Dapper.xml

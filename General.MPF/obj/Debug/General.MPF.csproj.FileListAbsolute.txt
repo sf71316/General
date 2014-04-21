@@ -1,0 +1,8 @@
+D:\Project\ASPNET\General\General.MPF\bin\Debug\General.MPF.dll
+D:\Project\ASPNET\General\General.MPF\bin\Debug\General.MPF.pdb
+D:\Project\ASPNET\General\General.MPF\bin\Debug\TVControls.dll
+D:\Project\ASPNET\General\General.MPF\bin\Debug\EtvMessages.dll
+D:\Project\ASPNET\General\General.MPF\bin\Debug\AntiXssLibrary.dll
+D:\Project\ASPNET\General\General.MPF\obj\Debug\General.MPF.dll
+D:\Project\ASPNET\General\General.MPF\obj\Debug\General.MPF.pdb
+D:\Project\ASPNET\General\General.MPF\obj\Debug\General.MPF.csprojResolveAssemblyReference.cache
