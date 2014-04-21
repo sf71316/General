@@ -1,5 +1,8 @@
 
 /packages
-/General/bin
-/General/Properties
-/General/obj
+/TestResults
+/General.CC/Properties
+/General.CC/obj
+/*/obj
+/*/Properties
+/*/bin
