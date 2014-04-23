@@ -1,6 +1,17 @@
 
 /packages
 /TestResults
-/*/obj
-/*/Properties
-/*/bin
+/General.Data.Test/bin
+/General.Data.Test/obj
+/General/bin
+/General/obj
+/General.CC/bin
+/General.CC/obj
+/General.Service.Test/obj
+/General.Service.Test/bin
+/General.Test/bin
+/General.Test/obj
+/Gerenal.Data/obj
+/Gerenal.Data/bin
+/General.UC/bin
+/General.UC/obj

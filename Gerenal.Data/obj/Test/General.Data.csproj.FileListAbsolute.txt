@@ -1,8 +1,0 @@
-D:\Project\ASPNET\General\Gerenal.Data\bin\Test\General.Data.dll
-D:\Project\ASPNET\General\Gerenal.Data\obj\Test\General.Data.Properties.Resources.resources
-D:\Project\ASPNET\General\Gerenal.Data\obj\Test\General.Data.csproj.GenerateResource.Cache
-D:\Project\ASPNET\General\Gerenal.Data\obj\Test\General.Data.dll
-D:\Project\ASPNET\General\Gerenal.Data\obj\Test\General.Data.csprojResolveAssemblyReference.cache
-D:\Project\ASPNET\General\Gerenal.Data\bin\Test\Dapper.dll
-D:\Project\ASPNET\General\Gerenal.Data\bin\Test\Dapper.pdb
-D:\Project\ASPNET\General\Gerenal.Data\bin\Test\Dapper.xml

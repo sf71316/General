@@ -45,8 +45,14 @@ namespace General.Service.Test
         }
 
         [TestMethod]
-        public void UpdateHotelTestSTB()
+        public void Set_DeviceValue_STB()
         {
+            var devicevalue = this.service.PrincipalManagement.ReadAllDeviceValues("TATUNG STB-2520(GS)_195083").First(p => p.Key == "EnhancedHdmiInterfaceSecurity");
+            this.service.PrincipalManagement.UpdateDeviceValuesAndNotify("TATUNG STB-2520(GS)_195083",
+                new DeviceValue[] { 
+                new DeviceValue{Key="EnhancedHdmiInterfaceSecurity",Value="0"}
+                });
+            devicevalue = this.service.PrincipalManagement.ReadAllDeviceValues("TATUNG STB-2520(GS)_195083").First(p => p.Key == "EnhancedHdmiInterfaceSecurity");
          
         }
         [TestMethod]
