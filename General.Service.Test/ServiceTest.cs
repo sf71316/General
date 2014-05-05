@@ -40,8 +40,8 @@ namespace General.Service.Test
             
             this.service.PrincipalManagement.RemoveDeviceValues(new DevicePrincipalExternalId
             {
-                Id = "00803F1A0D18"
-            }, new string[] { "ClientMenus" });
+                Id = "00803F1956D6"
+            }, new string[] { "DetuneTimeoutHours" });
         }
 
         [TestMethod]

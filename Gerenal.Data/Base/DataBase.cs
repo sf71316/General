@@ -90,11 +90,12 @@ namespace General.Data
             return this.Provider.Reader();
 
         }
+        [Obsolete("此方法已過時，請使用Dapper")]
         protected T GetEntity<T>() where T : IEntity
         {
             return this.Provider.GetEntity<T>();
         }
-
+        [Obsolete("此方法已過時，請使用Dapper")]
         protected IEnumerable<TEntity> GetEntities<TEntity>()
             where TEntity : IEntity
         {

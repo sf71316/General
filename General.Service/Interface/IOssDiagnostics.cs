@@ -25,5 +25,16 @@ namespace General.Service
         /// <param name="deviceid"></param>
         /// <param name="callbackurl"></param>
         void SendDiagnosticRequestToDevice(string deviceid, string callbackurl);
+
+        long ReadStartingDataForDetailedDiagnostics(string deviceId, DateTime time, ref Guid guid, ref string url);
+
+        ClientEvents[] ReadDetailedDiagnosticsData(Guid deviceExternalId, string url, long startNum, uint numEvents);
+
+        void UpdateDetailedDiagnosticsState(string deviceExternalId, bool enable);
+
+        void UpdateDetailedDiagnosticsStateByDate(string deviceId, DateTime until);
+        string ReadClientFilters(string deviceId);
+
+        void UpdateClientFilters(string deviceId, ClientFilter[] filters);
     }
 }

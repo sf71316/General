@@ -36,6 +36,30 @@ namespace General.Service
            
            this._diagnosticsWS.SendDiagnosticRequestToDevice(deviceid, callbackurl);
        }
+       public long ReadStartingDataForDetailedDiagnostics(string deviceId,DateTime time,ref Guid guid, ref string url)
+       {
+           return this._diagnosticsWS.ReadStartingDataForDetailedDiagnostics(deviceId, time,ref guid,ref url);
+       }
+       public ClientEvents[] ReadDetailedDiagnosticsData(Guid deviceExternalId,string url,long startNum,uint numEvents)
+       {
+           return this._diagnosticsWS.ReadDetailedDiagnosticsData(deviceExternalId, url, startNum, numEvents);
+       }
+       public void UpdateDetailedDiagnosticsState(string deviceExternalId,bool enable)
+       {
+           this._diagnosticsWS.UpdateDetailedDiagnosticsState(deviceExternalId,enable);
+       }
+       public void UpdateDetailedDiagnosticsStateByDate(string deviceId,DateTime until)
+       {
+           this._diagnosticsWS.UpdateDetailedDiagnosticsStateByDate(deviceId, until);
+       }
+       public string ReadClientFilters(string deviceId)
+       {
+           return this._diagnosticsWS.ReadClientFilters(deviceId);
+       }
+       public void UpdateClientFilters(string deviceId, ClientFilter[] filters)
+       {
+           this._diagnosticsWS.UpdateClientFilters(deviceId, filters);
+       }
        #endregion
 
        public void Dispose()
