@@ -23,6 +23,7 @@ namespace General.Service
             this._osschannel = new OssChannelWS(config.OssChannelConfigure);
             this._ossepg = new OssEpgWS(config.OssEpgConfigure);
             this._billing = new BillingWS(config.BillingConfigure);
+            this._uinotifications = new OssUINotification(config.OssUInotificationConfigure);
         }
 
     }

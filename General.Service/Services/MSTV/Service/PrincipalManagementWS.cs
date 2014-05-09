@@ -331,16 +331,9 @@ namespace General.Service
             }
         }
 
-        #region  Private Method 
-
-        #endregion
-
-
-
-
-
-
-
-        
+        public IServiceConfiguration Config
+        {
+            get { return this._config; }
+        }
     }
 }

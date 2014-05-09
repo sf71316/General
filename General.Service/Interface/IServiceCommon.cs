@@ -8,5 +8,6 @@ namespace General.Service
     public interface IServiceCommon
     {
         void Initialize();
+        IServiceConfiguration Config { get; }
     }
 }

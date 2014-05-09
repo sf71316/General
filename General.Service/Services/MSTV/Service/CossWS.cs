@@ -154,5 +154,11 @@ namespace General.Service
                 this._mstvWS.Credentials = this._config.Credential;
             }
         }
+
+
+        public IServiceConfiguration Config
+        {
+            get { return this._config; }
+        }
     }
 }

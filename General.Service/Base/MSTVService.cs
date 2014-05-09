@@ -19,9 +19,18 @@ namespace General.Service
         protected IOssChannel _osschannel;
         protected IOssEpg _ossepg;
         protected IBilling _billing;
+        protected IUINotifications _uinotifications;
         #endregion
 
         #region Property
+        public IUINotifications OssUInotifications
+        {
+            get
+            {
+                this._uinotifications.Initialize();
+                return this._uinotifications;
+            }
+        }
         /// <summary>
         /// BSS-PrincipalManagement
         /// </summary>

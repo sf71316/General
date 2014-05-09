@@ -26,6 +26,7 @@ namespace General.Service
         }
         public void DeleteMessageByIdAsync(Guid[] guid)
         {
+            
             this._notificationProxy.GetAllMessagesFromBranchAsync(guid);
         }
         public DataTable GetAllMessagesFromBranch()
@@ -57,6 +58,12 @@ namespace General.Service
                 this._notificationProxy.GetAllMessagesFromBranchCompleted +=
                     this.GetAllMessagesFromBranchCompleted;
             }
+        }
+
+
+        public IServiceConfiguration Config
+        {
+            get { return this._config; }
         }
     }
 }

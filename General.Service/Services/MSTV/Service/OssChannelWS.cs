@@ -33,5 +33,11 @@ namespace General.Service
             if (this.channel==null)
                 this.channel = new ChannelManagement();
         }
+
+
+        public IServiceConfiguration Config
+        {
+            get { return this._config; }
+        }
     }
 }

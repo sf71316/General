@@ -33,10 +33,15 @@ namespace General.Service
         {
             if (this._ConfigWS == null)
             {
+                
                 this._ConfigWS = new OssConfiguration.Configuration();
                 this._ConfigWS.Url = _config.Url;
                 this._ConfigWS.Credentials = _config.Credential;
             }
+        }
+        public IServiceConfiguration Config
+        {
+          get { return this._config; } 
         }
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Interface\IPrincipalManagement.cs" />
     <Compile Include="Interface\IServiceCommon.cs" />
     <Compile Include="Interface\IServiceConfiguration.cs" />
+    <Compile Include="Interface\IUINotifications.cs" />
     <Compile Include="Model\SubscriberGroupThreadPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -69,6 +70,7 @@
     <Compile Include="Services\Adapter\DefaultAdapter.cs" />
     <Compile Include="Services\Configure\ServiceConfigure.cs" />
     <Compile Include="Services\MSTV\Service\BillingWS.cs" />
+    <Compile Include="Services\MSTV\Service\OssUINotification.cs" />
     <Compile Include="Services\MSTV\Service\PrincipalManagementWS.cs" />
     <Compile Include="Services\MSTV\Service\CossWS.cs" />
     <Compile Include="Services\MSTV\Service\NotificationProxyWS.cs" />
@@ -126,7 +128,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Web References\Billing\BillingRecord.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

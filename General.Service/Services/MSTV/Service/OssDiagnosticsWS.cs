@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using General.Service.OssDiagnostics;
-using General.Service.OssUINotifications;
 
 namespace General.Service
 {
@@ -80,6 +79,12 @@ namespace General.Service
               this._diagnosticsWS.Credentials = 
                    this._diagnosticsWS2.Credentials = this._config.Credential;
            }
+       }
+
+
+       public IServiceConfiguration Config
+       {
+           get { return this._config; }
        }
     }
 }

@@ -18,21 +18,21 @@ namespace General.Service
            this.PrincipalManagementConfigure = new ServiceConfiguration();
            this.CossConfigure = new ServiceConfiguration();
            this.NotificationConfigure = new ServiceConfiguration();
-           this.OssNotifyConfigure = new ServiceConfiguration();
            this.OssConfigConfigure = new ServiceConfiguration();
            this.OssDiagnosticsConfigure = new ServiceConfiguration();
            this.OssChannelConfigure = new ServiceConfiguration();
             this.OssEpgConfigure = new ServiceConfiguration();
+            this.OssUInotificationConfigure = new ServiceConfiguration();
             this.BillingConfigure = new ServiceConfiguration();
+            
 
-           this.OssNotifyConfigure.Credential=this.PrincipalManagementConfigure.Credential = 
+           this.PrincipalManagementConfigure.Credential = 
            this.CossConfigure.Credential = this.NotificationConfigure.Credential =
            this.OssDiagnosticsConfigure.Credential=this.OssConfigConfigure.Credential = 
            this.OssChannelConfigure.Credential= this.BillingConfigure.Credential=
-           this.OssEpgConfigure.Credential = this.Credential;
+           this.OssEpgConfigure.Credential = this.OssUInotificationConfigure.Credential= this.Credential;
             
            this.PrincipalManagementConfigure.Url = ConfigurationManager.AppSettings["BSSUrl"];
-           this.OssNotifyConfigure.Url = ConfigurationManager.AppSettings["OSSNotifyUrl"];
            this.OssConfigConfigure.Url = ConfigurationManager.AppSettings["OssConfigUrl"];
            this.NotificationConfigure.Url = ConfigurationManager.AppSettings["NotificationWSProxyUrl"];
            this.CossConfigure.Url = ConfigurationManager.AppSettings["MSTVService"];
@@ -40,10 +40,10 @@ namespace General.Service
            this.OssChannelConfigure.Url = ConfigurationManager.AppSettings["OSSChannelUrl"];
            this.OssEpgConfigure.Url = ConfigurationManager.AppSettings["OssEpgUrl"];
            this.BillingConfigure.Url = ConfigurationManager.AppSettings["BSSBillingUrl"];
+           this.OssUInotificationConfigure.Url = ConfigurationManager.AppSettings["OssUInotificationUrl"];
         }
         #region property
         public IServiceConfiguration PrincipalManagementConfigure { get; set; }
-        public IServiceConfiguration OssNotifyConfigure { get; set; }
         public IServiceConfiguration OssConfigConfigure { get; set; }
         public IServiceConfiguration OssDiagnosticsConfigure { get; set; }
         public IServiceConfiguration CossConfigure { get; set; }
@@ -52,6 +52,7 @@ namespace General.Service
 
         public IServiceConfiguration OssEpgConfigure { get; set; }
         public IServiceConfiguration BillingConfigure { get; set; }
+        public IServiceConfiguration OssUInotificationConfigure { get; set; }
         #endregion
 
         internal sealed class ServiceConfiguration : IServiceConfiguration

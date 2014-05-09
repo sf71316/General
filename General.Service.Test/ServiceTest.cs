@@ -66,9 +66,11 @@ namespace General.Service.Test
         [TestMethod]
         public void Billing_Test()
         {
-           // DateTime dtStart = DateTime.Now.AddHours(-2).ToUniversalTime();
-           // DateTime dtEnd = DateTime.Now.ToUniversalTime();
-           //var c= this.service.Billing.ReadBillingRecord(new Billing.BillingRecord(), dtStart, dtEnd);
+            DateTime dtStart = new DateTime(2014,3,31);
+            DateTime dtEnd = dtStart.AddDays(1);
+            var e = new Billing.BillingRecord();
+            e.PrincipalExternalId = "342156";
+           var c= this.service.Billing.ReadBillingRecord(e, dtStart, dtEnd);
            //var e1 = c.Where(p => p.Status == BillingEventStatus.UnRead);
            
         }

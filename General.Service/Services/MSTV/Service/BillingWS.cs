@@ -41,6 +41,12 @@ namespace General.Service
                 this.management.Url = this._config.Url;
             }
         }
-        
+
+
+
+        public IServiceConfiguration Config
+        {
+            get { return this._config; }
+        }
     }
 }
