@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.Generic;
 using General.Service.Billing;
 using System.Diagnostics;
+using General.Service.OssConfiguration;
 
 
 namespace General.Service.Test
@@ -24,12 +25,24 @@ namespace General.Service.Test
         [TestMethod]
         public void TestMethod3()
         {
-          
+            //this.service.OssConfiguration.StartGroupUpgrade(new GroupExternalId
+            //{
+            //    Id = "07110001"
+            //});
+           // this.service.OssDiagnostics.SendDataRefreshNotification(new string[] { "Everyone" });
         }
         [TestMethod]
         public void TestReboot()
         {
-         
+            service.OssDiagnostics.SendRebootRequestToDevice(new General.Service.RebootRequest
+            {
+                Any = null,
+                DeviceExternalID = "00803F1A0D18",
+                ForceReboot = true,
+                Reson="",
+                Timeout=1,
+                Message=""
+            });
 
         }
      
@@ -47,19 +60,18 @@ namespace General.Service.Test
         [TestMethod]
         public void Set_DeviceValue_STB()
         {
-            var devicevalue = this.service.PrincipalManagement.ReadAllDeviceValues("TATUNG STB-2520(GS)_195083").First(p => p.Key == "EnhancedHdmiInterfaceSecurity");
-            this.service.PrincipalManagement.UpdateDeviceValuesAndNotify("TATUNG STB-2520(GS)_195083",
+            //var devicevalue = this.service.PrincipalManagement.ReadAllDeviceValues("TATUNG STB-2520(GS)_195083").First(p => p.Key == "EnhancedHdmiInterfaceSecurity");
+            this.service.PrincipalManagement.UpdateDeviceValuesAndNotify("00803F19564B",
                 new DeviceValue[] { 
-                new DeviceValue{Key="EnhancedHdmiInterfaceSecurity",Value="0"}
+                new DeviceValue{Key="DetuneTimeoutHours",Value="0"}
                 });
-            devicevalue = this.service.PrincipalManagement.ReadAllDeviceValues("TATUNG STB-2520(GS)_195083").First(p => p.Key == "EnhancedHdmiInterfaceSecurity");
+       //    devicevalue = this.service.PrincipalManagement.ReadAllDeviceValues("TATUNG STB-2520(GS)_195083").First(p => p.Key == "EnhancedHdmiInterfaceSecurity");
          
         }
         [TestMethod]
         public void Read_GetGlobalValue()
         {
-            var d = DateTime.UtcNow;
-            DeviceValue dv = this.service.PrincipalManagement.ReadAllDeviceValues("ac6fbb07a793", "DetuneTimeoutHours");
+            DeviceValue dv = this.service.PrincipalManagement.ReadAllDeviceValues("00803F195668", "DetuneTimeoutHours");
          //   UserstoreNameValue[] value = this.service.PrincipalManagement.GetGlobalValue("DetuneTimeoutHours");
 
         }

@@ -215,6 +215,7 @@ namespace General.Data
         ~DataBase()
         {
             Dispose(false);
+            
         }
 
         public static IDACAdapter GetDbInstance(string config)

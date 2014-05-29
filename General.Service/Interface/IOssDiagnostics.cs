@@ -36,5 +36,6 @@ namespace General.Service
         string ReadClientFilters(string deviceId);
 
         void UpdateClientFilters(string deviceId, ClientFilter[] filters);
+        void SendDataRefreshNotification(string[] groupExternalIds);
     }
 }
