@@ -59,6 +59,10 @@ namespace General.Service
        {
            this._diagnosticsWS.UpdateClientFilters(deviceId, filters);
        }
+       public void SendDataRefreshNotification(string[] groupExternalIds)
+       {
+           this._diagnosticsWS.SendDataRefreshNotification(groupExternalIds);
+       }
        #endregion
 
        public void Dispose()

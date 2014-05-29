@@ -103,7 +103,7 @@ namespace General.Service
             var value = all.Where(p => p.Key.ToLower() == ClientSettingKey.ToLower());
             if (value.Count() > 0)
             {
-                return value.ElementAt<DeviceValue>(0);
+                return value.FirstOrDefault<DeviceValue>();
             }
             else
             {

@@ -12,7 +12,7 @@ namespace General.Service
         IServiceConfiguration _config;
         public OssUINotification(IServiceConfiguration config)
         {
-            this._config = Config;
+            this._config = config;
         }
 
         public void LaunchClientApplication(ExternalId externalId, string applicationUrl)

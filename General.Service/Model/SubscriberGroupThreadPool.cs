@@ -13,7 +13,7 @@ namespace General.Service
         //private ThreadPriority _priority;
         Dictionary<T, GroupMembership[]> _result;
         private List<AutoResetEvent> handlerStack = new List<AutoResetEvent>();
-        public SubscriberGroupThreadPool(IPrincipalManagement bss):this(bss,5)
+        public SubscriberGroupThreadPool(IPrincipalManagement bss):this(bss,2)
         {
             this._bss = bss;
             _result = new Dictionary<T, GroupMembership[]>();
