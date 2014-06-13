@@ -25,11 +25,19 @@ namespace General.Service.Test
         [TestMethod]
         public void TestMethod3()
         {
-            //this.service.OssConfiguration.StartGroupUpgrade(new GroupExternalId
+            //DateTime dtStart = DateTime.Now.AddHours(-1).ToUniversalTime();
+            //DateTime dtEnd = DateTime.Now.ToUniversalTime();
+            //var r= this.service.Billing.ReadBillingRecord(new BillingRecord
             //{
-            //    Id = "07110001"
-            //});
-           // this.service.OssDiagnostics.SendDataRefreshNotification(new string[] { "Everyone" });
+            //    PrincipalExternalId = "351056"
+            //}, dtStart, dtEnd);
+            var device = this.service.PrincipalManagement.ReadDevice("00803F1A0D18");
+        
+         var pin=   this.service.PrincipalManagement.UpdateDevicePinByType(
+             new Guid("43172bc7-3e0c-46be-8fe1-d14e87c8d98f")
+             , "", "1111", (short)2);
+
+            //var e = service.PrincipalManagement.GetGlobalValue("DetuneTimeoutHours");
         }
         [TestMethod]
         public void TestReboot()
