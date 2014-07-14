@@ -7,7 +7,7 @@ namespace Gerneral.Helper
 {
     public static class ValidateionHelper
     {
-        public static Validation Begin(ref List<string> list)
+        public static Validation Begin( List<string> list)
         {
             return new Validation() { _list=list };
         }
