@@ -1,9 +1,0 @@
-D:\Project\ASPNET\General\General.SMS\bin\Debug\General.SMS.dll
-D:\Project\ASPNET\General\General.SMS\bin\Debug\General.SMS.pdb
-D:\Project\ASPNET\General\General.SMS\bin\Debug\General.dll
-D:\Project\ASPNET\General\General.SMS\bin\Debug\Newtonsoft.Json.dll
-D:\Project\ASPNET\General\General.SMS\bin\Debug\General.pdb
-D:\Project\ASPNET\General\General.SMS\bin\Debug\Newtonsoft.Json.xml
-D:\Project\ASPNET\General\General.SMS\obj\Debug\General.SMS.csprojResolveAssemblyReference.cache
-D:\Project\ASPNET\General\General.SMS\obj\Debug\General.SMS.dll
-D:\Project\ASPNET\General\General.SMS\obj\Debug\General.SMS.pdb

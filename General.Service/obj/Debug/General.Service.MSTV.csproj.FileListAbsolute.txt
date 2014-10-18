@@ -1,5 +1,0 @@
-D:\Project\ASPNET\General\General.Service\bin\Debug\General.Service.MSTV.dll.config
-D:\Project\ASPNET\General\General.Service\bin\Debug\General.Service.MSTV.dll
-D:\Project\ASPNET\General\General.Service\bin\Debug\General.Service.MSTV.pdb
-D:\Project\ASPNET\General\General.Service\obj\Debug\General.Service.MSTV.dll
-D:\Project\ASPNET\General\General.Service\obj\Debug\General.Service.MSTV.pdb
