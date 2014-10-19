@@ -1,4 +1,5 @@
-﻿using System;
+﻿using General.Data.Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -8,11 +9,22 @@ namespace General.Data
     public abstract class DataBase : IDisposable
     {
         private bool disposed = false;
-        protected IDACAdapter Provider { get; private set; }
-        protected IDapperProvider Dapper { get; private set; }
+        private ISelectCommand _selectcmd;
         private IInsertCommand _insertcmd;
         private IUpdateCommand _updatecmd;
         private IDeleteCommand _deletecmd;
+        private IDapperProvider _dapper;
+        protected IDACAdapter Provider { get; private set; }
+        protected IDapperProvider Dapper
+        {
+            get
+            {
+                if (this._dapper==null)
+                    this._dapper = new DapperProvider(Provider.Connection);
+                return this._dapper;
+            }
+        }
+    
 
         public DataBase()
         {
@@ -21,13 +33,11 @@ namespace General.Data
         public DataBase(string ConfigKey)
         {
             Provider = new DefaultProvider(ConfigKey);
-            this.Dapper = new DapperProvider(Provider.Connection);
             this.InitializeCommand();
         }
         public DataBase(IDACAdapter adapter)
         {
             this.Provider = adapter;
-            this.Dapper = new DapperProvider(adapter.Connection);
             this.InitializeCommand();
         }
 
@@ -90,17 +100,17 @@ namespace General.Data
             return this.Provider.Reader();
 
         }
-        [Obsolete("此方法已過時，請使用Dapper")]
-        protected T GetEntity<T>() where T : IEntity
-        {
-            return this.Provider.GetEntity<T>();
-        }
-        [Obsolete("此方法已過時，請使用Dapper")]
-        protected IEnumerable<TEntity> GetEntities<TEntity>()
-            where TEntity : IEntity
-        {
-            return this.Provider.GetEntities<TEntity>();
-        }
+        //[Obsolete("此方法已過時，請使用Dapper")]
+        //protected T GetEntity<T>() where T : IEntity
+        //{
+        //    return this.Provider.GetEntity<T>();
+        //}
+        //[Obsolete("此方法已過時，請使用Dapper")]
+        //protected IEnumerable<TEntity> GetEntities<TEntity>()
+        //    where TEntity : IEntity
+        //{
+        //    return this.Provider.GetEntities<TEntity>();
+        //}
 
         protected object ExecuteNonQuery()
         {
@@ -125,7 +135,6 @@ namespace General.Data
         }
 
         #endregion Event
-
  
         #region Method
         private void InitializeCommand()
@@ -134,66 +143,21 @@ namespace General.Data
             TableMappingAttribute attr = this.GetType().GetInstancetAttribute<TableMappingAttribute>();
             if (attr != null)
             {
-                this._insertcmd = InsertCommandBuilder.GetCommand(attr.TableName, this.Provider);
-                this._updatecmd = UpdateCommandBuilder.GetCommand(attr.TableName, this.Provider);
-                this._deletecmd = DeleteCommandBuilder.GetCommand(attr.TableName, this.Provider);
+                this._insertcmd = DapperCommandBuilder.GetInsertCommandBuilder(attr.TableName, this.Dapper);
+                this._updatecmd = DapperCommandBuilder.GetUpdateCommandBuilder(attr.TableName, this.Dapper);
+                this._deletecmd = DapperCommandBuilder.GetDeleteCommandBuilder(attr.TableName, this.Dapper);
+                this._selectcmd = DapperSelectCommandBuilder.GetSelectCommandBuilder(attr.TableName, this.Dapper);
             }
         }
 
         #endregion Method
 
-        #region IInsertCommand
-
-        protected bool Insert(ICommandEntity e)
-        {
-            return this._insertcmd.Insert(e);
-        }
-
-        protected object Insert(ICommandEntity e, bool IsReturnID)
-        {
-            return this._insertcmd.Insert(e, IsReturnID);
-        }
-
-        protected R Insert<R>(ICommandEntity e)
-        {
-            return this._insertcmd.Insert<R>(e);
-        }
-
-        protected void Insert<T>(List<T> es) where T : ICommandEntity
-        {
-            this._insertcmd.Insert<T>(es);
-        }
-
-        #endregion IInsertCommand
-
-        #region IUpdateCommand
-
-        protected bool Update(ICommandEntity e)
-        {
-            return this._updatecmd.Update(e);
-        }
-
-        protected bool Update(ICommandEntity e, ICondition c)
-        {
-            return this._updatecmd.Update(e, c);
-        }
-
-        #endregion IUpdateCommand
-
-        #region IDeleteCommand
-
-        protected bool Delete(ICondition c)
-        {
-            return this._deletecmd.Delete(c);
-        }
-
-        protected void Delete<T>(List<T> cs) where T : ICondition
-        {
-            this._deletecmd.Delete<T>(cs);
-        }
-
-        #endregion IDeleteCommand
-
+        #region Property
+        protected ISelectCommand Select { get { return this._selectcmd; } }
+        protected IInsertCommand Insert { get { return this._insertcmd; } }
+        protected IUpdateCommand Update { get { return this._updatecmd; } }
+        protected IDeleteCommand Delete { get { return this._deletecmd; } }
+        #endregion
         public void Dispose()
         {
             Dispose(true);

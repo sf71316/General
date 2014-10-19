@@ -5,13 +5,14 @@ using System.Text;
 
 namespace General.Data.Test
 {
+    
     public class Entity:IEntity,ICommandEntity
     {
-        public string AccountID { get; set; }
-        public int PackageID { get; set; }
-        public DateTime OrderDate { get; set; }
-        public int IsRemove { get; set; }
-        public DateTime RemoveDate { get; set; }
-        public DateTime ExpireDate { get; set; }
+        [Column(FieldName="PK",AutoKey=true,Key=true)]
+        public int Key { get; set; }
+        public Guid FK { get; set; }
+        [Column(FieldName = "Field1")]
+        public int Name { get; set; }
+ 
     }
 }

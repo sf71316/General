@@ -13,5 +13,6 @@ namespace General.Data
        IEnumerable<T> Query<T>(string sql, object param, CommandType commandType);
        IEnumerable<T> Query<T>(string sql, object param, IDbTransaction transaction, CommandType commandType);
        IEnumerable<IDictionary<string, object>> Query(string sql, object parameters);
+       IDbConnection Connection { get; set; }
     }
 }
