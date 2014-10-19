@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Linq.Expressions;
+//using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -186,8 +186,8 @@ namespace General.Data
             {
                 //TODO 目前未實作Attribute套用機制
                 ITypeConverter typeConverter = TypeConverterFactory.GetConvertType(item.PropertyType);
-                DataSourceColumnAttribute _columnAttr =
-                    item.GetInstancetAttribute<DataSourceColumnAttribute>();
+                ColumnAttribute _columnAttr =
+                    item.GetInstancetAttribute<ColumnAttribute>();
                 string _column;
                 if (_columnAttr == null)
                 {
@@ -195,7 +195,7 @@ namespace General.Data
                 }
                 else
                 {
-                    if (_columnAttr.IsCustomField)
+                    if (_columnAttr.Ignore)
                         continue;
                     else
                         _column = _columnAttr.FieldName;

@@ -1,18 +1,31 @@
-﻿using System;
+﻿using General.Data.Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq.Expressions;
 
 namespace General.Data
 {
     public abstract class DataBase : IDisposable
     {
         private bool disposed = false;
-        protected IDACAdapter Provider { get; private set; }
-        protected IDapperProvider Dapper { get; private set; }
+        private ISelectCommand _selectcmd;
         private IInsertCommand _insertcmd;
         private IUpdateCommand _updatecmd;
         private IDeleteCommand _deletecmd;
+        private IDapperProvider _dapper;
+        protected IDACAdapter Provider { get; private set; }
+        protected IDapperProvider Dapper
+        {
+            get
+            {
+                if (this._dapper==null)
+                    this._dapper = new DapperProvider(Provider.Connection);
+                return this._dapper;
+            }
+        }
+    
 
         public DataBase()
         {
@@ -21,13 +34,11 @@ namespace General.Data
         public DataBase(string ConfigKey)
         {
             Provider = new DefaultProvider(ConfigKey);
-            this.Dapper = new DapperProvider(Provider.Connection);
             this.InitializeCommand();
         }
         public DataBase(IDACAdapter adapter)
         {
             this.Provider = adapter;
-            this.Dapper = new DapperProvider(adapter.Connection);
             this.InitializeCommand();
         }
 
@@ -90,17 +101,17 @@ namespace General.Data
             return this.Provider.Reader();
 
         }
-        [Obsolete("此方法已過時，請使用Dapper")]
-        protected T GetEntity<T>() where T : IEntity
-        {
-            return this.Provider.GetEntity<T>();
-        }
-        [Obsolete("此方法已過時，請使用Dapper")]
-        protected IEnumerable<TEntity> GetEntities<TEntity>()
-            where TEntity : IEntity
-        {
-            return this.Provider.GetEntities<TEntity>();
-        }
+        //[Obsolete("此方法已過時，請使用Dapper")]
+        //protected T GetEntity<T>() where T : IEntity
+        //{
+        //    return this.Provider.GetEntity<T>();
+        //}
+        //[Obsolete("此方法已過時，請使用Dapper")]
+        //protected IEnumerable<TEntity> GetEntities<TEntity>()
+        //    where TEntity : IEntity
+        //{
+        //    return this.Provider.GetEntities<TEntity>();
+        //}
 
         protected object ExecuteNonQuery()
         {
@@ -125,7 +136,6 @@ namespace General.Data
         }
 
         #endregion Event
-
  
         #region Method
         private void InitializeCommand()
@@ -134,66 +144,16 @@ namespace General.Data
             TableMappingAttribute attr = this.GetType().GetInstancetAttribute<TableMappingAttribute>();
             if (attr != null)
             {
-                this._insertcmd = InsertCommandBuilder.GetCommand(attr.TableName, this.Provider);
-                this._updatecmd = UpdateCommandBuilder.GetCommand(attr.TableName, this.Provider);
-                this._deletecmd = DeleteCommandBuilder.GetCommand(attr.TableName, this.Provider);
+                this._insertcmd = DapperCommandBuilder.GetInsertCommandBuilder(attr.TableName, this.Dapper);
+                this._updatecmd = DapperCommandBuilder.GetUpdateCommandBuilder(attr.TableName, this.Dapper);
+                this._deletecmd = DapperCommandBuilder.GetDeleteCommandBuilder(attr.TableName, this.Dapper);
+                this._selectcmd = DapperSelectCommandBuilder.GetSelectCommandBuilder(attr.TableName, this.Dapper);
             }
         }
 
         #endregion Method
 
-        #region IInsertCommand
-
-        protected bool Insert(ICommandEntity e)
-        {
-            return this._insertcmd.Insert(e);
-        }
-
-        protected object Insert(ICommandEntity e, bool IsReturnID)
-        {
-            return this._insertcmd.Insert(e, IsReturnID);
-        }
-
-        protected R Insert<R>(ICommandEntity e)
-        {
-            return this._insertcmd.Insert<R>(e);
-        }
-
-        protected void Insert<T>(List<T> es) where T : ICommandEntity
-        {
-            this._insertcmd.Insert<T>(es);
-        }
-
-        #endregion IInsertCommand
-
-        #region IUpdateCommand
-
-        protected bool Update(ICommandEntity e)
-        {
-            return this._updatecmd.Update(e);
-        }
-
-        protected bool Update(ICommandEntity e, ICondition c)
-        {
-            return this._updatecmd.Update(e, c);
-        }
-
-        #endregion IUpdateCommand
-
-        #region IDeleteCommand
-
-        protected bool Delete(ICondition c)
-        {
-            return this._deletecmd.Delete(c);
-        }
-
-        protected void Delete<T>(List<T> cs) where T : ICondition
-        {
-            this._deletecmd.Delete<T>(cs);
-        }
-
-        #endregion IDeleteCommand
-
+      
         public void Dispose()
         {
             Dispose(true);
@@ -222,5 +182,68 @@ namespace General.Data
         {
             return new DbInstance(config).Provider;
         }
+        #region   ORM Method
+        public int Delete(Expression expr)
+        {
+            return this._deletecmd.Delete(expr);
+        }
+        public int Delete<T>(Expression<Func<T,bool>> expr)
+        {
+            return this._deletecmd.Delete<T>(expr);
+        }
+        public int Update(object e, Expression expr)
+        {
+            return this._updatecmd.Update(e, expr);
+        }
+        public int Update<T>(object e, Expression<Func<T,bool>> expr)
+        {
+            return this._updatecmd.Update<T>(e, expr);
+        }
+        public ISelectQuery Where(Expression expr)
+        {
+            return this._selectcmd.Where(expr);
+        }
+
+        public ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
+        {
+            return this._selectcmd.Where<T1>(expr);
+        }
+
+        public ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
+        {
+            return this._selectcmd.Where<T1,T2>(expr);
+        }
+
+        public ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
+        {
+            return this._selectcmd.Where<T1, T2,T3>(expr);
+        }
+
+        public ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
+        {
+            return this._selectcmd.Where<T1, T2, T3,T4>(expr);
+        }
+
+        public ISelectCommand Select(string field)
+        {
+            return this._selectcmd.Select(field);
+        }
+
+        public ISelectCommand From(string tablename)
+        {
+            return this._selectcmd.From(tablename);
+        }
+
+        public IEnumerable<T> Query<T>()
+        {
+            return this._selectcmd.Query<T>();
+        }
+
+        public ISelectQuery OrderBy(string fieldname)
+        {
+            return this.OrderBy(fieldname);
+        }
+        #endregion
+        
     }
 }

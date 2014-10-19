@@ -80,22 +80,24 @@
     <Compile Include="Attribute\DataSourceColumnAttribute.cs" />
     <Compile Include="Attribute\TableMappingAttribute.cs" />
     <Compile Include="Base\DbInstance.cs" />
-    <Compile Include="Base\Provider\DapperProvider.cs" />
+    <Compile Include="Base\ExpressionFactory.cs" />
+    <Compile Include="Base\ExpressionVisitor.cs" />
+    <Compile Include="DapperExtensions\DapperDeleteCommandBuilder.cs" />
+    <Compile Include="DapperExtensions\DapperUpdateCommandBuilder.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
+    <Compile Include="interface\IQueryTranslator.cs" />
+    <Compile Include="Provider\DapperProvider.cs" />
+    <Compile Include="Base\QueryTranslator.cs" />
+    <Compile Include="interface\ICommandBuilder.cs" />
+    <Compile Include="interface\ICommand.cs" />
+    <Compile Include="DapperExtensions\DapperCommandBuilder.cs" />
+    <Compile Include="DapperExtensions\DapperInsertCommandBuilder.cs" />
+    <Compile Include="DapperExtensions\DapperSelectCommandBuilder.cs" />
+    <Compile Include="TypeConverters\DbTypeConverter.cs" />
     <Compile Include="interface\IDapper.cs" />
-    <Compile Include="Base\Provider\ProviderBase.cs" />
-    <Compile Include="Command\CommandBuilderBase.cs" />
+    <Compile Include="Provider\ProviderBase.cs" />
     <Compile Include="Base\DataBase.cs" />
-    <Compile Include="Base\Provider\DefaultProvider.cs" />
-    <Compile Include="Command\DeleteCommandBuilder.cs" />
-    <Compile Include="Command\Expression\DataExpressionNode.cs" />
-    <Compile Include="Command\Expression\ExpressionNode.cs" />
-    <Compile Include="Command\Expression\ExpressionNodeType.cs" />
-    <Compile Include="Command\Expression\ExpressionTraversalType.cs" />
-    <Compile Include="Command\Expression\ExpressionTree.cs" />
-    <Compile Include="Command\Expression\ParameterExpressionNode.cs" />
-    <Compile Include="Command\InsertCommandBuilder.cs" />
-    <Compile Include="Command\SelectCommandBuilder.cs" />
-    <Compile Include="Command\UpdateCommandBuilder.cs" />
+    <Compile Include="Provider\DefaultProvider.cs" />
     <Compile Include="Enum\Provider.cs" />
     <Compile Include="Event\DbEventArgs.cs" />
     <Compile Include="Extensions\DataRecord.cs" />
@@ -103,7 +105,6 @@
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="interface\ICollectionBase.cs" />
-    <Compile Include="interface\ICommand.cs" />
     <Compile Include="interface\ICommandCondition.cs" />
     <Compile Include="interface\ICommandEntity.cs" />
     <Compile Include="interface\IDACAdapter.cs" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

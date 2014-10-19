@@ -52,8 +52,16 @@ namespace General.Data
         {
             return cnn.Query<T>(sql, parameters, transaction, true, null, commandType);
         }
-
-
- 
+        public IDbConnection Connection
+        {
+            get
+            {
+                return cnn;
+            }
+            set
+            {
+                cnn = value;
+            }
+        }
     }
 }

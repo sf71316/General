@@ -5,10 +5,8 @@ using System.Text;
 
 namespace General.Data
 {
-    public enum ExpressionTraversalType
+    internal interface ICommandBuilder
     {
-        LMR,
-        MLR,
-        LRM
+        string TableName { get; set; }
     }
 }
