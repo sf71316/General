@@ -9,7 +9,7 @@ namespace General.Data
     /// <summary>
     /// 查詢方法介面
     /// </summary>
-    public interface ISelectCommand:ISelectQuery
+    public interface ISelectCommand : ISelectQuery, IQueryCommand
     {
         #region SELECT
         /// <summary>
@@ -34,7 +34,7 @@ namespace General.Data
     /// <summary>
     /// 新增方法介面
     /// </summary>
-    public interface IInsertCommand
+    public interface IInsertCommand:IQueryCommand
     {
         #region INSERT
 
@@ -49,7 +49,7 @@ namespace General.Data
     /// <summary>
     /// 刪除方法介面
     /// </summary>
-    public interface IDeleteCommand
+    public interface IDeleteCommand : IQueryCommand
     {
         #region DELETE
         /// <summary>
@@ -64,7 +64,7 @@ namespace General.Data
     /// <summary>
     /// 修改方法介面
     /// </summary>
-    public interface IUpdateCommand
+    public interface IUpdateCommand : IQueryCommand
     {
         #region UPDATE
         /// <summary>

@@ -10,21 +10,12 @@ namespace General.Data.Test
     public class DAO_Test
     {
 
-          [TestMethod]
+        [TestMethod]
         public void Dapper_ORM_Select_Test()
         {
+            var m = new TestData();
+            m.GetData();
         }
-          [TestMethod]
-          public void Default_ORM_Select_Test()
-          {
-          }
-           [TestMethod]
-          public void Dapper_ORM_Add_Test()
-          {
-          }
-          [TestMethod]
-          public void Default_ORM_Add_Test()
-          {
-          }
+
     }
 }

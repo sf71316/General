@@ -5,14 +5,25 @@ using System.Text;
 
 namespace General.Data.Test
 {
-    
-    public class Entity:IEntity,ICommandEntity
+
+    public class VendorCommentEntity 
     {
-        [Column(FieldName="PK",AutoKey=true,Key=true)]
-        public int Key { get; set; }
-        public Guid FK { get; set; }
-        [Column(FieldName = "Field1")]
-        public int Name { get; set; }
- 
+        public VendorCommentEntity()
+        {
+            this.UID = Guid.NewGuid();
+            this.ParentID = Guid.Empty;
+        }
+        public Guid UID { get; set; }
+        public Guid ParentID { get; set; }
+        public string Category { get; set; }
+        public string CategoryName { get; set; }
+        public string VendorID { get; set; }
+        public string Subject { get; set; }
+        public string Content { get; set; }
+        public int Active { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

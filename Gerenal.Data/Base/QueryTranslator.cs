@@ -8,11 +8,19 @@ using System.Text;
 
 namespace General.Data
 {
-    public class QueryTranslator : ExpressionVisitor, IQueryTranslator
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Text;
+
+    public class QueryTranslator : ExpressionVisitor,IQueryTranslator
     {
 
         private NodeDirect _direct;
-        public IDictionary<string, object> Parameters { get; set; }
+        private Dictionary<string, object> _parameters;
         private IDictionary<string, string> _TablePrefix { get; set; }
         private Queue<QueryCondition> Conditions { get; set; }
         private int _TableCount = 0;
@@ -21,7 +29,7 @@ namespace General.Data
         public QueryTranslator(bool useTableAlias = false)
         {
             _direct = NodeDirect.Left;
-            this.Parameters = new Dictionary<string, object>();
+            this._parameters = new Dictionary<string, object>();
             this._TablePrefix = new Dictionary<string, string>();
             this.Conditions = new Queue<QueryCondition>();
             this.UseTableAlias = useTableAlias;
@@ -30,18 +38,50 @@ namespace General.Data
         {
             this.Visit(expression);
         }
+        //public void Translate<T>(Func<T,bool> func) where T:class
+        //{
+        //    this.Visit(Expression.Lambda<Func<T,bool>>(Expression.Call(func.Method)));
+        //}
         public string ToWhere()
         {
             StringBuilder _sb = new StringBuilder();
+            QueryCondition previous = null; ;
             foreach (var item in this.Conditions)
             {
-                if (item is QueryOptCondition)
-                    _sb.AppendFormat("{0}", item.Operator.Trim());
-                else if (item is QueryCondition)
-                    _sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
-
+                if (item.GetType() == typeof(QueryOptCondition))
+                {
+                    if (this._parameters.ContainsKey(previous.Parameter)
+                        && !this.IsEmptyValue(this._parameters[previous.Parameter]))
+                        _sb.AppendFormat("{0}", item.Operator.Trim());
+                }
+                else if (item.GetType() == typeof(QueryCondition))
+                {
+                    if (this._parameters.ContainsKey(item.Parameter)
+                        && !this.IsEmptyValue(this._parameters[item.Parameter]))
+                        _sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
+                    else
+                    {
+                        if (previous != null && previous.GetType() == typeof(QueryOptCondition))
+                            _sb.Append("1=1");
+                    }
+                }
+                previous = item;
             }
-            return (_sb.Length > 0) ? "WHERE " + _sb.ToString() : "";
+            if (_sb.Length > 0)
+            {
+                return "WHERE " + _sb.ToString();
+            }
+            else
+            {
+                this._parameters.Clear();
+                return string.Empty;
+            }
+
+        }
+        public void Clear()
+        {
+            this._parameters.Clear();
+            this.Conditions.Clear();
         }
         protected override Expression VisitMethodCall(MethodCallExpression m)
         {
@@ -62,17 +102,19 @@ namespace General.Data
                         if (this.ParseIn(m))
                         {
                             this.Conditions.Enqueue(this._condition);
-                            return m;
                         }
+
+                        return m;
                     }
                 }
                 else
                 {
                     if (this.ParseLike(m))
                     {
-
-                        return m;
+                        this.Conditions.Enqueue(this._condition);
                     }
+
+                    return m;
                 }
             }
             else
@@ -108,7 +150,9 @@ namespace General.Data
             this._direct = NodeDirect.Left;
             this._condition = new QueryCondition();
             this.Visit(b.Left);
-            if (!IsNodeOpt(b.Right.NodeType) && b.Left.NodeType != ExpressionType.Call)
+            if (!IsNodeOpt(b.Right.NodeType) &&
+                b.Left.NodeType != ExpressionType.Call &&
+                b.Right.NodeType != ExpressionType.Call)
             {
                 this._condition.Operator = this.GetOperator(b);
                 _direct = NodeDirect.Right;
@@ -135,7 +179,7 @@ namespace General.Data
             }
             else if (q == null)
             {
-                this.Parameters.Add(this._condition.Parameter, c.Value);
+                this._parameters.Add(this._condition.Parameter, c.Value);
             }
 
             return c;
@@ -179,26 +223,41 @@ namespace General.Data
             var _values = GetValue(m.Arguments[0] as MemberExpression) as IEnumerable;
             this._condition.Field = this.GetTableField(_field);
             this._condition.Operator = "IN";
-            foreach (var item in _values)
+            if (_values != null)
             {
-                string _name = GetParameterName(_field.Expression.ToString(), _field.Member.Name);
-                _parameter.Add(_name);
-                this.Parameters.Add(_name, item);
+                foreach (var item in _values)
+                {
+                    string _name = GetParameterName(_field.Expression.ToString(), _field.Member.Name);
+                    _parameter.Add(_name);
+                    this._parameters.Add(_name, item);
+                }
+                this._condition.Parameter = string.Format("({0})", string.Join(",", _parameter.ToArray()));
+                return true;
             }
-            this._condition.Parameter = string.Format("({0})", string.Join(",", _parameter.ToArray()));
             return true;
         }
         private bool ParseLike(MethodCallExpression expression)
         {
             this._condition = new QueryCondition();
-            var parameter = (ConstantExpression)expression.Arguments[0];
+            object parameter = null;
+            if (expression.Arguments[0].NodeType == ExpressionType.MemberAccess)
+            {
+                parameter = GetValue(expression.Arguments[0] as MemberExpression);
+            }
+            else
+            {
+                parameter = ((ConstantExpression)expression.Arguments[0]).Value;
+            }
             var property = expression.Object as MemberExpression;
-            this._condition.Field = this.GetTableField(property);
+            this._condition.Field = property.Member.Name;
             this._condition.Operator = "LIKE";
             this._condition.Parameter = this.GetParameterName(property.Expression.ToString(), property.Member.Name);
-            var value = Expression.Constant(string.Format("'%{0}%'", parameter.Value));
-            this.Visit(value);
-            this.Conditions.Enqueue(this._condition);
+            if (parameter != null)
+            {
+                var value = Expression.Constant((string.IsNullOrEmpty(parameter.ToString())) ? string.Empty : string.Format("'%{0}%'", parameter));
+                this.Visit(value);
+                return true;
+            }
             return true;
         }
         private bool IsNodeOpt(ExpressionType expressionType)
@@ -262,14 +321,14 @@ namespace General.Data
         }
         private string GetTableField(MemberExpression m)
         {
-            string _field = m.Member.Name;
+            string _field = string.Format("[{0}]", m.Member.Name);
             if (this.AttributeConvertHandler != null)
             {
                 _field = this.AttributeConvertHandler(m.Member);
             }
-            
+
             if (this.UseTableAlias)
-                return string.Format("{0}.{1}", m.Expression.ToString(), m.Member.Name);
+                return string.Format("{0}.[{1}]", m.Expression.ToString(), m.Member.Name);
             else
                 return _field;
         }
@@ -287,10 +346,11 @@ namespace General.Data
             string _prefix = FindPrefix(prefix);
             int _index = 0;
             string _prename = string.Format("@{0}_{1}_", _prefix, fieldName);
-            string _name = this.Parameters.Keys.Where(p => p.Contains(_prename)).LastOrDefault();
+            string _name = this._parameters.Keys.Where(p => p.Contains(_prename)).LastOrDefault();
             if (!string.IsNullOrEmpty(_name))
             {
-                _index = (Convert.ToInt32(_name.Split('_')[2])) + 1;
+                string _num = _name.Split('_').LastOrDefault();
+                _index = Convert.ToInt32(_num) + 1;
             }
             _name = string.Format(_prename + "{0}", _index);
             return _name;
@@ -298,6 +358,23 @@ namespace General.Data
         protected bool IsNullConstant(Expression exp)
         {
             return (exp.NodeType == ExpressionType.Constant && ((ConstantExpression)exp).Value == null);
+        }
+        private bool IsEmptyValue(object p)
+        {
+            if (!p.GetType().IsValueType)
+            {
+                if (p.GetType() == typeof(string))
+                {
+                    return string.IsNullOrEmpty(p.ToString());
+                }
+                else if (p.GetType() == typeof(DateTime))
+                {
+                    return false;
+                }
+
+            }
+            return p.Equals(null);
+
         }
         private object GetValue(MemberExpression member)
         {
@@ -311,6 +388,19 @@ namespace General.Data
         {
             Right,
             Left
+        }
+
+
+       public Dictionary<string, object> Parameters
+        {
+            get
+            {
+                return this._parameters;
+            }
+            set
+            {
+                this._parameters = value;
+            }
         }
 
     }

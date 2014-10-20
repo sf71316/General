@@ -5,9 +5,8 @@ using System.Text;
 
 namespace General.Data
 {
-    internal interface ICommandBuilder
+     public interface  IQueryCommand
     {
-        string TableName { get; set; }
          bool UseTableAlias { get; set; }
     }
 }

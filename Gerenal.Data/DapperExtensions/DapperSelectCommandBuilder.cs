@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,30 +19,34 @@ namespace General.Data.Dapper
         {
             this.sql = new StringBuilder();
         }
-        public ISelectQuery Where(Expression expr)
+        private ISelectQuery where(Expression expr)
         {
             this._expr = expr;
             return this;
         }
+        public ISelectQuery Where(Expression expr)
+        {
+            return this.where(expr);
+        }
 
         public ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
         {
-            return this.Where(expr);
+            return this.where(expr);
         }
 
         public ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
         {
-            return this.Where(expr);
+            return this.where(expr);
         }
 
         public ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
         {
-            return this.Where(expr);
+            return this.where(expr);
         }
 
         public ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
         {
-            return this.Where(expr);
+            return this.where(expr);
         }
 
         public ISelectCommand Select(string field = "*")
@@ -58,6 +63,10 @@ namespace General.Data.Dapper
 
         public IEnumerable<T> Query<T>()
         {
+            DynamicParameters paramer = new DynamicParameters();
+            DbTypeConverter tconvert = new DbTypeConverter();
+
+
             if (string.IsNullOrEmpty(this._tablenames))
             {
                 this.OnException("Not set table name");
@@ -73,7 +82,11 @@ namespace General.Data.Dapper
                 {
                     this.sql.AppendFormat(" ORDER BY {0}",this._orderby);
                 }
-                return this.Dapper.Query<T>(this.sql.ToString(), null);
+                foreach (var item in this.Translator.Parameters)
+                {
+                    paramer.Add(item.Key, item.Value, tconvert.Get(item.Value.GetType()), null, null);
+                }
+                return this.Dapper.Query<T>(this.sql.ToString(), paramer);
             }
             return null;
         }

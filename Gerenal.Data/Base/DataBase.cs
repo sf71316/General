@@ -153,7 +153,100 @@ namespace General.Data
 
         #endregion Method
 
-      
+        #region   ORM Method
+        protected int Delete(Expression expr)
+        {
+            return this._deletecmd.Delete(expr);
+        }
+        protected int Delete<T>(Expression<Func<T, bool>> expr)
+        {
+            return this._deletecmd.Delete<T>(expr);
+        }
+        protected int Update(object e, Expression expr)
+        {
+            return this._updatecmd.Update(e, expr);
+        }
+        protected int Update<T>(object e, Expression<Func<T, bool>> expr)
+        {
+            return this._updatecmd.Update<T>(e, expr);
+        }
+        protected ISelectQuery Where(Expression expr)
+        {
+            return this._selectcmd.Where(expr);
+        }
+
+        protected ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
+        {
+            return this._selectcmd.Where<T1>(expr);
+        }
+
+        protected ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
+        {
+            return this._selectcmd.Where<T1, T2>(expr);
+        }
+
+        protected ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
+        {
+            return this._selectcmd.Where<T1, T2, T3>(expr);
+        }
+
+        protected ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
+        {
+            return this._selectcmd.Where<T1, T2, T3, T4>(expr);
+        }
+
+        protected ISelectCommand Select(string field = "*")
+        {
+            return this._selectcmd.Select(field);
+        }
+
+        protected ISelectCommand From(string tablename)
+        {
+            return this._selectcmd.From(tablename);
+        }
+
+        protected IEnumerable<T> Query<T>()
+        {
+            return this._selectcmd.Query<T>();
+        }
+
+        protected ISelectQuery OrderBy(string fieldname)
+        {
+            return this.OrderBy(fieldname);
+        }
+
+        
+        #endregion
+
+        protected ISelectCommand SelectCommand
+        {
+            get
+            {
+                return this._selectcmd;
+            }
+        }
+        protected IInsertCommand InsertCommand
+        {
+            get
+            {
+                return this._insertcmd;
+            }
+        }
+        protected IUpdateCommand UpdateCommand
+        {
+            get
+            {
+                return this._updatecmd;
+            }
+        }
+        protected IDeleteCommand DeleteCommand
+        {
+            get
+            {
+                return this._deletecmd;
+            }
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -182,68 +275,7 @@ namespace General.Data
         {
             return new DbInstance(config).Provider;
         }
-        #region   ORM Method
-        public int Delete(Expression expr)
-        {
-            return this._deletecmd.Delete(expr);
-        }
-        public int Delete<T>(Expression<Func<T,bool>> expr)
-        {
-            return this._deletecmd.Delete<T>(expr);
-        }
-        public int Update(object e, Expression expr)
-        {
-            return this._updatecmd.Update(e, expr);
-        }
-        public int Update<T>(object e, Expression<Func<T,bool>> expr)
-        {
-            return this._updatecmd.Update<T>(e, expr);
-        }
-        public ISelectQuery Where(Expression expr)
-        {
-            return this._selectcmd.Where(expr);
-        }
-
-        public ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
-        {
-            return this._selectcmd.Where<T1>(expr);
-        }
-
-        public ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
-        {
-            return this._selectcmd.Where<T1,T2>(expr);
-        }
-
-        public ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
-        {
-            return this._selectcmd.Where<T1, T2,T3>(expr);
-        }
-
-        public ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
-        {
-            return this._selectcmd.Where<T1, T2, T3,T4>(expr);
-        }
-
-        public ISelectCommand Select(string field)
-        {
-            return this._selectcmd.Select(field);
-        }
-
-        public ISelectCommand From(string tablename)
-        {
-            return this._selectcmd.From(tablename);
-        }
-
-        public IEnumerable<T> Query<T>()
-        {
-            return this._selectcmd.Query<T>();
-        }
-
-        public ISelectQuery OrderBy(string fieldname)
-        {
-            return this.OrderBy(fieldname);
-        }
-        #endregion
+        
         
     }
 }

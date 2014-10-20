@@ -7,13 +7,19 @@ using System.Text;
 
 namespace General.Data.Test
 {
-    [TableMapping("Table1")]
+    [TableMapping("VendorComment")]
     public class TestData:General.Data.DataBase
     {
         public TestData():base("Db")
         {
             
         }
-
+        public IEnumerable<VendorCommentEntity> GetData()
+        {
+            
+            return this.Select().From("VendorComment").Where<VendorCommentEntity>(p=>p.Active==1).
+                Query<VendorCommentEntity>();
+        }
+        
     }
 }
