@@ -154,6 +154,10 @@ namespace General.Data
         #endregion Method
 
         #region   ORM Method
+        protected object Insert(object e)
+        {
+            return this._insertcmd.Insert(e);
+        }
         protected int Delete(Expression expr)
         {
             return this._deletecmd.Delete(expr);
@@ -170,50 +174,50 @@ namespace General.Data
         {
             return this._updatecmd.Update<T>(e, expr);
         }
-        protected ISelectQuery Where(Expression expr)
-        {
-            return this._selectcmd.Where(expr);
-        }
+        //protected ISelectQuery Where(Expression expr)
+        //{
+        //    return this._selectcmd.Where(expr);
+        //}
 
-        protected ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
-        {
-            return this._selectcmd.Where<T1>(expr);
-        }
+        //protected ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
+        //{
+        //    return this._selectcmd.Where<T1>(expr);
+        //}
 
-        protected ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
-        {
-            return this._selectcmd.Where<T1, T2>(expr);
-        }
+        //protected ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
+        //{
+        //    return this._selectcmd.Where<T1, T2>(expr);
+        //}
 
-        protected ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
-        {
-            return this._selectcmd.Where<T1, T2, T3>(expr);
-        }
+        //protected ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
+        //{
+        //    return this._selectcmd.Where<T1, T2, T3>(expr);
+        //}
 
-        protected ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
-        {
-            return this._selectcmd.Where<T1, T2, T3, T4>(expr);
-        }
+        //protected ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
+        //{
+        //    return this._selectcmd.Where<T1, T2, T3, T4>(expr);
+        //}
 
         protected ISelectCommand Select(string field = "*")
         {
             return this._selectcmd.Select(field);
         }
 
-        protected ISelectCommand From(string tablename)
-        {
-            return this._selectcmd.From(tablename);
-        }
+        //protected ISelectCommand From(string tablename)
+        //{
+        //    return this._selectcmd.From(tablename);
+        //}
 
-        protected IEnumerable<T> Query<T>()
-        {
-            return this._selectcmd.Query<T>();
-        }
+        //protected IEnumerable<T> Query<T>()
+        //{
+        //    return this._selectcmd.Query<T>();
+        //}
 
-        protected ISelectQuery OrderBy(string fieldname)
-        {
-            return this.OrderBy(fieldname);
-        }
+        //protected ISelectQuery OrderBy(string fieldname)
+        //{
+        //    return this.OrderBy(fieldname);
+        //}
 
         
         #endregion
