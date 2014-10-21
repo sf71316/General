@@ -61,8 +61,8 @@ namespace General.Data
                         _sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
                     else
                     {
-                        if (previous != null && previous.GetType() == typeof(QueryOptCondition))
-                            _sb.Append("1=1");
+                        //if (previous != null && previous.GetType() == typeof(QueryOptCondition))
+                        //    _sb.Append("1=1");
                     }
                 }
                 previous = item;

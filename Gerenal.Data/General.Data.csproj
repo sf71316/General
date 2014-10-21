@@ -84,6 +84,7 @@
     <Compile Include="Base\ExpressionVisitor.cs" />
     <Compile Include="DapperExtensions\DapperDeleteCommandBuilder.cs" />
     <Compile Include="DapperExtensions\DapperUpdateCommandBuilder.cs" />
+    <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="interface\IQuery.cs" />
     <Compile Include="interface\IQueryTranslator.cs" />

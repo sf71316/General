@@ -9,8 +9,9 @@ namespace General.Data
 {
     public static class DataRowExtensions
     {
-        public static void Fill(this DataRow dr, IFill e)
+        public static void Fill(this DataRow dr, object e)
         {
+            
             PropertyInfo[] pre = e.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
             foreach (PropertyInfo item in pre)
             {
@@ -21,7 +22,8 @@ namespace General.Data
                     {
                         if (dr[_name] != null)
                         {
-                            item.SetValue(e, dr[_name], null);
+                            ExpressionFactory.Set(e, dr[_name], _name);
+                            //item.SetValue(e, dr[_name], null);
                         }
                     }
                 }

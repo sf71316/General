@@ -154,23 +154,23 @@ namespace General.Data
         #endregion Method
 
         #region   ORM Method
-        protected object Insert(object e)
+        protected virtual object Insert(object e)
         {
             return this._insertcmd.Insert(e);
         }
-        protected int Delete(Expression expr)
+        protected virtual int Delete(Expression expr)
         {
             return this._deletecmd.Delete(expr);
         }
-        protected int Delete<T>(Expression<Func<T, bool>> expr)
+        protected virtual int Delete<T>(Expression<Func<T, bool>> expr)
         {
             return this._deletecmd.Delete<T>(expr);
         }
-        protected int Update(object e, Expression expr)
+        protected virtual int Update(object e, Expression expr)
         {
             return this._updatecmd.Update(e, expr);
         }
-        protected int Update<T>(object e, Expression<Func<T, bool>> expr)
+        protected virtual int Update<T>(object e, Expression<Func<T, bool>> expr)
         {
             return this._updatecmd.Update<T>(e, expr);
         }
