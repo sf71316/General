@@ -7,7 +7,7 @@ namespace General.Data
     public interface IQueryTranslator
     {
         Dictionary<string, object> Parameters { get; set; }
-        string ToWhere();
+        string ToWhere(bool intact = true);
         void Translate(Expression expression);
         bool UseTableAlias { get; set; }
     }

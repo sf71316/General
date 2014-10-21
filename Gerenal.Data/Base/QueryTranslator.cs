@@ -16,7 +16,7 @@ namespace General.Data
     using System.Reflection;
     using System.Text;
 
-    public class QueryTranslator : ExpressionVisitor,IQueryTranslator
+    public class QueryTranslator : ExpressionVisitor, IQueryTranslator
     {
 
         private NodeDirect _direct;
@@ -42,34 +42,24 @@ namespace General.Data
         //{
         //    this.Visit(Expression.Lambda<Func<T,bool>>(Expression.Call(func.Method)));
         //}
-        public string ToWhere()
+        public string ToWhere(bool intact = true)
         {
             StringBuilder _sb = new StringBuilder();
-            QueryCondition previous = null; ;
-            foreach (var item in this.Conditions)
+            var conditions = this.VaildCondition();
+            foreach (var item in conditions)
             {
                 if (item.GetType() == typeof(QueryOptCondition))
-                {
-                    if (this._parameters.ContainsKey(previous.Parameter)
-                        && !this.IsEmptyValue(this._parameters[previous.Parameter]))
-                        _sb.AppendFormat("{0}", item.Operator.Trim());
-                }
+                    _sb.AppendFormat("{0}", item.Operator.Trim());
                 else if (item.GetType() == typeof(QueryCondition))
-                {
-                    if (this._parameters.ContainsKey(item.Parameter)
-                        && !this.IsEmptyValue(this._parameters[item.Parameter]))
-                        _sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
-                    else
-                    {
-                        //if (previous != null && previous.GetType() == typeof(QueryOptCondition))
-                        //    _sb.Append("1=1");
-                    }
-                }
-                previous = item;
+                    _sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
+
             }
             if (_sb.Length > 0)
             {
-                return "WHERE " + _sb.ToString();
+                if (intact)
+                    return "WHERE " + _sb.ToString();
+                else
+                    return _sb.ToString();
             }
             else
             {
@@ -77,6 +67,44 @@ namespace General.Data
                 return string.Empty;
             }
 
+        }
+        private IEnumerable<QueryCondition> VaildCondition()
+        {
+            QueryCondition previous = null;
+
+            Stack<QueryCondition> _temp = new Stack<QueryCondition>();
+            foreach (var item in this.Conditions)
+            {
+                if (item.GetType() == typeof(QueryOptCondition))
+                {
+                    if (this._parameters.ContainsKey(previous.Parameter)
+                        && !this.IsEmptyValue(this._parameters[previous.Parameter]))
+                    {
+                        _temp.Push(item);
+                    }
+                    // _sb.AppendFormat("{0}", item.Operator.Trim());
+                }
+                else if (item.GetType() == typeof(QueryCondition))
+                {
+                    if (this._parameters.ContainsKey(item.Parameter)
+                        && !this.IsEmptyValue(this._parameters[item.Parameter]))
+                    {
+                        _temp.Push(item);
+                        //_sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
+                    }
+                    else
+                    {
+                        if (previous != null && previous.GetType() == typeof(QueryOptCondition))
+                        {
+                            _temp.Pop();
+
+                        }
+                        //   _sb.Append("1=1");
+                    }
+                }
+                previous = _temp.FirstOrDefault();
+            }
+            return _temp.ToList();
         }
         public void Clear()
         {
@@ -391,7 +419,7 @@ namespace General.Data
         }
 
 
-       public Dictionary<string, object> Parameters
+        public Dictionary<string, object> Parameters
         {
             get
             {

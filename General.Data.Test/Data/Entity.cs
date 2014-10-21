@@ -26,4 +26,11 @@ namespace General.Data.Test
         public string ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
     }
+
+    public class Entity
+    {
+        public string PK { get; set; }
+        public string FK { get; set; }
+        public string Field1 { get; set; }
+    }
 }
