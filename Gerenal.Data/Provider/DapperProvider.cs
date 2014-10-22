@@ -6,6 +6,7 @@ using Dapper;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using General.Data.Dapper;
 
 namespace General.Data
 {
@@ -36,21 +37,29 @@ namespace General.Data
         }
         public IEnumerable<T> Query<T>(string sql, object parameters)
         {
+            this.setMapping<T>();
             return cnn.Query<T>(sql, parameters, null, true, null, null);
         }
         public IEnumerable<T> Query<T>(string sql, object parameters, IDbTransaction transaction)
         {
+            this.setMapping<T>();
             return cnn.Query<T>(sql, parameters, transaction, true, null, null);
         }
 
         public IEnumerable<T> Query<T>(string sql, object parameters, CommandType commandType)
         {
+            this.setMapping<T>();
             return cnn.Query<T>(sql, parameters, null, true, null, commandType);
         }
 
         public IEnumerable<T> Query<T>(string sql, object parameters, IDbTransaction transaction, CommandType commandType)
         {
+            this.setMapping<T>();
             return cnn.Query<T>(sql, parameters, transaction, true, null, commandType);
+        }
+        private void setMapping<T>()
+        {
+            SqlMapper.SetTypeMap(typeof(T),   new ColumnAttributeTypeMapper<T>());
         }
         public IDbConnection Connection
         {

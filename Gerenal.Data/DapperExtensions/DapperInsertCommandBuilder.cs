@@ -29,7 +29,7 @@ namespace General.Data.Dapper
                 ColumnAttribute attr = prop.GetInstancetAttribute<ColumnAttribute>();
                 if (attr != null)
                 {
-                    fieldName = !string.IsNullOrEmpty(attr.FieldName) ? attr.FieldName : fieldName;
+                    fieldName = !string.IsNullOrEmpty(attr.Name) ? attr.Name : fieldName;
                     if (attr.AutoKey || attr.Ignore)
                         continue;
                 }

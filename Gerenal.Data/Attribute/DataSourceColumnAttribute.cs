@@ -14,7 +14,7 @@ namespace General.Data
         }
 
         #region Property
-        public string FieldName { get; set; }
+        public string Name { get; set; }
         public bool Ignore { get; set; }
         public bool Key { get; set; }
         public bool AutoKey { get; set; }

@@ -14,12 +14,12 @@ namespace General.Data.Test
         {
             
         }
-        public IEnumerable<VendorCommentEntity> GetData()
+        public IEnumerable<Entity> GetData()
         {
 
 
-            return this.Select().From("Table1").Where<Entity>(p => p.PK=="1" && p.Field1=="" || p.FK=="222").
-                Query<VendorCommentEntity>();
+            return this.Select().From("Table1").
+                Query<Entity>();
             //return this.Select().From("VendorComment").Where<VendorCommentEntity>(p=>p.Active==1).
             //    Query<VendorCommentEntity>();
         }

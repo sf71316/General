@@ -397,7 +397,7 @@ namespace General.Data
                 }
                 else if (p.GetType() == typeof(DateTime))
                 {
-                    return false;
+                    return Convert.ToDateTime(p)==DateTime.MinValue;
                 }
 
             }

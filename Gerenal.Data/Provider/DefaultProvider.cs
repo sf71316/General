@@ -198,7 +198,7 @@ namespace General.Data
                     if (_columnAttr.Ignore)
                         continue;
                     else
-                        _column = _columnAttr.FieldName;
+                        _column = _columnAttr.Name;
                 }
                 if (reader.HasColumn(_column))
                 {

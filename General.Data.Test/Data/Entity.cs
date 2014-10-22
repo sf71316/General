@@ -29,8 +29,9 @@ namespace General.Data.Test
 
     public class Entity
     {
+        [Column(Name="PK")]
         public string PK { get; set; }
-        public string FK { get; set; }
+        public Guid FK { get; set; }
         public string Field1 { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace General.Data.Test
         public void Dapper_ORM_Select_Test()
         {
             var m = new TestData();
-            m.GetData();
+            var c=   m.GetData();
         }
 
     }
