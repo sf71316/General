@@ -33,15 +33,13 @@ namespace General.Data.Dapper
                     if (attr.AutoKey || attr.Ignore)
                         continue;
                 }
-                //object v = prop.GetValue(e, null);
-                object v = prop.GetValueGetter<object>();
-
-                if (v != null || attr.IsNull)
+                object v = prop.GetValue(e, null);
+                if (v != null||(attr!=null && attr.IsNull))
                 {
                     string parameterName = string.Format("{0}_{1}", this.TableName, fieldName);
-                    fieldList.Add(fieldName);
+                    fieldList.Add(string.Format("[{0}]",fieldName));
                     valueList.Add(string.Format("@{0}", parameterName));
-                    paramer.Add(fieldName, v, tconvert.Get(v.GetType()), null, null);
+                    paramer.Add(parameterName, v, tconvert.Get(v.GetType()), null, null);
                 }
             }
             string query =

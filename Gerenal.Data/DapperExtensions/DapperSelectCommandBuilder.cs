@@ -86,11 +86,19 @@ namespace General.Data.Dapper
                 {
                     paramer.Add(item.Key, item.Value, tconvert.Get(item.Value.GetType()), null, null);
                 }
-                return this.Dapper.Query<T>(this.sql.ToString(), paramer);
+                string sql = this.sql.ToString();
+                this.Clear();
+                return this.Dapper.Query<T>(sql, paramer);
             }
+            this.Clear();
             return null;
         }
-
+        private void Clear()
+        {
+            this._expr = null;
+            this._orderby=this._tablenames=this._fieldnames = string.Empty;
+            this.sql = new StringBuilder();
+        }
         public ISelectQuery OrderBy(string fieldname)
         {
             this._orderby = fieldname;

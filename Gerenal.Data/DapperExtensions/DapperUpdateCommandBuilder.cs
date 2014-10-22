@@ -19,7 +19,7 @@ namespace General.Data.Dapper
         {
             DynamicParameters paramer = new DynamicParameters();
             DbTypeConverter tconvert = new DbTypeConverter();
-
+            this.Translator.Clear();
             string queryPattern = "UPDATE {0} SET {1} {2} ";
             this.Translator.Translate(expr);
             string condition = this.Translator.ToWhere();
@@ -34,24 +34,25 @@ namespace General.Data.Dapper
                 List<string> fieldList = new List<string>();
                 foreach (PropertyInfo prop in props)
                 {
-                    if (prop.IsDefined(typeof(ColumnAttribute), true))
-                    {
+                    string fieldName = prop.Name;
                         ColumnAttribute attr = prop.GetInstancetAttribute<ColumnAttribute>();
-
-                        if (attr.Ignore || attr.AutoKey)
-                            continue;
-                        //object v = prop.GetValue(e, null);
-                        object v = prop.GetValueGetter<object>();
-                        if (v != null)
+                        if (attr != null)
                         {
-                            string fieldName = !String.IsNullOrEmpty(attr.FieldName) ? attr.FieldName : prop.Name;
-                            string parameterName = String.Format("{0}_{1}", this.TableName, fieldName);
+                            fieldName = !string.IsNullOrEmpty(attr.FieldName) ? attr.FieldName : fieldName;
+                            if (attr.AutoKey || attr.Ignore)
+                                continue;
+                        }
 
-                            fieldList.Add(String.Format("{0} = @{1}", fieldName, parameterName));
-                            paramer.Add(fieldName, v, tconvert.Get(v.GetType()), null, null);
+                        object v = prop.GetValue(e, null);
+
+                        if (v != null || (attr != null && attr.IsNull))
+                        {
+                            string parameterName = String.Format("{0}_{1}", this.TableName, fieldName);
+                            fieldList.Add(String.Format("[{0}] = @{1}", fieldName, parameterName));
+                            paramer.Add(parameterName, v, tconvert.Get(v.GetType()), null, null);
 
                         }
-                    }
+                    
                 }
                 string query =
                       String.Format(queryPattern,
@@ -68,9 +69,9 @@ namespace General.Data.Dapper
         }
 
 
-        public int Update<T>(object e,Expression<Func<T, bool>> expr)
+        public int UpdateFunc<T>(object e,Expression<Func<T, bool>> expr)
         {
-            return this.Update<T>(e,expr);
+            return this.Update(e,expr);
         }
     }
 }

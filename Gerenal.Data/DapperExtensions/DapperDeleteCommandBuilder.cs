@@ -29,6 +29,7 @@ namespace General.Data.Dapper
                 this.OnException("Not set condition");
                 return 0;
             }
+            this.Translator.Clear();
             this.Translator.Translate(expr);
             sql.AppendFormat("DELETE FROM {0} {1}", this.TableName, this.Translator.ToWhere());
             foreach (var item in this.Translator.Parameters)

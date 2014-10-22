@@ -7,7 +7,7 @@ using System.Text;
 
 namespace General.Data
 {
-    public static class PropertyInfoExtensions
+    internal static class PropertyInfoExtensions
     {
         public static Func<T, object> GetValueGetter<T>(this PropertyInfo propertyInfo)
         {

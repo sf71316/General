@@ -74,7 +74,7 @@ namespace General.Data
         /// <param name="c">條件物件</param>
         /// <returns></returns>
         int Update(object e, Expression expr);
-        int Update<T>(object e,Expression<Func<T, bool>> expr);
+        int UpdateFunc<T>(object e,Expression<Func<T, bool>> expr);
         #endregion
     }
 }

@@ -10,5 +10,6 @@ namespace General.Data
         string ToWhere(bool intact = true);
         void Translate(Expression expression);
         bool UseTableAlias { get; set; }
+        void Clear();
     }
 }

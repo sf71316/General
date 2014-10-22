@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace General.Data
@@ -35,7 +36,25 @@ namespace General.Data
             }
             PropertyCache[key](obj, value);
         }
+        private static object Get(PropertyInfo obj)
+        {
+            //有問題未解決
 
+                lock (lockObject)
+                {
+                    //if (!PropertyCache.ContainsKey(key))
+                    //{
+                        //沒有的話，就建立利用ExpressionTree建立委派
+                        var action = CreateGetAction(obj);
+                        //放入Cache
+                  
+                        //執行取值動作
+                        return action(obj);
+                   // }
+                }
+    
+          
+        }
         private static Action<object, object> CreateSetAction(object obj, string propertyName)
         {
             var propertyInfo = obj.GetType().GetProperty(propertyName);
@@ -60,7 +79,13 @@ namespace General.Data
             return Expression.Lambda<Action<object, object>>(setMethod, targetObj, propertyValue).Compile();
         }
 
-   
+        private static Func<object, object> CreateGetAction(PropertyInfo propertyInfo)
+        {
+            var instance = Expression.Parameter(propertyInfo.DeclaringType, "i");
+            var property = Expression.Property(instance, propertyInfo);
+            var convert = Expression.TypeAs(property, typeof(object));
+            return (Func<object, object>)Expression.Lambda(convert, instance).Compile();
+        }
     }
 
     public class PropertyKey

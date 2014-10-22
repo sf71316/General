@@ -172,7 +172,7 @@ namespace General.Data
         }
         protected virtual int Update<T>(object e, Expression<Func<T, bool>> expr)
         {
-            return this._updatecmd.Update<T>(e, expr);
+            return this._updatecmd.UpdateFunc<T>(e, expr);
         }
         //protected ISelectQuery Where(Expression expr)
         //{
