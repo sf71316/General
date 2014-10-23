@@ -1,6 +1,8 @@
-﻿using System;
+﻿using General.Data.Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace General.Data
@@ -8,11 +10,30 @@ namespace General.Data
    public  class DataBase<T>:DataBase
     {
        public string TableName { get; set; }
-       public DataBase()
+       protected ISelectCommand<T> _selectcmd;
+       protected IInsertCommand _insertcmd;
+       protected IUpdateCommand _updatecmd;
+       protected IDeleteCommand _deletecmd;
+       public DataBase(string conName):base(conName)
        {
            TableMappingAttribute attr = typeof(T).GetInstancetAttribute<TableMappingAttribute>();
            this.TableName = attr.TableName;
+           //this._insertcmd = DapperCommandBuilder.GetInsertCommandBuilder(this.Dapper);
+           //this._updatecmd = DapperCommandBuilder.GetUpdateCommandBuilder(this.Dapper);
+           //this._deletecmd = DapperCommandBuilder.GetDeleteCommandBuilder(this.Dapper);
+           this._selectcmd = DapperCommandBuilder.GetSelectCommandBuilder<T>(this.Dapper);
+       }
 
+       public bool UseTableAlias
+       {
+           get
+           {
+               throw new NotImplementedException();
+           }
+           set
+           {
+               throw new NotImplementedException();
+           }
        }
     }
 }

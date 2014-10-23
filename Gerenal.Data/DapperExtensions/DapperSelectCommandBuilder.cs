@@ -7,7 +7,7 @@ using System.Text;
 
 namespace General.Data.Dapper
 {
-    internal class DapperSelectCommandBuilder : DapperCommandBuilder, ISelectCommand
+    internal class DapperSelectCommandBuilder<T> : DapperCommandBuilder, ISelectCommand<T>
     {
         Expression _expr;
         string _fieldnames;
@@ -19,49 +19,8 @@ namespace General.Data.Dapper
         {
             this.sql = new StringBuilder();
         }
-        private ISelectQuery where(Expression expr)
-        {
-            this._expr = expr;
-            return this;
-        }
-        public ISelectQuery Where(Expression expr)
-        {
-            return this.where(expr);
-        }
-
-        public ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
-        {
-            return this.where(expr);
-        }
-
-        public ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
-        {
-            return this.where(expr);
-        }
-
-        public ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
-        {
-            return this.where(expr);
-        }
-
-        public ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
-        {
-            return this.where(expr);
-        }
-
-        public ISelectCommand Select(string field = "*")
-        {
-            this._fieldnames = field;
-            return this;
-        }
-
-        public ISelectCommand From(string tablename)
-        {
-            this._tablenames = tablename;
-            return this;
-        }
-
-        public IEnumerable<T> Query<T>()
+      
+        public IEnumerable<T> Query()
         {
             DynamicParameters paramer = new DynamicParameters();
             DbTypeConverter tconvert = new DbTypeConverter();
@@ -99,10 +58,45 @@ namespace General.Data.Dapper
             this._orderby=this._tablenames=this._fieldnames = string.Empty;
             this.sql = new StringBuilder();
         }
-        public ISelectQuery OrderBy(string fieldname)
+        public ISelectQuery<T> OrderBy(string fieldname)
         {
             this._orderby = fieldname;
             return this;
+        }
+
+        public ISelectQuery<T> Where(Expression expr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISelectQuery<T> Where(Expression<Func<T, bool>> expr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISelectQuery<T> Where<T2>(Expression<Func<T, T2, bool>> expr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISelectQuery<T> Where<T2, T3>(Expression<Func<T, T2, T3, bool>> expr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISelectQuery<T> Where<T2, T3, T4>(Expression<Func<T, T2, T3, T4, bool>> expr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISelectCommand<T> Select(Expression<Func<T, object>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISelectCommand<T> From(string tablename)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -53,9 +53,9 @@ namespace General.Data.Dapper
             });
         }
 
-        public static ISelectCommand GetSelectCommandBuilder(IDapperProvider provider)
+        public static ISelectCommand<T> GetSelectCommandBuilder<T>(IDapperProvider provider)
         {
-            return new DapperSelectCommandBuilder(provider);
+            return new DapperSelectCommandBuilder<T>(provider);
         }
         public static IInsertCommand GetInsertCommandBuilder(IDapperProvider provider)
         {
