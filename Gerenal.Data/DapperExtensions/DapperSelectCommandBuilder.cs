@@ -73,6 +73,7 @@ namespace General.Data.Dapper
             }
             else
             {
+                this.Translator.Clear();
                 this.Translator.Translate(this._expr);
                 this.sql.AppendFormat("SELECT {0} FROM {1} {2}",
                     this._fieldnames,

@@ -82,7 +82,6 @@ namespace General.Data
                     {
                         _temp.Push(item);
                     }
-                    // _sb.AppendFormat("{0}", item.Operator.Trim());
                 }
                 else if (item.GetType() == typeof(QueryCondition))
                 {
@@ -90,16 +89,15 @@ namespace General.Data
                         && !this.IsEmptyValue(this._parameters[item.Parameter]))
                     {
                         _temp.Push(item);
-                        //_sb.AppendFormat("({0} {1} {2})", item.Field, item.Operator, item.Parameter);
                     }
                     else
                     {
                         if (previous != null && previous.GetType() == typeof(QueryOptCondition))
                         {
+                            this._parameters.Remove(item.Parameter);
                             _temp.Pop();
-
+                            
                         }
-                        //   _sb.Append("1=1");
                     }
                 }
                 previous = _temp.FirstOrDefault();
@@ -395,11 +393,15 @@ namespace General.Data
                 {
                     return string.IsNullOrEmpty(p.ToString());
                 }
-                else if (p.GetType() == typeof(DateTime))
+
+            }
+            else
+            {
+                if (p.GetType() == typeof(DateTime))
                 {
                     return Convert.ToDateTime(p)==DateTime.MinValue;
                 }
-
+               
             }
             return p.Equals(null);
 
