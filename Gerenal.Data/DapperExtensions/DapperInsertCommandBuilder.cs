@@ -10,8 +10,8 @@ namespace General.Data.Dapper
 {
     internal class DapperInsertCommandBuilder:DapperCommandBuilder,IInsertCommand
     {
-        public DapperInsertCommandBuilder(string tablename, IDapperProvider dapper)
-            : base(tablename, dapper)
+        public DapperInsertCommandBuilder(IDapperProvider dapper)
+            : base( dapper)
         {
 
         }

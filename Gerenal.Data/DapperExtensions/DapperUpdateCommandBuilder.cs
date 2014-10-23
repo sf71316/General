@@ -10,8 +10,8 @@ namespace General.Data.Dapper
 {
     internal class DapperUpdateCommandBuilder : DapperCommandBuilder, IUpdateCommand
     {
-        public DapperUpdateCommandBuilder(string tablename, IDapperProvider dapper)
-            : base(tablename, dapper)
+        public DapperUpdateCommandBuilder( IDapperProvider dapper)
+            : base( dapper)
         {
 
         }

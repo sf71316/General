@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Attribute\DataSourceColumnAttribute.cs" />
     <Compile Include="Attribute\TableMappingAttribute.cs" />
+    <Compile Include="Base\DataBaseORM.cs" />
     <Compile Include="Base\DbInstance.cs" />
     <Compile Include="Base\ExpressionFactory.cs" />
     <Compile Include="Base\ExpressionVisitor.cs" />

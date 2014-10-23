@@ -9,8 +9,8 @@ namespace General.Data.Dapper
 {
     internal class DapperDeleteCommandBuilder : DapperCommandBuilder, IDeleteCommand
     {
-        public DapperDeleteCommandBuilder(string tablename, IDapperProvider dapper)
-            : base(tablename, dapper)
+        public DapperDeleteCommandBuilder(IDapperProvider dapper)
+            : base( dapper)
         {
 
         }

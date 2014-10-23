@@ -14,8 +14,8 @@ namespace General.Data.Dapper
         string _tablenames;
         string _orderby;
         StringBuilder sql;
-        public DapperSelectCommandBuilder(string tablename, IDapperProvider dapper)
-            : base(tablename, dapper)
+        public DapperSelectCommandBuilder( IDapperProvider dapper)
+            : base( dapper)
         {
             this.sql = new StringBuilder();
         }

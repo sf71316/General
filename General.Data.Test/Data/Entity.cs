@@ -27,6 +27,7 @@ namespace General.Data.Test
         public DateTime? ModifiedOn { get; set; }
     }
 
+    [TableMapping("Table1")]
     public class Entity
     {
         [Column(Name="PK")]

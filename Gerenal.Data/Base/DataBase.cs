@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace General.Data
 {
-    public abstract class DataBase : IDisposable
+    public  abstract class DataBase : IDisposable
     {
         private bool disposed = false;
         private ISelectCommand _selectcmd;
@@ -141,14 +141,11 @@ namespace General.Data
         private void InitializeCommand()
         {
             //   var attr = this.GetType().GetCustomAttributes(typeof(TableMappingAttribute), true).FirstOrDefault() as TableMappingAttribute;
-            TableMappingAttribute attr = this.GetType().GetInstancetAttribute<TableMappingAttribute>();
-            if (attr != null)
-            {
-                this._insertcmd = DapperCommandBuilder.GetInsertCommandBuilder(attr.TableName, this.Dapper);
-                this._updatecmd = DapperCommandBuilder.GetUpdateCommandBuilder(attr.TableName, this.Dapper);
-                this._deletecmd = DapperCommandBuilder.GetDeleteCommandBuilder(attr.TableName, this.Dapper);
-                this._selectcmd = DapperSelectCommandBuilder.GetSelectCommandBuilder(attr.TableName, this.Dapper);
-            }
+                this._insertcmd = DapperCommandBuilder.GetInsertCommandBuilder( this.Dapper);
+                this._updatecmd = DapperCommandBuilder.GetUpdateCommandBuilder( this.Dapper);
+                this._deletecmd = DapperCommandBuilder.GetDeleteCommandBuilder( this.Dapper);
+                this._selectcmd = DapperSelectCommandBuilder.GetSelectCommandBuilder(this.Dapper);
+            
         }
 
         #endregion Method
