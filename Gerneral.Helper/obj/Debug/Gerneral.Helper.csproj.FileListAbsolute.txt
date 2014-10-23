@@ -1,6 +1,5 @@
 E:\Project\General\Gerneral.Helper\bin\Debug\Gerneral.Helper.dll
 E:\Project\General\Gerneral.Helper\bin\Debug\Gerneral.Helper.pdb
-E:\Project\General\Gerneral.Helper\obj\Debug\ResolveAssemblyReference.cache
 E:\Project\General\Gerneral.Helper\obj\Debug\Gerneral.Helper.dll
 E:\Project\General\Gerneral.Helper\obj\Debug\Gerneral.Helper.pdb
 D:\Project\ASPNET\General\Gerneral.Helper\bin\Debug\Gerneral.Helper.dll
@@ -12,3 +11,4 @@ D:\Project\General\Gerneral.Helper\bin\Debug\Gerneral.Helper.pdb
 D:\Project\General\Gerneral.Helper\obj\Debug\Gerneral.Helper.dll
 D:\Project\General\Gerneral.Helper\obj\Debug\Gerneral.Helper.pdb
 D:\Project\General\Gerneral.Helper\obj\Debug\Gerneral.Helper.csprojResolveAssemblyReference.cache
+E:\Project\General\Gerneral.Helper\obj\Debug\Gerneral.Helper.csprojResolveAssemblyReference.cache
