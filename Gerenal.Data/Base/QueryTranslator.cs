@@ -8,13 +8,6 @@ using System.Text;
 
 namespace General.Data
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Text;
 
     public class QueryTranslator : ExpressionVisitor, IQueryTranslator
     {
@@ -77,7 +70,7 @@ namespace General.Data
             {
                 if (item.GetType() == typeof(QueryOptCondition))
                 {
-                    if (this._parameters.ContainsKey(previous.Parameter)
+                    if (previous!=null &&this._parameters.ContainsKey(previous.Parameter)
                         && !this.IsEmptyValue(this._parameters[previous.Parameter]))
                     {
                         _temp.Push(item);
@@ -102,7 +95,7 @@ namespace General.Data
                 }
                 previous = _temp.FirstOrDefault();
             }
-            return _temp.ToList();
+            return _temp.Reverse().ToList();
         }
         public void Clear()
         {
@@ -275,12 +268,12 @@ namespace General.Data
                 parameter = ((ConstantExpression)expression.Arguments[0]).Value;
             }
             var property = expression.Object as MemberExpression;
-            this._condition.Field = property.Member.Name;
+            this._condition.Field =this.GetTableField(property);
             this._condition.Operator = "LIKE";
             this._condition.Parameter = this.GetParameterName(property.Expression.ToString(), property.Member.Name);
             if (parameter != null)
             {
-                var value = Expression.Constant((string.IsNullOrEmpty(parameter.ToString())) ? string.Empty : string.Format("'%{0}%'", parameter));
+                var value = Expression.Constant((string.IsNullOrEmpty(parameter.ToString())) ? string.Empty : string.Format("%{0}%", parameter));
                 this.Visit(value);
                 return true;
             }

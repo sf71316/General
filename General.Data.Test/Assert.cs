@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using General;
 using System.Reflection;
+using System.Linq.Expressions;
 
 namespace General.Data.Test
 {
@@ -15,6 +16,14 @@ namespace General.Data.Test
         {
             var m = new TestData();
             var c=   m.GetData();
+        }
+        [TestMethod]
+        public void Query_Test()
+        {
+            QueryTranslator q = new QueryTranslator();
+            Expression<Func<Entity, bool>> expr = p => (p.Field1 == "1" || p.Field1 == "2") && p.PK == "3";
+            q.Translate(expr);
+            q.ToWhere();
         }
 
     }
