@@ -14,10 +14,11 @@ namespace General
         private MailMessage _mail;
         protected MailConfig _config;
         private List<MailEntity> collection;
+        public SendPreparingArg Config { get; set; }
 
         public MailNotifier()
         {
-            
+            this.Config = new SendPreparingArg();
         }
         public MailNotifier(MailConfig Config)
         {
@@ -25,21 +26,20 @@ namespace General
         }
         public void Send()
         {
-            SendPreparingArg arg = new SendPreparingArg();
             if (this._extMail != null)
-                arg.ToList.Add(this._extMail);
-            this.OnSendPreparing(arg);
-            if (!arg.Cancel)
+                Config.ToList.Add(this._extMail);
+            this.OnSendPreparing(Config);
+            if (!Config.Cancel)
             {
-                if (arg.DirectSend)
+                if (Config.DirectSend)
                 {
-                    this.sendMail(arg, null);
+                    this.sendMail(Config, null);
                 }
                 else
                 {
-                    foreach (var item in arg.ToList)
+                    foreach (var item in Config.ToList)
                     {
-                        this.sendMail(arg, item);
+                        this.sendMail(Config, item);
                     }
                 }
             }
@@ -64,7 +64,12 @@ namespace General
         {
             if (disposing)
             {
-                this._mail.Dispose();
+                if (this._mail != null)
+                {
+                    this._mail.Dispose();
+                    collection.Clear();
+                    Config = null;
+                }
             }
             else
             {

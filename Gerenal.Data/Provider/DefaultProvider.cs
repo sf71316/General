@@ -125,38 +125,6 @@ namespace General.Data
         {
             this._cmd = this._conn.CreateCommand();
         }
-
-        public override   T GetEntity<T>() 
-        {
-            this.Open();
-            DbDataReader reader = this._cmd.ExecuteReader();
-            T entity = entity = Activator.CreateInstance<T>();
-            
-            if (reader.Read())
-            {
-                this.GetEntity<T>(reader, entity);
-            }
-
-             this.Close();
-            return entity;
-        }
-
-        public override  IEnumerable<TEntity> GetEntities<TEntity>() 
-        {
-            this.Open();
-            DbDataReader reader = this._cmd.ExecuteReader();
-            var collection = new List<TEntity>();
-            while (reader.Read())
-            {
-                TEntity entity = Activator.CreateInstance<TEntity>();
-                this.GetEntity<TEntity>(reader, entity);
-
-                collection.Add(entity);
-            }
-             this.Close();
-            return collection;
-        }
-
         private void Close()
         {
             if (this._conn.State != ConnectionState.Closed)

@@ -88,11 +88,6 @@ namespace General.Data
         public abstract bool Execute();
 
         public abstract object Value{get;}
-
-        public abstract T GetEntity<T>() where T : IEntity;
-
-        public abstract IEnumerable<TEntity> GetEntities<TEntity>() where TEntity : IEntity;
-
         public virtual void Dispose()
         {
             if (this != null)

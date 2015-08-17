@@ -17,9 +17,6 @@ namespace General.Data
         DataSet DataSet();
         DataTable DataTable();
         DbDataReader Reader();
-        T GetEntity<T>() where T : IEntity;
-        IEnumerable<TEntity> GetEntities<TEntity>()
-            where TEntity : IEntity;
         object ExecuteNonQuery();
         bool Execute();
         object Value { get; }

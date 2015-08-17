@@ -239,7 +239,7 @@ namespace General.Data
             List<string> _parameter = new List<string>();
             this._condition = new QueryCondition();
             var _field = m.Arguments[1] as MemberExpression;
-            var _values = GetValue(m.Arguments[0] as MemberExpression) as IEnumerable;
+            var _values = GetValue(m.Arguments[0]) as IEnumerable;
             this._condition.Field = this.GetTableField(_field);
             this._condition.Operator = "IN";
             if (_values != null)
@@ -261,7 +261,7 @@ namespace General.Data
             object parameter = null;
             if (expression.Arguments[0].NodeType == ExpressionType.MemberAccess)
             {
-                parameter = GetValue(expression.Arguments[0] as MemberExpression);
+                parameter = GetValue(expression.Arguments[0] );
             }
             else
             {
@@ -399,7 +399,7 @@ namespace General.Data
             return p.Equals(null);
 
         }
-        private object GetValue(MemberExpression member)
+        private object GetValue(Expression member)
         {
             var objectMember = Expression.Convert(member, typeof(object));
             var getterLambda = Expression.Lambda<Func<object>>(objectMember);
