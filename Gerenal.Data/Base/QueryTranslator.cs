@@ -8,13 +8,6 @@ using System.Text;
 
 namespace General.Data
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Text;
 
     public class QueryTranslator : ExpressionVisitor, IQueryTranslator
     {
@@ -421,7 +414,7 @@ namespace General.Data
         }
 
 
-        public Dictionary<string, object> Parameters
+        public IDictionary<string, object> Parameters
         {
             get
             {
@@ -429,9 +422,10 @@ namespace General.Data
             }
             set
             {
-                this._parameters = value;
+                this._parameters = value as Dictionary<string,object>;
             }
         }
+
 
     }
 

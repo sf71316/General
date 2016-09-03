@@ -7,7 +7,7 @@ using System.Text;
 
 namespace General.Data
 {
-   public  class DataBase<T>:DataBase
+   public abstract  class DataBase<T>:DataBase
     {
        public string TableName { get; set; }
        protected ISelectCommand<T> _selectcmd;
@@ -21,19 +21,9 @@ namespace General.Data
            //this._insertcmd = DapperCommandBuilder.GetInsertCommandBuilder(this.Dapper);
            //this._updatecmd = DapperCommandBuilder.GetUpdateCommandBuilder(this.Dapper);
            //this._deletecmd = DapperCommandBuilder.GetDeleteCommandBuilder(this.Dapper);
-           this._selectcmd = DapperCommandBuilder.GetSelectCommandBuilder<T>(this.Dapper);
+           //this._selectcmd = DapperCommandBuilder.GetSelectCommandBuilder<T>(this.Dapper);
        }
 
-       public bool UseTableAlias
-       {
-           get
-           {
-               throw new NotImplementedException();
-           }
-           set
-           {
-               throw new NotImplementedException();
-           }
-       }
+     
     }
 }

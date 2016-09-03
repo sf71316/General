@@ -1,5 +1,4 @@
-﻿using General.Data.Dapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -13,16 +12,6 @@ namespace General.Data
 
         private IDapperProvider _dapper;
         protected IDACAdapter Provider { get; private set; }
-        protected IDapperProvider Dapper
-        {
-            get
-            {
-                if (this._dapper==null)
-                    this._dapper = new DapperProvider(Provider.Connection);
-                return this._dapper;
-            }
-        }
-    
 
         public DataBase()
         {
@@ -31,6 +20,10 @@ namespace General.Data
         public DataBase(string ConfigKey)
         {
             Provider = new DefaultProvider(ConfigKey);
+        }
+        protected void GenerateDataBase(string connectstring,SQLType type)
+        {
+            Provider = new DefaultProvider(connectstring, type);
         }
         public DataBase(IDACAdapter adapter)
         {
@@ -131,11 +124,6 @@ namespace General.Data
         }
 
         #endregion Event
- 
-
-
-        
-
 
         public void Dispose()
         {

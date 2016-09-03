@@ -63,9 +63,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.12.1.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Dapper.1.13\lib\net35\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.39.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.39\lib\net35\Dapper.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -79,25 +79,18 @@
   <ItemGroup>
     <Compile Include="Attribute\DataSourceColumnAttribute.cs" />
     <Compile Include="Attribute\TableMappingAttribute.cs" />
-    <Compile Include="Base\DataBaseORM.cs" />
     <Compile Include="Base\DbInstance.cs" />
     <Compile Include="Base\ExpressionFactory.cs" />
     <Compile Include="Base\ExpressionVisitor.cs" />
-    <Compile Include="DapperExtensions\DapperDeleteCommandBuilder.cs" />
-    <Compile Include="DapperExtensions\DapperUpdateCommandBuilder.cs" />
-    <Compile Include="DapperExtensions\FallbackTypeMapper.cs" />
+    <Compile Include="Enum\SQLType.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="interface\IQuery.cs" />
     <Compile Include="interface\IQueryTranslator.cs" />
-    <Compile Include="Provider\DapperProvider.cs" />
+    <Compile Include="interface\ISQLResult.cs" />
     <Compile Include="Base\QueryTranslator.cs" />
     <Compile Include="interface\ICommandBuilder.cs" />
     <Compile Include="interface\ICommand.cs" />
-    <Compile Include="DapperExtensions\DapperCommandBuilder.cs" />
-    <Compile Include="DapperExtensions\DapperInsertCommandBuilder.cs" />
-    <Compile Include="DapperExtensions\DapperSelectCommandBuilder.cs" />
-    <Compile Include="TypeConverters\DbTypeConverter.cs" />
     <Compile Include="interface\IDapper.cs" />
     <Compile Include="Provider\ProviderBase.cs" />
     <Compile Include="Base\DataBase.cs" />
@@ -120,23 +113,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TypeConverters\BooleanConverter.cs" />
-    <Compile Include="TypeConverters\ByteConverter.cs" />
-    <Compile Include="TypeConverters\CharConverter.cs" />
-    <Compile Include="TypeConverters\DateTimeConverter.cs" />
-    <Compile Include="TypeConverters\DecimalConverter.cs" />
-    <Compile Include="TypeConverters\DoubleConverter.cs" />
-    <Compile Include="TypeConverters\EnumConverter.cs" />
-    <Compile Include="TypeConverters\FloatConverter.cs" />
-    <Compile Include="TypeConverters\DefaultConverter.cs" />
-    <Compile Include="TypeConverters\GuildConverter.cs" />
-    <Compile Include="TypeConverters\IntegerConverter.cs" />
-    <Compile Include="TypeConverters\ITypeConverter.cs" />
-    <Compile Include="TypeConverters\LongConverter.cs" />
-    <Compile Include="TypeConverters\NullableConverter.cs" />
-    <Compile Include="TypeConverters\ShortConverter.cs" />
-    <Compile Include="TypeConverters\StringConverter.cs" />
-    <Compile Include="TypeConverters\TypeConverterFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -147,7 +123,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

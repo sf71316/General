@@ -14,20 +14,25 @@ namespace General.Data
 
         public DefaultProvider()
         {
-          
+
         }
 
         public DefaultProvider(string connection)
             : base(connection)
         {
-          
+
         }
-     
+        public DefaultProvider(string connectstring, SQLType type)
+           : base(connectstring, type)
+        {
+
+        }
+
         public override object ExecuteNonQuery()
         {
             this.Open();
             object obj = this._cmd.ExecuteNonQuery();
-           this.Close();
+            this.Close();
             return obj;
         }
         public override bool Execute()
@@ -42,7 +47,7 @@ namespace General.Data
                     return (r > 0) ? true : false;
                 }
             }
-             this.Close();
+            this.Close();
             return false;
         }
         public override DataSet DataSet()
@@ -80,7 +85,7 @@ namespace General.Data
                 DbDataReader reader = this.Reader();
                 if (reader.Read())
                 {
-                    obj= reader[0];
+                    obj = reader[0];
                 }
                 this.Close();
                 return obj;
@@ -126,36 +131,6 @@ namespace General.Data
             this._cmd = this._conn.CreateCommand();
         }
 
-        public override   T GetEntity<T>() 
-        {
-            this.Open();
-            DbDataReader reader = this._cmd.ExecuteReader();
-            T entity = entity = Activator.CreateInstance<T>();
-            
-            if (reader.Read())
-            {
-                this.GetEntity<T>(reader, entity);
-            }
-
-             this.Close();
-            return entity;
-        }
-
-        public override  IEnumerable<TEntity> GetEntities<TEntity>() 
-        {
-            this.Open();
-            DbDataReader reader = this._cmd.ExecuteReader();
-            var collection = new List<TEntity>();
-            while (reader.Read())
-            {
-                TEntity entity = Activator.CreateInstance<TEntity>();
-                this.GetEntity<TEntity>(reader, entity);
-
-                collection.Add(entity);
-            }
-             this.Close();
-            return collection;
-        }
 
         private void Close()
         {
@@ -171,56 +146,20 @@ namespace General.Data
 
         public override void Dispose()
         {
-          
+
         }
 
-
-        #region Prviate Method
-
-        private void GetEntity<T>(DbDataReader reader, T t) where T : IEntity
+        public override DbConnection GenerateConnection()
         {
-            PropertyInfo[] properties = t.GetType().GetProperties(BindingFlags.Public | 
-                                                                                                                BindingFlags.Instance | 
-                                                                                                                BindingFlags.NonPublic);
-            foreach (PropertyInfo item in properties)
-            {
-                //TODO 目前未實作Attribute套用機制
-                ITypeConverter typeConverter = TypeConverterFactory.GetConvertType(item.PropertyType);
-                ColumnAttribute _columnAttr =
-                    item.GetInstancetAttribute<ColumnAttribute>();
-                string _column;
-                if (_columnAttr == null)
-                {
-                    _column = item.Name;
-                }
-                else
-                {
-                    if (_columnAttr.Ignore)
-                        continue;
-                    else
-                        _column = _columnAttr.Name;
-                }
-                if (reader.HasColumn(_column))
-                {
-                    if (item.PropertyType.IsEnum)
-                    {
-                        EnumConverter _enumconverter = typeConverter as EnumConverter;
-                        item.SetValue(t,
-                         _enumconverter.Convert(item.PropertyType,
-                                                                        reader.GetValue(reader.GetOrdinal(_column))), null);
-                    }
-                    else
-                    {
-                        item.SetValue(t,
-                         typeConverter.Convert(reader.GetValue(reader.GetOrdinal(_column))), null);
-                    }
-                    
-                    //   item.SetValue(entity, reader.GetValue(reader.GetOrdinal(item.Name)), null);
-                }
-            }
+            var conn = this._provider.CreateConnection();
+            conn.ConnectionString = this.settings.ConnectionString;
+            return conn;
         }
 
-        #endregion Prviate Method
+        public override DbCommand GenerateCommand()
+        {
+            return this.Connection.CreateCommand();
+        }
 
         public override string CommandText
         {
@@ -233,8 +172,5 @@ namespace General.Data
                 this._cmd.CommandText = value;
             }
         }
-
-      
-      
     }
 }

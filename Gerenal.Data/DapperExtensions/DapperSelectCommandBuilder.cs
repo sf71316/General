@@ -12,14 +12,15 @@ namespace General.Data.Dapper
         Expression _expr;
         string _fieldnames;
         string _tablenames;
+        Expression _selector;
         string _orderby;
         StringBuilder sql;
-        public DapperSelectCommandBuilder( IDapperProvider dapper)
-            : base( dapper)
+        public DapperSelectCommandBuilder(IDapperProvider dapper)
+            : base(dapper)
         {
             this.sql = new StringBuilder();
         }
-      
+
         public IEnumerable<T> Query()
         {
             DynamicParameters paramer = new DynamicParameters();
@@ -40,7 +41,7 @@ namespace General.Data.Dapper
                     this.Translator.ToWhere());
                 if (!string.IsNullOrEmpty(this._orderby))
                 {
-                    this.sql.AppendFormat(" ORDER BY {0}",this._orderby);
+                    this.sql.AppendFormat(" ORDER BY {0}", this._orderby);
                 }
                 foreach (var item in this.Translator.Parameters)
                 {
@@ -56,8 +57,13 @@ namespace General.Data.Dapper
         private void Clear()
         {
             this._expr = null;
-            this._orderby=this._tablenames=this._fieldnames = string.Empty;
+            this._orderby = this._tablenames = this._fieldnames = string.Empty;
             this.sql = new StringBuilder();
+        }
+
+        private void where(Expression expr)
+        {
+            this._selector = expr;
         }
         public ISelectQuery<T> OrderBy(string fieldname)
         {
@@ -67,37 +73,25 @@ namespace General.Data.Dapper
 
         public ISelectQuery<T> Where(Expression expr)
         {
-            throw new NotImplementedException();
+            this.where(expr);
+            return this;
         }
 
         public ISelectQuery<T> Where(Expression<Func<T, bool>> expr)
         {
-            throw new NotImplementedException();
-        }
-
-        public ISelectQuery<T> Where<T2>(Expression<Func<T, T2, bool>> expr)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ISelectQuery<T> Where<T2, T3>(Expression<Func<T, T2, T3, bool>> expr)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ISelectQuery<T> Where<T2, T3, T4>(Expression<Func<T, T2, T3, T4, bool>> expr)
-        {
-            throw new NotImplementedException();
+            return this.Where(expr);
         }
 
         public ISelectCommand<T> Select(Expression<Func<T, object>> selector)
         {
-            throw new NotImplementedException();
+            this._selector = selector;
+            return this;
         }
 
         public ISelectCommand<T> From(string tablename)
         {
-            throw new NotImplementedException();
+            this._tablenames = tablename;
+            return this;
         }
     }
 }

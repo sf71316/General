@@ -17,7 +17,6 @@ namespace General.Data.Dapper
         public int Delete(Expression expr)
         {
             DynamicParameters paramer = new DynamicParameters();
-            DbTypeConverter tconvert = new DbTypeConverter();
             StringBuilder sql = new StringBuilder();
             if (string.IsNullOrEmpty(TableName))
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -23,6 +24,27 @@ namespace General.Data
          public ProviderBase(string connection)
         {
             settings = ConfigurationManager.ConnectionStrings[connection];
+            this.Init();
+        }
+        public ProviderBase (string ConnectionString,SQLType type)
+        {
+            var sqltype = "";
+            switch (type)
+            {
+                case SQLType.MSSQL:
+                    sqltype = "System.Data.SqlClient";
+                    break;
+                case SQLType.MySQL:
+                    sqltype = "MySql.Data.MySqlClient";
+                    break;
+                case SQLType.Oracel:
+                    sqltype = "System.Data.OracleClient";
+                    break;
+                default:
+                    break;
+            }
+            var _settings = new ConnectionStringSettings("Auto", ConnectionString, sqltype);
+            this.settings = _settings;
             this.Init();
         }
         protected void Init()
@@ -89,9 +111,9 @@ namespace General.Data
 
         public abstract object Value{get;}
 
-        public abstract T GetEntity<T>() where T : IEntity;
+        public abstract DbConnection GenerateConnection();
 
-        public abstract IEnumerable<TEntity> GetEntities<TEntity>() where TEntity : IEntity;
+        public abstract DbCommand GenerateCommand();
 
         public virtual void Dispose()
         {

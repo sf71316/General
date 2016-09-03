@@ -19,9 +19,9 @@ namespace General.Data
         /// <returns></returns>
         ISelectQuery<T> Where(Expression expr);
         ISelectQuery<T> Where(Expression<Func<T, bool>> expr);
-        ISelectQuery<T> Where<T2>(Expression<Func<T, T2, bool>> expr);
-        ISelectQuery<T> Where<T2, T3>(Expression<Func<T, T2, T3, bool>> expr);
-        ISelectQuery<T> Where<T2, T3, T4>(Expression<Func<T, T2, T3, T4, bool>> expr);
+        //ISelectQuery<T> Where<T2>(Expression<Func<T, T2, bool>> expr);
+        //ISelectQuery<T> Where<T2, T3>(Expression<Func<T, T2, T3, bool>> expr);
+        //ISelectQuery<T> Where<T2, T3, T4>(Expression<Func<T, T2, T3, T4, bool>> expr);
         ISelectCommand<T> Select(Expression<Func<T, object>> selector);
         ISelectCommand<T> From(string tablename);
         #endregion
