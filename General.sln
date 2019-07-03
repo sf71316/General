@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "General", "General\General.csproj", "{49EE5282-635C-4B6F-B513-B048430AA935}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "測試單元", "測試單元", "{73577042-FC45-43A9-8C64-DB9F41092F62}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "停用專案", "停用專案", "{0C26BC66-C314-4FC1-BEE7-066731C92CC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "General.DataExpress", "General.DataLw\General.DataExpress.csproj", "{F4779A57-8BB0-4397-890E-3B468A8A8048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,18 @@ Global
 		{42BCB8C2-5157-4ADF-ADFC-FEED4F4B2EE2}.Test|Any CPU.ActiveCfg = Release|Any CPU
 		{42BCB8C2-5157-4ADF-ADFC-FEED4F4B2EE2}.Test|Any CPU.Build.0 = Release|Any CPU
 		{42BCB8C2-5157-4ADF-ADFC-FEED4F4B2EE2}.Test|x86.ActiveCfg = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Release|x86.Build.0 = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Test|Any CPU.Build.0 = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Test|x86.ActiveCfg = Release|Any CPU
+		{F4779A57-8BB0-4397-890E-3B468A8A8048}.Test|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

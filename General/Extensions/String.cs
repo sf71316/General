@@ -65,7 +65,7 @@ namespace General
 
                 return (T)obj;
             }
-            catch
+            catch(Exception ex)
             {
                 if(InitEntity)
                   return  Activator.CreateInstance<T>();

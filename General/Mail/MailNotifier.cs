@@ -14,32 +14,34 @@ namespace General
         private MailMessage _mail;
         protected MailConfig _config;
         private List<MailEntity> collection;
-        public SendPreparingArg Config { get; set; }
+        public SendPreparingArg PreparingArg { get; set; }
 
         public MailNotifier()
         {
-            this.Config = new SendPreparingArg();
+            this.PreparingArg = new SendPreparingArg();
         }
-        public MailNotifier(MailConfig Config)
+        public MailNotifier(MailConfig Config) : this()
         {
             this._config = Config;
         }
         public void Send()
         {
             if (this._extMail != null)
-                Config.ToList.Add(this._extMail);
-            this.OnSendPreparing(Config);
-            if (!Config.Cancel)
             {
-                if (Config.DirectSend)
+                PreparingArg.ToList.Add(this._extMail);
+            }
+            this.OnSendPreparing(PreparingArg);
+            if (!PreparingArg.Cancel)
+            {
+                if (PreparingArg.DirectSend)
                 {
-                    this.sendMail(Config, null);
+                    this.sendMail(PreparingArg, null);
                 }
                 else
                 {
-                    foreach (var item in Config.ToList)
+                    foreach (var item in PreparingArg.ToList)
                     {
-                        this.sendMail(Config, item);
+                        this.sendMail(PreparingArg, item);
                     }
                 }
             }
@@ -68,7 +70,7 @@ namespace General
                 {
                     this._mail.Dispose();
                     collection.Clear();
-                    Config = null;
+                    PreparingArg = null;
                 }
             }
             else
@@ -129,57 +131,57 @@ namespace General
             }
         }
 
-        private void sendMail(SendPreparingArg arg,MailAddress mail)
+        private void sendMail(SendPreparingArg arg, MailAddress mail)
         {
-          
-                MailEntity e = new MailEntity();
-                _mail = new MailMessage();
-                try
-                {
-                    _mail.BodyEncoding = Encoding.UTF8;
-                    _mail.SubjectEncoding = Encoding.UTF8;
-                    _mail.IsBodyHtml = true;
-                    _mail.From = arg.Form;
-                    if (arg.CC.Count > 0)
-                        _mail.CC.Add(string.Join(",", arg.CC.ToArray()));
-                    if (arg.Bcc.Count > 0)
-                        _mail.Bcc.Add(string.Join(",", arg.Bcc.ToArray()));
-                    if (mail != null)
-                        _mail.To.Add(mail);
-                    else
-                    {
-                        arg.ToList.ForEach(p => _mail.To.Add(p));
-                    }
-                    _mail.Subject = arg.Subject;
-                    _mail.Body = arg.Content;
-                    foreach (FileInfo fi in arg.Attach)
-                    {
-                        if (fi.Exists)
-                        {
-                            _mail.Attachments.Add(new Attachment(fi.FullName));
-                        }
-                    }
-                    SmtpClient smtpClient = new SmtpClient(arg.SmtpIP, arg.SmtpPort);
-                    smtpClient.Credentials =
-                        new System.Net.NetworkCredential(arg.Pin, arg.Pwd);
-                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtpClient.EnableSsl = arg.Ssl;
-                    smtpClient.Timeout = 30000;
-                    smtpClient.Send(_mail);
-                    e.Mail = _mail;
-                    e.Status = MailStatus.成功;
 
-                }
-                catch (Exception ex)
+            MailEntity e = new MailEntity();
+            _mail = new MailMessage();
+            try
+            {
+                _mail.BodyEncoding = Encoding.UTF8;
+                _mail.SubjectEncoding = Encoding.UTF8;
+                _mail.IsBodyHtml = true;
+                _mail.From = arg.Form;
+                if (arg.CC.Count > 0)
+                    _mail.CC.Add(string.Join(",", arg.CC.ToArray()));
+                if (arg.Bcc.Count > 0)
+                    _mail.Bcc.Add(string.Join(",", arg.Bcc.ToArray()));
+                if (mail != null)
+                    _mail.To.Add(mail);
+                else
                 {
-                    e.Mail = _mail;
-                    e.Status = MailStatus.失敗;
-                    e.Error = ex;
-
+                    arg.ToList.ForEach(p => _mail.To.Add(p));
                 }
-                this.OnSended(this._container, e);
-                collection.Add(e);
-            
+                _mail.Subject = arg.Subject;
+                _mail.Body = arg.Content;
+                foreach (FileInfo fi in arg.Attach)
+                {
+                    if (fi.Exists)
+                    {
+                        _mail.Attachments.Add(new Attachment(fi.FullName));
+                    }
+                }
+                SmtpClient smtpClient = new SmtpClient(arg.SmtpIP, arg.SmtpPort);
+                smtpClient.Credentials =
+                    new System.Net.NetworkCredential(arg.Pin, arg.Pwd);
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.EnableSsl = arg.Ssl;
+                smtpClient.Timeout = 30000;
+                smtpClient.Send(_mail);
+                e.Mail = _mail;
+                e.Status = MailStatus.成功;
+
+            }
+            catch (Exception ex)
+            {
+                e.Mail = _mail;
+                e.Status = MailStatus.失敗;
+                e.Error = ex;
+
+            }
+            this.OnSended(this._container, e);
+            collection.Add(e);
+
         }
     }
 

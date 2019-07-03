@@ -1,0 +1,5 @@
+D:\Project\General\General\General.DataLw\bin\Debug\General.DataExpress.dll
+D:\Project\General\General\General.DataLw\bin\Debug\General.DataExpress.pdb
+D:\Project\General\General\General.DataLw\obj\Debug\General.DataExpress.dll
+D:\Project\General\General\General.DataLw\obj\Debug\General.DataExpress.pdb
+D:\Project\General\General\General.DataLw\obj\Debug\General.DataExpress.csprojResolveAssemblyReference.cache
