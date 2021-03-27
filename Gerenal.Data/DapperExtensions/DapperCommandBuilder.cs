@@ -10,20 +10,19 @@ namespace General.Data.Dapper
         public DapperCommandBuilder()
         {
             this.Translator = new QueryTranslator();
-
+            
         }
-        public DapperCommandBuilder(IDapperProvider dapper)
-            : this()
+        public DapperCommandBuilder(string tablename,IDapperProvider dapper):this()
         {
+            this.TableName = tablename;
             this.Dapper = dapper;
         }
         public IQueryTranslator Translator { get; set; }
-        protected IDapperProvider Dapper { get; set; }
+        protected IDapperProvider Dapper { get;  set; }
         public string TableName { get; set; }
         public bool UseTableAlias
         {
-            get
-            {
+            get {
                 return
                     this.Translator.UseTableAlias;
             }
@@ -38,9 +37,8 @@ namespace General.Data.Dapper
         {
             if (this.Exception != null)
             {
-                this.Exception(this, new ErrorArg
-                {
-                    Message = message
+                this.Exception(this, new ErrorArg { 
+                    Message = message 
                 });
             }
         }
@@ -49,28 +47,28 @@ namespace General.Data.Dapper
             this.Exception(this, new ErrorArg
             {
                 Message = message,
-                exception = e
+                exception=e
             });
         }
 
-        public static ISelectCommand<T> GetSelectCommandBuilder<T>(IDapperProvider provider)
+        public static ISelectCommand GetSelectCommandBuilder(string tablename,IDapperProvider provider)
         {
-            return new DapperSelectCommandBuilder<T>(provider);
+            return new DapperSelectCommandBuilder(tablename, provider);
         }
-        public static IInsertCommand GetInsertCommandBuilder(IDapperProvider provider)
+        public static IInsertCommand GetInsertCommandBuilder(string tablename, IDapperProvider provider)
         {
-            return new DapperInsertCommandBuilder(provider);
+            return new DapperInsertCommandBuilder(tablename, provider);
         }
-        public static IUpdateCommand GetUpdateCommandBuilder(IDapperProvider provider)
+        public static IUpdateCommand GetUpdateCommandBuilder(string tablename, IDapperProvider provider)
         {
-            return new DapperUpdateCommandBuilder(provider);
+            return new DapperUpdateCommandBuilder(tablename, provider);
         }
-        public static IDeleteCommand GetDeleteCommandBuilder(IDapperProvider provider)
+        public static IDeleteCommand GetDeleteCommandBuilder(string tablename, IDapperProvider provider)
         {
-            return new DapperDeleteCommandBuilder(provider);
+            return new DapperDeleteCommandBuilder(tablename, provider);
         }
     }
-    internal class ErrorArg : EventArgs
+    internal class ErrorArg:EventArgs
     {
         public Exception exception { get; set; }
 

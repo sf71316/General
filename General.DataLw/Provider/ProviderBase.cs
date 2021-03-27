@@ -15,12 +15,12 @@ namespace General.Data
         protected DbProviderFactory _provider;
         protected DbDataAdapter _adapter;
         protected ConnectionStringSettings settings;
-         public ProviderBase()
+        public ProviderBase()
         {
-           
+
         }
 
-         public ProviderBase(string connection)
+        public ProviderBase(string connection)
         {
             settings = ConfigurationManager.ConnectionStrings[connection];
             this.Init();
@@ -36,7 +36,7 @@ namespace General.Data
                 _cmd.Connection = _conn;
                 _adapter = _provider.CreateDataAdapter();
                 this.ProviderName = this.settings.ProviderName;
-               
+
             }
             else
             {
@@ -54,6 +54,7 @@ namespace General.Data
         public DbDataAdapter Adapter
         {
             get { return this._adapter; }
+            set { this._adapter = value; }
         }
 
         public DbCommand Command
@@ -71,23 +72,24 @@ namespace General.Data
 
         public abstract void ClearParameter();
 
-        public abstract void CreateCommand();
+        public abstract DbCommand CreateCommand();
+        public abstract void InitCommand();
 
-        public abstract string CommandText{get;set;}
+        public abstract string CommandText { get; set; }
 
-        public abstract DataRow DataRow();
+        public abstract DataRow GetDataRow();
 
-        public abstract DataSet DataSet();
+        public abstract DataSet GetDataSet();
 
-        public abstract DataTable DataTable();
+        public abstract DataTable GetDataTable();
 
-        public abstract DbDataReader Reader();
+        public abstract DbDataReader GetReader();
 
         public abstract object ExecuteNonQuery();
 
         public abstract bool Execute();
 
-        public abstract object Value{get;}
+        public abstract object GetValue();
         public virtual void Dispose()
         {
             if (this != null)

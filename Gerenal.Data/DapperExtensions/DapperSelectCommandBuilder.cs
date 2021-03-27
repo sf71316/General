@@ -7,21 +7,61 @@ using System.Text;
 
 namespace General.Data.Dapper
 {
-    internal class DapperSelectCommandBuilder<T> : DapperCommandBuilder, ISelectCommand<T>
+    internal class DapperSelectCommandBuilder : DapperCommandBuilder, ISelectCommand
     {
         Expression _expr;
         string _fieldnames;
         string _tablenames;
-        Expression _selector;
         string _orderby;
         StringBuilder sql;
-        public DapperSelectCommandBuilder(IDapperProvider dapper)
-            : base(dapper)
+        public DapperSelectCommandBuilder(string tablename, IDapperProvider dapper)
+            : base(tablename, dapper)
         {
             this.sql = new StringBuilder();
         }
+        private ISelectQuery where(Expression expr)
+        {
+            this._expr = expr;
+            return this;
+        }
+        public ISelectQuery Where(Expression expr)
+        {
+            return this.where(expr);
+        }
 
-        public IEnumerable<T> Query()
+        public ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr)
+        {
+            return this.where(expr);
+        }
+
+        public ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr)
+        {
+            return this.where(expr);
+        }
+
+        public ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr)
+        {
+            return this.where(expr);
+        }
+
+        public ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr)
+        {
+            return this.where(expr);
+        }
+
+        public ISelectCommand Select(string field = "*")
+        {
+            this._fieldnames = field;
+            return this;
+        }
+
+        public ISelectCommand From(string tablename)
+        {
+            this._tablenames = tablename;
+            return this;
+        }
+
+        public IEnumerable<T> Query<T>()
         {
             DynamicParameters paramer = new DynamicParameters();
             DbTypeConverter tconvert = new DbTypeConverter();
@@ -41,7 +81,7 @@ namespace General.Data.Dapper
                     this.Translator.ToWhere());
                 if (!string.IsNullOrEmpty(this._orderby))
                 {
-                    this.sql.AppendFormat(" ORDER BY {0}", this._orderby);
+                    this.sql.AppendFormat(" ORDER BY {0}",this._orderby);
                 }
                 foreach (var item in this.Translator.Parameters)
                 {
@@ -57,40 +97,12 @@ namespace General.Data.Dapper
         private void Clear()
         {
             this._expr = null;
-            this._orderby = this._tablenames = this._fieldnames = string.Empty;
+            this._orderby=this._tablenames=this._fieldnames = string.Empty;
             this.sql = new StringBuilder();
         }
-
-        private void where(Expression expr)
-        {
-            this._selector = expr;
-        }
-        public ISelectQuery<T> OrderBy(string fieldname)
+        public ISelectQuery OrderBy(string fieldname)
         {
             this._orderby = fieldname;
-            return this;
-        }
-
-        public ISelectQuery<T> Where(Expression expr)
-        {
-            this.where(expr);
-            return this;
-        }
-
-        public ISelectQuery<T> Where(Expression<Func<T, bool>> expr)
-        {
-            return this.Where(expr);
-        }
-
-        public ISelectCommand<T> Select(Expression<Func<T, object>> selector)
-        {
-            this._selector = selector;
-            return this;
-        }
-
-        public ISelectCommand<T> From(string tablename)
-        {
-            this._tablenames = tablename;
             return this;
         }
     }

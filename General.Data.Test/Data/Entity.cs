@@ -27,12 +27,12 @@ namespace General.Data.Test
         public DateTime? ModifiedOn { get; set; }
     }
 
-    [TableMapping("Table1")]
     public class Entity
     {
         [Column(Name="PK")]
         public string PK { get; set; }
         public Guid FK { get; set; }
         public string Field1 { get; set; }
+        public int Field2 { get; set; }
     }
 }

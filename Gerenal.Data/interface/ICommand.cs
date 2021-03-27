@@ -9,7 +9,7 @@ namespace General.Data
     /// <summary>
     /// 查詢方法介面
     /// </summary>
-    public interface ISelectCommand<T> : ISelectQuery<T>, IQueryCommand
+    public interface ISelectCommand : ISelectQuery, IQueryCommand
     {
         #region SELECT
         /// <summary>
@@ -17,19 +17,19 @@ namespace General.Data
         /// </summary>
         /// <param name="c">條件物件</param>
         /// <returns></returns>
-        ISelectQuery<T> Where(Expression expr);
-        ISelectQuery<T> Where(Expression<Func<T, bool>> expr);
-        //ISelectQuery<T> Where<T2>(Expression<Func<T, T2, bool>> expr);
-        //ISelectQuery<T> Where<T2, T3>(Expression<Func<T, T2, T3, bool>> expr);
-        //ISelectQuery<T> Where<T2, T3, T4>(Expression<Func<T, T2, T3, T4, bool>> expr);
-        ISelectCommand<T> Select(Expression<Func<T, object>> selector);
-        ISelectCommand<T> From(string tablename);
+        ISelectQuery Where(Expression expr);
+        ISelectQuery Where<T1>(Expression<Func<T1, bool>> expr);
+        ISelectQuery Where<T1, T2>(Expression<Func<T1, T2, bool>> expr);
+        ISelectQuery Where<T1, T2, T3>(Expression<Func<T1, T2, T3, bool>> expr);
+        ISelectQuery Where<T1, T2, T3, T4>(Expression<Func<T1, T2, T3, T4, bool>> expr);
+        ISelectCommand Select(string field = "*");
+         ISelectCommand From(string tablename);
         #endregion
     }
-    public interface ISelectQuery<T>
+    public interface ISelectQuery
     {
-        IEnumerable<T> Query();
-        ISelectQuery<T> OrderBy(string fieldname);
+        IEnumerable<T> Query<T>();
+        ISelectQuery OrderBy(string fieldname);
     }
     /// <summary>
     /// 新增方法介面

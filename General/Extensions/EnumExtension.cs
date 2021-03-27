@@ -37,5 +37,14 @@ namespace General
             }
             return null;
         }
+        public static Dictionary<string, string> GetKeyValues(this Enum obj)
+        {
+            Dictionary<string, string> keyValues = new Dictionary<string, string>();
+            foreach (var item in Enum.GetValues(obj.GetType()))
+            {
+                keyValues.Add(item.ToString(), ((int)item).ToString());
+            }
+            return keyValues;
+        }
     }
 }

@@ -9,14 +9,15 @@ namespace General.Data.Dapper
 {
     internal class DapperDeleteCommandBuilder : DapperCommandBuilder, IDeleteCommand
     {
-        public DapperDeleteCommandBuilder(IDapperProvider dapper)
-            : base( dapper)
+        public DapperDeleteCommandBuilder(string tablename, IDapperProvider dapper)
+            : base(tablename, dapper)
         {
 
         }
         public int Delete(Expression expr)
         {
             DynamicParameters paramer = new DynamicParameters();
+            DbTypeConverter tconvert = new DbTypeConverter();
             StringBuilder sql = new StringBuilder();
             if (string.IsNullOrEmpty(TableName))
             {

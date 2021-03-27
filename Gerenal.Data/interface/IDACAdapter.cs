@@ -23,7 +23,5 @@ namespace General.Data
         DbCommand Command { get; }
         DbDataAdapter Adapter { get; }
         DbConnection Connection { get; }
-        DbConnection GenerateConnection();
-        DbCommand GenerateCommand();
     }
 }

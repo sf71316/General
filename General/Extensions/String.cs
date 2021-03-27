@@ -50,10 +50,6 @@ namespace General
         public static T Deserialize<T>(this string value,string xmlPath,bool InitEntity) where T : new()
         {
             XmlDocument xdoc = new XmlDocument();
-
-            try
-            {
-              
                 xdoc.LoadXml(value);
                 XmlNodeReader reader ;
                 if(string.IsNullOrEmpty(xmlPath))
@@ -64,15 +60,6 @@ namespace General
                 object obj = ser.Deserialize(reader);
 
                 return (T)obj;
-            }
-            catch
-            {
-                if(InitEntity)
-                  return  Activator.CreateInstance<T>();
-                else
-                    return default(T);
-            }
-
         }
         public static T TryParse<T>(this string value)
         {

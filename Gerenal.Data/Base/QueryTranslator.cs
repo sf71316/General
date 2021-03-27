@@ -70,7 +70,7 @@ namespace General.Data
             {
                 if (item.GetType() == typeof(QueryOptCondition))
                 {
-                    if (this._parameters.ContainsKey(previous.Parameter)
+                    if (previous!=null &&this._parameters.ContainsKey(previous.Parameter)
                         && !this.IsEmptyValue(this._parameters[previous.Parameter]))
                     {
                         _temp.Push(item);
@@ -95,7 +95,7 @@ namespace General.Data
                 }
                 previous = _temp.FirstOrDefault();
             }
-            return _temp.ToList();
+            return _temp.Reverse().ToList();
         }
         public void Clear()
         {
@@ -239,7 +239,7 @@ namespace General.Data
             List<string> _parameter = new List<string>();
             this._condition = new QueryCondition();
             var _field = m.Arguments[1] as MemberExpression;
-            var _values = GetValue(m.Arguments[0] as MemberExpression) as IEnumerable;
+            var _values = GetValue(m.Arguments[0]) as IEnumerable;
             this._condition.Field = this.GetTableField(_field);
             this._condition.Operator = "IN";
             if (_values != null)
@@ -261,19 +261,19 @@ namespace General.Data
             object parameter = null;
             if (expression.Arguments[0].NodeType == ExpressionType.MemberAccess)
             {
-                parameter = GetValue(expression.Arguments[0] as MemberExpression);
+                parameter = GetValue(expression.Arguments[0] );
             }
             else
             {
                 parameter = ((ConstantExpression)expression.Arguments[0]).Value;
             }
             var property = expression.Object as MemberExpression;
-            this._condition.Field = property.Member.Name;
+            this._condition.Field =this.GetTableField(property);
             this._condition.Operator = "LIKE";
             this._condition.Parameter = this.GetParameterName(property.Expression.ToString(), property.Member.Name);
             if (parameter != null)
             {
-                var value = Expression.Constant((string.IsNullOrEmpty(parameter.ToString())) ? string.Empty : string.Format("'%{0}%'", parameter));
+                var value = Expression.Constant((string.IsNullOrEmpty(parameter.ToString())) ? string.Empty : string.Format("%{0}%", parameter));
                 this.Visit(value);
                 return true;
             }
@@ -399,7 +399,7 @@ namespace General.Data
             return p.Equals(null);
 
         }
-        private object GetValue(MemberExpression member)
+        private object GetValue(Expression member)
         {
             var objectMember = Expression.Convert(member, typeof(object));
             var getterLambda = Expression.Lambda<Func<object>>(objectMember);
@@ -414,7 +414,7 @@ namespace General.Data
         }
 
 
-        public IDictionary<string, object> Parameters
+        public Dictionary<string, object> Parameters
         {
             get
             {
@@ -422,10 +422,9 @@ namespace General.Data
             }
             set
             {
-                this._parameters = value as Dictionary<string,object>;
+                this._parameters = value;
             }
         }
-
 
     }
 

@@ -7,26 +7,22 @@ using System.Text;
 
 namespace General.Data.Test
 {
-    public class TestData : DataBase
+    [TableMapping("VendorComment")]
+    public class TestData:General.Data.DataBase
     {
-        public TestData()
+        public TestData():base("Db")
         {
-            this.GenerateDataBase("Data Source=MINISERVER\\SQL2012;Initial Catalog=BugNET_sf71316;User Id=sa;Password = 123456; ", SQLType.MSSQL);
+            
         }
-        public bool Test()
+        public IEnumerable<Entity> GetData()
         {
-            using (var conn = this.Provider.GenerateConnection())
-            {
-                try
-                {
-                    conn.Open();
-                    return true;
-                }catch(Exception e )
-                {
-                    return false;
-                }
-            }
-        }
 
+
+            return this.Select().From("Table1").
+                Query<Entity>();
+            //return this.Select().From("VendorComment").Where<VendorCommentEntity>(p=>p.Active==1).
+            //    Query<VendorCommentEntity>();
+        }
+        
     }
 }

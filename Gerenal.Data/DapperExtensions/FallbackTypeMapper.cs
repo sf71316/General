@@ -34,11 +34,6 @@ namespace General.Data.Dapper
             return null;
         }
 
-        public ConstructorInfo FindExplicitConstructor()
-        {
-            throw new NotImplementedException();
-        }
-
         public SqlMapper.IMemberMap GetConstructorParameter(ConstructorInfo constructor, string columnName)
         {
             foreach (var mapper in _mappers)

@@ -14,20 +14,20 @@ namespace General.Data
 
         public DefaultProvider()
         {
-          
+
         }
 
         public DefaultProvider(string connection)
             : base(connection)
         {
-          
+
         }
-     
+
         public override object ExecuteNonQuery()
         {
             this.Open();
             object obj = this._cmd.ExecuteNonQuery();
-           this.Close();
+            this.Close();
             return obj;
         }
         public override bool Execute()
@@ -42,10 +42,10 @@ namespace General.Data
                     return (r > 0) ? true : false;
                 }
             }
-             this.Close();
+            this.Close();
             return false;
         }
-        public override DataSet DataSet()
+        public override DataSet GetDataSet()
         {
             _adapter.SelectCommand = this._cmd;
             DataSet ds = new DataSet();
@@ -53,41 +53,40 @@ namespace General.Data
             return ds;
         }
 
-        public override DataTable DataTable()
+        public override DataTable GetDataTable()
         {
-            DataSet ds = this.DataSet();
+            DataSet ds = this.GetDataSet();
             if (ds != null && ds.Tables.Count > 0)
                 return ds.Tables[0];
             else
                 return null;
         }
 
-        public override DataRow DataRow()
+        public override DataRow GetDataRow()
         {
-            DataTable dt = this.DataTable();
+            DataTable dt = this.GetDataTable();
             if (dt != null && dt.Rows.Count > 0)
                 return dt.Rows[0];
             else
                 return null;
         }
 
-        public override object Value
+        public override object GetValue()
         {
-            get
+
+            object obj = null;
+            DbDataReader reader = this.GetReader();
+            this.Open();
+            if (reader.Read())
             {
-                this.Open();
-                object obj = null;
-                DbDataReader reader = this.Reader();
-                if (reader.Read())
-                {
-                    obj= reader[0];
-                }
-                this.Close();
-                return obj;
+                obj = reader[0];
             }
+            this.Close();
+            return obj;
+
         }
 
-        public override DbDataReader Reader()
+        public override DbDataReader GetReader()
         {
             return this._cmd.ExecuteReader();
         }
@@ -121,9 +120,13 @@ namespace General.Data
             }
         }
 
-        public override void CreateCommand()
+        public override DbCommand CreateCommand()
         {
-            this._cmd = this._conn.CreateCommand();
+            return this._conn.CreateCommand();
+        }
+        public override void InitCommand()
+        {
+            this._cmd = this.CreateCommand();
         }
         private void Close()
         {
@@ -139,56 +142,17 @@ namespace General.Data
 
         public override void Dispose()
         {
-          
+            if (this._adapter != null)
+                this._adapter.Dispose();
+            if (this._cmd != null)
+                this._cmd.Dispose();
+            if (this._conn != null)
+                this._conn.Dispose();
+            if (this._provider != null)
+                this._provider = null;
         }
 
 
-        #region Prviate Method
-
-        private void GetEntity<T>(DbDataReader reader, T t) where T : IEntity
-        {
-            PropertyInfo[] properties = t.GetType().GetProperties(BindingFlags.Public | 
-                                                                                                                BindingFlags.Instance | 
-                                                                                                                BindingFlags.NonPublic);
-            foreach (PropertyInfo item in properties)
-            {
-                //TODO 目前未實作Attribute套用機制
-                ITypeConverter typeConverter = TypeConverterFactory.GetConvertType(item.PropertyType);
-                ColumnAttribute _columnAttr =
-                    item.GetInstancetAttribute<ColumnAttribute>();
-                string _column;
-                if (_columnAttr == null)
-                {
-                    _column = item.Name;
-                }
-                else
-                {
-                    if (_columnAttr.Ignore)
-                        continue;
-                    else
-                        _column = _columnAttr.Name;
-                }
-                if (reader.HasColumn(_column))
-                {
-                    if (item.PropertyType.IsEnum)
-                    {
-                        EnumConverter _enumconverter = typeConverter as EnumConverter;
-                        item.SetValue(t,
-                         _enumconverter.Convert(item.PropertyType,
-                                                                        reader.GetValue(reader.GetOrdinal(_column))), null);
-                    }
-                    else
-                    {
-                        item.SetValue(t,
-                         typeConverter.Convert(reader.GetValue(reader.GetOrdinal(_column))), null);
-                    }
-                    
-                    //   item.SetValue(entity, reader.GetValue(reader.GetOrdinal(item.Name)), null);
-                }
-            }
-        }
-
-        #endregion Prviate Method
 
         public override string CommandText
         {
@@ -202,7 +166,7 @@ namespace General.Data
             }
         }
 
-      
-      
+
+
     }
 }
