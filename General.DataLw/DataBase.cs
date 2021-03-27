@@ -52,7 +52,10 @@ namespace General.Data
         {
             get { return this.Provider.Command; }
         }
-
+        protected DbConnection Connection
+        {
+            get { return this.Provider.Connection; }
+        }
         protected string CommandText
         {
             get
