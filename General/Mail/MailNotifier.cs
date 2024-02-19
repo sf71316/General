@@ -92,10 +92,10 @@ namespace General
             {
                 args.Form = new MailAddress(this._config.SMTP_FORM_MAIL);
                 args.Pin = this._config.SMTP_PIN;
-                args.Pwd = this._config.SMTP_Pwd;
+                args.Password = this._config.SMTP_Pwd;
                 args.SmtpIP = this._config.SMTP_IP;
                 args.SmtpPort = this._config.SMTP_PORT;
-                args.Ssl = this._config.SMTP_USE_SSL;
+                args.EnableSsl = this._config.SMTP_USE_SSL;
             }
             if (Preparing != null)
             {
@@ -163,9 +163,9 @@ namespace General
                 }
                 SmtpClient smtpClient = new SmtpClient(arg.SmtpIP, arg.SmtpPort);
                 smtpClient.Credentials =
-                    new System.Net.NetworkCredential(arg.Pin, arg.Pwd);
+                    new System.Net.NetworkCredential(arg.Pin, arg.Password);
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtpClient.EnableSsl = arg.Ssl;
+                smtpClient.EnableSsl = arg.EnableSsl;
                 smtpClient.Timeout = 30000;
                 smtpClient.Send(_mail);
                 e.Mail = _mail;

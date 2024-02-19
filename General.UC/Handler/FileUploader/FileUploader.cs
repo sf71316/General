@@ -9,7 +9,7 @@ using System.IO;
 using General.Entity;
 using General;
 
-namespace General.UC.Handler.FileUploader
+namespace General.UC.Handler
 {
     public class GeneralUploader:General.CC.FileUploader.UploadHandlerBase
     {

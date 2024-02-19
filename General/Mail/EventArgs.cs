@@ -35,9 +35,9 @@ namespace General
         public MailAddress Form { get; set; }
         public string Subject { get; set; }
         public string Pin { get; set; }
-        public string Pwd { get; set; }
+        public string Password { get; set; }
         public string Content { get; set; }
-        public bool Ssl { get; set; }
+        public bool EnableSsl { get; set; }
         public bool Cancel { get; set; }
         public List<FileInfo> Attach { get; set; }
         public List<string> CC { get; set; }

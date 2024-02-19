@@ -5,13 +5,40 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
-using Newtonsoft.Json;
 using System.Reflection;
+using System.Runtime.Caching;
+using Newtonsoft.Json;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace General
 {
     public static class StringExtensions
     {
+        private static string XML_SERIALIZE_CACHE_NAME = "XMLSerializeCache";
+        private static ConcurrentDictionary<Type, XmlSerializer> GetXMLSerializeCache()
+        {
+            ObjectCache cache = MemoryCache.Default;
+            bool NotOverTime = Monitor.TryEnter(cache, 6000);
+            try
+            {
+                if (!cache.Contains(XML_SERIALIZE_CACHE_NAME))
+                {
+                    CacheItemPolicy policy = new CacheItemPolicy();
+                    policy.SlidingExpiration = TimeSpan.FromMinutes(10);
+                    cache.Add(XML_SERIALIZE_CACHE_NAME, new ConcurrentDictionary<Type, XmlSerializer>(), policy);
+                }
+            }
+            finally
+            {
+                if (NotOverTime)
+                {
+                    Monitor.Exit(cache);
+                }
+            }
+
+            return cache.Get(XML_SERIALIZE_CACHE_NAME) as ConcurrentDictionary<Type, XmlSerializer>;
+        }
         public static bool IsNullOrEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
@@ -39,40 +66,56 @@ namespace General
                 return null;
             }
         }
-        public static T Deserialize<T>(this string value) where T : new()
+        public static T Deserialize<T>(this string value, bool useCache = false) where T : new()
         {
-            return Deserialize<T>(value, string.Empty,false);
+            return Deserialize<T>(value, string.Empty, false, useCache);
         }
-        public static T Deserialize<T>(this string value, bool InitEntity) where T : new()
+        public static T Deserialize<T>(this string value, bool InitEntity, bool useCache = false) where T : new()
         {
-            return Deserialize<T>(value, string.Empty, InitEntity);
+            return Deserialize<T>(value, string.Empty, InitEntity, useCache);
         }
-        public static T Deserialize<T>(this string value,string xmlPath,bool InitEntity) where T : new()
+        public static T DeserializeWithoutException<T>(this string value) where T : new()
         {
-            XmlDocument xdoc = new XmlDocument();
 
             try
             {
-              
-                xdoc.LoadXml(value);
-                XmlNodeReader reader ;
-                if(string.IsNullOrEmpty(xmlPath))
-                    reader = new XmlNodeReader(xdoc.DocumentElement);
-                else
-                    reader = new XmlNodeReader(xdoc.SelectSingleNode(xmlPath));
-                XmlSerializer ser = new XmlSerializer(typeof(T));
-                object obj = ser.Deserialize(reader);
-
-                return (T)obj;
+                return Deserialize<T>(value, "", false);
             }
-            catch(Exception ex)
+            catch
             {
-                if(InitEntity)
-                  return  Activator.CreateInstance<T>();
-                else
-                    return default(T);
+                return default(T);
             }
 
+
+
+        }
+        public static T Deserialize<T>(this string value, string xmlPath, bool InitEntity, bool UseCache = false) where T : new()
+        {
+            XmlSerializer ser = null;
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml(value);
+            XmlNodeReader reader;
+            if (string.IsNullOrEmpty(xmlPath))
+                reader = new XmlNodeReader(xdoc.DocumentElement);
+            else
+                reader = new XmlNodeReader(xdoc.SelectSingleNode(xmlPath));
+            if (UseCache)
+            {
+                var cache = GetXMLSerializeCache();
+                if (!cache.TryGetValue(typeof(T), out ser))
+                {
+                    ser = new XmlSerializer(typeof(T));
+                    cache.TryAdd(typeof(T), ser);
+                }
+
+            }
+            else
+            {
+                ser = new XmlSerializer(typeof(T));
+            }
+            object obj = ser.Deserialize(reader);
+
+            return (T)obj;
         }
         public static T TryParse<T>(this string value)
         {
@@ -110,9 +153,10 @@ namespace General
             }
             return false;
         }
-        public static T JsonDeserialize<T>(this string value)where T:new ()
+        public static T JsonDeserialize<T>(this string value) where T : new()
         {
             return JsonConvert.DeserializeObject<T>(value);
         }
+
     }
 }
