@@ -99,23 +99,26 @@ namespace General
                 reader = new XmlNodeReader(xdoc.DocumentElement);
             else
                 reader = new XmlNodeReader(xdoc.SelectSingleNode(xmlPath));
-            if (UseCache)
+            using (reader)
             {
-                var cache = GetXMLSerializeCache();
-                if (!cache.TryGetValue(typeof(T), out ser))
+                if (UseCache)
+                {
+                    var cache = GetXMLSerializeCache();
+                    if (!cache.TryGetValue(typeof(T), out ser))
+                    {
+                        ser = new XmlSerializer(typeof(T));
+                        cache.TryAdd(typeof(T), ser);
+                    }
+
+                }
+                else
                 {
                     ser = new XmlSerializer(typeof(T));
-                    cache.TryAdd(typeof(T), ser);
                 }
+                object obj = ser.Deserialize(reader);
 
+                return (T)obj;
             }
-            else
-            {
-                ser = new XmlSerializer(typeof(T));
-            }
-            object obj = ser.Deserialize(reader);
-
-            return (T)obj;
         }
         public static T TryParse<T>(this string value)
         {
