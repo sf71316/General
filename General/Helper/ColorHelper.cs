@@ -16,7 +16,7 @@ namespace General
         public static string ToArgb(Color color)
         {
             return string.Format("argb({0},{1},{2},{3})",
-                         color.A,color.R,color.G,color.B);
+                         color.A, color.R, color.G, color.B);
         }
         /// <summary>
         /// Color To 十六進制
@@ -26,8 +26,8 @@ namespace General
         public static string ToHex(Color color)
         {
 
-            return ColorTranslator.ToHtml(color);
-            
+            //return ColorTranslator.ToHtml(color);
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
     }
 }

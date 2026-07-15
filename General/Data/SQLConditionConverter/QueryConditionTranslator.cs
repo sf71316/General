@@ -32,15 +32,18 @@ namespace General.Data.SQLConditionConverter
         public QueryConditionTranslator<ConditonEntity> AddTextCondition(string conditon, params QueryParameter[] parameters)
         {
             textCondition.Add(conditon);
-            queryParameters.AddRange(parameters);
+            textConditionParameters.AddRange(parameters);
             return this;
         }
         public string Translate()
         {
+            Reset();
+            queryParameters.AddRange(textConditionParameters);
             initInterceptor();
             //dynamic condition
-            foreach (var eitem in this.expressions)
+            for (int i = 0; i < this.expressions.Count; i++)
             {
+                var eitem = this.expressions[i];
                 if (this.TraceMode)
                 {
                     this.traceOutput(eitem.Simplify().ToString());
@@ -48,7 +51,7 @@ namespace General.Data.SQLConditionConverter
                 sb.Append("(");
                 this.Visit(eitem);
                 sb.Append(")");
-                if (eitem != this.expressions.Last())
+                if (i < this.expressions.Count - 1)
                 {
                     sb.Append(" AND ");
                 }
@@ -57,8 +60,11 @@ namespace General.Data.SQLConditionConverter
             //text condition
             if (this.textCondition.Count > 0)
             {
-                sb.Append(" AND ");
-                this.sb.Append($"{(this.sb.Length > 0 ? " AND " : "")}" + string.Join("AND", this.textCondition.Select(p => $"({p})")));
+                if (this.sb.Length > 0)
+                {
+                    sb.Append(" AND ");
+                }
+                this.sb.Append(string.Join(" AND ", this.textCondition.Select(p => $"({p})")));
             }
             return this.sb.ToString();
         }
