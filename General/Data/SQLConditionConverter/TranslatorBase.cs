@@ -19,25 +19,61 @@ namespace General.Data.SQLConditionConverter
         protected StringBuilder tsb = new StringBuilder();
         protected bool _isfield = false;
         protected string _fieldName = string.Empty;
+        protected int _fieldLength = 0;
         protected DbProvider _dbcategories;
         protected bool TraceMode;
         protected List<string> textCondition = new List<string>();
         protected QueryParameters queryParameters = new QueryParameters();
+        protected QueryParameters textConditionParameters = new QueryParameters();
         protected List<Expression<Func<ConditonEntity, bool>>> expressions = new List<Expression<Func<ConditonEntity, bool>>>();
         protected Dictionary<string, string> _conditonColMapping = new Dictionary<string, string>();
         protected bool _isSkipNullOrEmtpybyAll = false;
         protected TranslatorBase()
         {
-            
+
+        }
+        protected void Reset()
+        {
+            sb.Clear();
+            tsb.Clear();
+            _paraCount = 1;
+            _isfield = false;
+            _fieldName = string.Empty;
+            _fieldLength = 0;
+            queryParameters.Clear();
+            _conditonColMapping.Clear();
+            _isSkipNullOrEmtpybyAll = false;
         }
         protected override Expression VisitMethodCall(MethodCallExpression m)
         {
             this.traceOutput($"Method name {m.Method.Name}");
-            //Like
+            //Like or instance Contains (e.g. List<T>.Contains)
             if (m.Arguments.Count == 1 && (m.Method.Name == "Contains" || m.Method.Name == "StartsWith" || m.Method.Name == "EndsWith"))
             {
-                var columnExpression = m.Object as MemberExpression;
-                if (columnExpression != null && (m.Arguments[0].NodeType == ExpressionType.MemberAccess
+                // Instance Contains on a collection: list.Contains(p.Field) → IN
+                if (m.Method.Name == "Contains" && m.Object != null && isEntityMember(m.Arguments[0]))
+                {
+                    var columnExpression = getEntityMember(m.Arguments[0]);
+                    if (columnExpression != null)
+                    {
+                        object objValue = getMemberValue(m.Object as MemberExpression ?? (MemberExpression)((UnaryExpression)m.Object).Operand);
+                        if (objValue == null) { objValue = Expression.Lambda(m.Object).Compile().DynamicInvoke(); }
+                        IEnumerable<object> arrValue = null;
+                        if (objValue is IEnumerable enumerable)
+                        {
+                            arrValue = enumerable.OfType<object>();
+                        }
+                        if (arrValue != null)
+                        {
+                            buildInClause(columnExpression, arrValue);
+                        }
+                        return m;
+                    }
+                }
+
+                // String LIKE: p.Field.Contains/StartsWith/EndsWith("value")
+                var likeColumnExpression = m.Object as MemberExpression;
+                if (likeColumnExpression != null && (m.Arguments[0].NodeType == ExpressionType.MemberAccess
                     || m.Arguments[0].NodeType == ExpressionType.Constant))
                 {
                     object cValue = null;
@@ -54,7 +90,7 @@ namespace General.Data.SQLConditionConverter
 
                     var paramName = $"{GetParameterSymbol()}{this._paraName}{this._paraCount++}";
                     sb.Append("(");
-                    sb.Append($"{findColumnName(columnExpression)} LIKE {paramName}");
+                    sb.Append($"{findColumnName(likeColumnExpression)} LIKE {paramName}");
                     QueryParameter parameter = new QueryParameter();
                     //mapping dbtype
                     parameter.DbType = ConvertTypeCodeToDbType(Type.GetTypeCode(cValue.GetType()), cValue);
@@ -78,10 +114,8 @@ namespace General.Data.SQLConditionConverter
             }
             else if (m.Arguments.Count == 2 && (m.Method.Name == "Contains"))
             {
-
                 var valueExpression = m.Arguments[0] as MemberExpression;
                 var columnExpression = m.Arguments[1] as MemberExpression;
-                //columnExpression.Member.GetType().IsArray
                 if (columnExpression != null)
                 {
                     IEnumerable<object> arrValue = null;
@@ -104,50 +138,7 @@ namespace General.Data.SQLConditionConverter
                     }
                     if (arrValue != null)
                     {
-                        int index = 0;
-                        StringBuilder paramNames = new StringBuilder();
-                        foreach (var oitem in arrValue)
-                        {
-                            if (arrValue.Count() < 2100)
-                            {
-                                var paramName = $"{GetParameterSymbol()}{this._paraName}{this._paraCount++}";
-                                var parameter = new QueryParameter();
-                                //mapping dbtype
-                                parameter.DbType = ConvertTypeCodeToDbType(Type.GetTypeCode(oitem.GetType()), oitem);
-                                //if (oitem.GetType().IsEnum)
-                                //{
-                                //    parameter.Value = Convert.ToInt32(oitem);
-                                //}
-                                //else
-                                //{
-                                //    parameter.Value = oitem;
-                                //}
-                                parameter.Value = oitem;
-                                parameter.Name = paramName;
-                                this.queryParameters.Add(parameter);
-                                paramNames.Append(paramName);
-
-                            }
-                            else
-                            {
-                                if (IsNumber(oitem))
-                                {
-                                    paramNames.Append(oitem);
-                                }
-                                else
-                                {
-                                    paramNames.Append($"'{oitem}'");
-                                }
-                            }
-                            if (index != (arrValue).Count() - 1)
-                            {
-                                paramNames.Append(",");
-                            }
-                            index++;
-                        }
-                        sb.Append("(");
-                        sb.Append($"{findColumnName(columnExpression)} IN ({paramNames.ToString()})");
-                        sb.Append(")");
+                        buildInClause(columnExpression, arrValue);
                     }
                 }
                 return m;
@@ -177,6 +168,7 @@ namespace General.Data.SQLConditionConverter
             var islrswitch = switchRL(b);
             _isfield = false;
             _fieldName = string.Empty;
+            _fieldLength = 0;
             //tsb.Append("(");
            
             if (islrswitch)
@@ -210,7 +202,7 @@ namespace General.Data.SQLConditionConverter
                         break;
 
                     case ExpressionType.Equal:
-                        if (IsNullConstant(b.Right))
+                        if (IsNullConstant(islrswitch ? b.Left : b.Right))
                         {
                             tsb.Append(" IS ");
                         }
@@ -221,7 +213,7 @@ namespace General.Data.SQLConditionConverter
                         break;
 
                     case ExpressionType.NotEqual:
-                        if (IsNullConstant(b.Right))
+                        if (IsNullConstant(islrswitch ? b.Left : b.Right))
                         {
                             tsb.Append(" IS NOT ");
                         }
@@ -299,6 +291,7 @@ namespace General.Data.SQLConditionConverter
             {
                 _isfield = true;
                 _fieldName = findColumnName(m);
+                _fieldLength = findColumnLength(m);
                 this.traceOutput($"find field {_fieldName}");
                 tsb.Append(_fieldName);
                 return m;
@@ -306,11 +299,8 @@ namespace General.Data.SQLConditionConverter
             else
             {
                 this.setVariable(_fieldName, getMemberValue(m));
-                //sb.Append(getMemberValue(m));
                 return m;
             }
-
-            throw new NotSupportedException(string.Format("The member '{0}' is not supported", m.Member.Name));
         }
         private string findColumnName(MemberExpression m)
         {
@@ -329,10 +319,70 @@ namespace General.Data.SQLConditionConverter
             }
             return m.Member.Name;
         }
+        private int findColumnLength(MemberExpression m)
+        {
+            var attr = m.Member.GetCustomAttributes(true).FirstOrDefault(x => x is ColumnMappingAttribute) as ColumnMappingAttribute;
+            return attr?.Length ?? 0;
+        }
 
         protected bool IsNullConstant(Expression exp)
         {
             return (exp.NodeType == ExpressionType.Constant && ((ConstantExpression)exp).Value == null);
+        }
+        private MemberExpression getEntityMember(Expression expr)
+        {
+            if (expr is MemberExpression member && isEntityMember(member))
+                return member;
+            if (expr is UnaryExpression unary && unary.NodeType == ExpressionType.Convert)
+                return getEntityMember(unary.Operand);
+            return null;
+        }
+        private void buildInClause(MemberExpression columnExpression, IEnumerable<object> arrValue)
+        {
+            var arrList = arrValue as IList<object> ?? arrValue.ToList();
+            if (arrList.Count == 0)
+            {
+                sb.Append("(1=0)");
+            }
+            else
+            {
+                bool useParams = arrList.Count < 2100;
+                int columnLength = findColumnLength(columnExpression);
+                StringBuilder paramNames = new StringBuilder();
+                for (int i = 0; i < arrList.Count; i++)
+                {
+                    var oitem = arrList[i];
+                    if (useParams)
+                    {
+                        var paramName = $"{GetParameterSymbol()}{this._paraName}{this._paraCount++}";
+                        var parameter = new QueryParameter();
+                        parameter.DbType = ConvertTypeCodeToDbType(Type.GetTypeCode(oitem.GetType()), oitem);
+                        parameter.Value = oitem;
+                        parameter.Name = paramName;
+                        parameter.Size = columnLength;
+                        this.queryParameters.Add(parameter);
+                        paramNames.Append(paramName);
+                    }
+                    else
+                    {
+                        if (IsNumber(oitem))
+                        {
+                            paramNames.Append(oitem);
+                        }
+                        else
+                        {
+                            paramNames.Append($"'{oitem}'");
+                        }
+                    }
+                    if (i < arrList.Count - 1)
+                    {
+                        paramNames.Append(",");
+                    }
+                }
+                sb.Append("(");
+                sb.Append($"{findColumnName(columnExpression)} IN ({paramNames.ToString()})");
+                sb.Append(")");
+            }
         }
         protected void traceOutput(string message)
         {
@@ -343,22 +393,36 @@ namespace General.Data.SQLConditionConverter
         }
         private void setVariable(string fieldName, object value)
         {
-            if ((value != null && (Type.GetTypeCode(value.GetType()) == TypeCode.String && !string.IsNullOrEmpty(value.ToString()))) || !_isSkipNullOrEmtpybyAll)
+            if (_isSkipNullOrEmtpybyAll)
             {
-                QueryParameter parameter = new QueryParameter();
-                //mapping dbtype
-                var paramName = $"{GetParameterSymbol()}{this._paraName}{this._paraCount++}";
-                tsb.Append($"{paramName}");
-                parameter.DbType = ConvertTypeCodeToDbType(Type.GetTypeCode(value.GetType()), value);
-                parameter.Value = value;
-                parameter.Name = paramName;
-                this.queryParameters.Add(parameter);
-                //tsb.Clear();
+                // 跳過 null
+                if (value == null)
+                {
+                    tsb.Clear();
+                    return;
+                }
+                // 跳過空字串
+                if (Type.GetTypeCode(value.GetType()) == TypeCode.String && string.IsNullOrEmpty(value.ToString()))
+                {
+                    tsb.Clear();
+                    return;
+                }
             }
-            else
+
+            if (value == null)
             {
-                tsb.Clear();
+                tsb.Append("NULL");
+                return;
             }
+
+            QueryParameter parameter = new QueryParameter();
+            var paramName = $"{GetParameterSymbol()}{this._paraName}{this._paraCount++}";
+            tsb.Append($"{paramName}");
+            parameter.DbType = ConvertTypeCodeToDbType(Type.GetTypeCode(value.GetType()), value);
+            parameter.Value = value;
+            parameter.Name = paramName;
+            parameter.Size = _fieldLength;
+            this.queryParameters.Add(parameter);
         }
         private object getMemberValue(MemberExpression member)
         {
@@ -397,16 +461,27 @@ namespace General.Data.SQLConditionConverter
         {
             if (b.Left != null && b.Right != null)
             {
-                if (b.Left.NodeType == ExpressionType.Constant)
+                // 左邊不是欄位存取，右邊是欄位存取 → 需要交換
+                bool leftIsField = isEntityMember(b.Left);
+                bool rightIsField = isEntityMember(b.Right);
+                if (!leftIsField && rightIsField)
                 {
-                    var member = b.Right as MemberExpression;
-                    if (b.Right.NodeType == ExpressionType.MemberAccess && member != null)
-                    {
-                        return member.Member.DeclaringType == typeof(ConditonEntity);
-                    }
-
+                    return true;
                 }
-
+            }
+            return false;
+        }
+        private bool isEntityMember(Expression expr)
+        {
+            if (expr is MemberExpression member)
+            {
+                return member.Expression != null
+                    && member.Expression.NodeType == ExpressionType.Parameter
+                    && member.Member.DeclaringType == typeof(ConditonEntity);
+            }
+            if (expr is UnaryExpression unary && unary.NodeType == ExpressionType.Convert)
+            {
+                return isEntityMember(unary.Operand);
             }
             return false;
         }
@@ -455,15 +530,15 @@ namespace General.Data.SQLConditionConverter
         }
         private bool checkEncoding(string value, Encoding encoding)
         {
-            bool retCode;
-            var charArray = value.ToCharArray();
-            byte[] bytes = new byte[charArray.Length];
-            for (int i = 0; i < charArray.Length; i++)
+            // 判斷字串是否包含非 ASCII 字元（如中文），若有則回傳 true 表示需要 NVarChar (DbType.String)
+            for (int i = 0; i < value.Length; i++)
             {
-                bytes[i] = (byte)charArray[i];
+                if (value[i] > 127)
+                {
+                    return true;
+                }
             }
-            retCode = string.Equals(encoding.GetString(bytes, 0, bytes.Length), value, StringComparison.InvariantCulture);
-            return retCode;
+            return false;
         }
         private static bool IsNumber(object obj)
         {
