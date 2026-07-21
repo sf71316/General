@@ -1,0 +1,100 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Build & Test
+
+```bash
+# Build and test the whole solution — the dotnet CLI works now that the .NET 3.5 projects
+# have been moved out to legacy/ (see "Legacy Projects" below)
+dotnet build General.sln
+dotnet test General.sln
+
+# Run a single test by name filter
+dotnet test General.Test/General.Test.csproj --filter "Name~Translate_EqualNull"
+
+# msbuild still works and is required for anything under legacy/
+msbuild General.sln /p:Configuration=Debug
+```
+
+`General.Test` is the actively maintained test project (MSTest v2, net472); it covers the SQL Condition Converter in `General/Data/SQLConditionConverter/`.
+
+## Architecture
+
+This is a multi-project .NET class library solution providing shared infrastructure for data access, cryptography, notifications, validation, and ASP.NET web controls.
+
+### Mixed Target Frameworks & Project Styles
+
+- **General** (core library): .NET Standard 2.0, SDK-style csproj with PackageReference (Newtonsoft.Json, SystemWebAdapters, System.DirectoryServices, Konscious Argon2)
+- **General.Test**: net472, SDK-style, MSTest v2 — references General
+- **General.Data** (ORM): .NET Framework 4.0, legacy csproj, uses Dapper 1.50 via packages.config
+- **General.DataExpress** (lightweight DAC): .NET Framework 4.0, legacy csproj
+
+### Project Map (projects in General.sln)
+
+| Project | Folder | Purpose |
+|---|---|---|
+| General | `General/` | Core library: AES crypto, Argon2id password hashing, mail/Skype notification, SQL condition translator (new version), column mapper |
+| General.Test | `General.Test/` | MSTest v2 tests for General (SQLConditionConverter, PasswordHasher) |
+| General.Data | `Gerenal.Data/` | Full ORM layer with Dapper, Expression Tree → SQL WHERE translator, CRUD command builders |
+| General.DataExpress | `General.DataLw/` | Lightweight ADO.NET-only data access (no Dapper) |
+
+### Legacy Projects (`legacy/`)
+
+These are **retired** and deliberately **not in General.sln**. Do not add code there expecting it
+to build with the solution; treat them as read-only archives kept for reference.
+
+| Project | Folder | Was |
+|---|---|---|
+| General.CC | `legacy/General.CC/` | ASP.NET custom controls (ConfirmButton, DatePicker, FileUploader), net35 |
+| General.UC | `legacy/General.UC/` | ASP.NET web app with user controls, net35 |
+| Gerneral.Helper | `legacy/Gerneral.Helper/` | Validation utilities (NotNull, RegexMatch rules), net35 |
+| General.Data.Test | `legacy/General.Data.Test/` | MSTest v1 tests for General.Data, net35 |
+| General.Log | `legacy/General.Log/` | Logging wrapper |
+| General.Log.Test | `legacy/General.Log.Test/` | Tests for General.Log |
+
+Their csproj files still reference live projects (`General`, `General.Data`) and `packages/` via
+`..\..\` relative paths, so they remain buildable with msbuild — but `legacy/General.Data.Test`
+needs `nuget restore` first (it wants Dapper 1.13, which is not restored locally).
+
+`General.Extension/` also exists on disk and is not in the solution.
+
+### Key Design Patterns
+
+**Expression Tree → SQL Translation (two versions)**:
+- **Old** (`Gerenal.Data/Base/QueryTranslator.cs`): `QueryTranslator : ExpressionVisitor` — outputs `Queue<QueryCondition>` → WHERE string with `@T1_FieldName_0` parameters. Null values are auto-skipped for dynamic queries.
+- **New** (`General/Data/SQLConditionConverter/`): `TranslatorBase<T>` (ExpressionVisitor) + `QueryConditionTranslator<T>`. Fluent API: `AddCondition(expr)` / `AddTextCondition(sql, params QueryParameter[])` → `Translate()` (re-callable; state resets between calls) → parameters exposed via `Parameters`. Behaviors to preserve:
+  - `== null` / `!= null` → `IS NULL` / `IS NOT NULL` (also when operands are reversed, e.g. `null == p.X`)
+  - `Contains`/`StartsWith`/`EndsWith` → LIKE with `%` wrapping in the parameter value
+  - Collection `Contains` → `IN (...)`; empty collection → `(1=0)`; >2100 items → inline literals instead of parameters (SQL Server parameter limit)
+  - String parameter `DbType` auto-detected: ASCII → `AnsiString` (VarChar), non-ASCII (CJK etc.) → `String` (NVarChar)
+  - Column aliasing via `[ColumnMapping(ColumnName=..., AliasName=...)]` on properties, or a class-level attribute implementing `IConditionMappingAttribute<T>` (also controls `IsSkipNullOrEmpty` — skips null/empty *string* conditions only, never value types)
+- **`QuerySelectBuilder<T>`** (same folder): builds SELECT column lists — `Column(expr, tableAlias, alias)`, `From(alias, exprs...)`, `RawColumn(sql)`, `ColumnAll(alias)`, `Reset()`; honors the same mapping attributes.
+
+**ORM Command Builder** (`Gerenal.Data/DapperExtensions/`):
+Abstract `DapperCommandBuilder` with four implementations (Select/Insert/Update/Delete). `DataBase` abstract class auto-initializes all four via `[TableMapping("table")]` attribute. Subclasses get fluent API: `Select("*").Where<T>(expr).Query<T>()`.
+
+**Provider abstraction**:
+`IDACAdapter` → `ProviderBase` (reads `<connectionStrings>`) → `DefaultProvider` (uses `DbProviderFactory` for DB-neutral ADO.NET).
+
+**Dapper type mapping**: `FallbackTypeMapper` + `ColumnAttributeTypeMapper<T>` lets Dapper recognize `[Column(Name="xxx")]` attributes with fallback to default mapping.
+
+**ExpressionFactory** (`Gerenal.Data/Base/ExpressionFactory.cs`): Compiles property setter delegates via Expression Trees with static cache (double-checked locking) to avoid runtime reflection.
+
+**Password hashing** (`General/Crypto/Password/`): `PasswordHasher` — Argon2id via Konscious, PHC
+string output (`$argon2id$v=19$m=19456,t=2,p=1$salt$hash`). `Verify()` re-derives using the
+parameters embedded in the stored string, so changing the strength table never invalidates existing
+hashes; `NeedsRehash()` drives upgrade-on-login. See `General/Crypto/Password/README.md` for the
+DB column recommendation (`VARCHAR(128)`), strength/perf table, and why pepper is intentionally
+not implemented.
+
+### General.Data vs General.DataExpress
+
+Both share namespace `General.Data` but **cannot be referenced together** (namespace collision). DataExpress (`General.DataLw/`, "Lw" = Lightweight) is a minimal ADO.NET-only version without Dapper or ORM. Their `IDACAdapter` interfaces are incompatible — DataExpress uses `GetDataRow()`/`GetDataSet()` naming vs the older `DataRow()`/`DataSet()`.
+
+### Folder Name Typos (Historical)
+
+- `Gerenal.Data/` (not "General") — contains `General.Data.csproj`
+- `legacy/Gerneral.Helper/` (not "General") — contains `Gerneral.Helper.csproj`
+
+These are intentional historical directory names; do not rename them.

@@ -1,18 +1,12 @@
+# 建置產物（通用規則，適用任何目錄深度）
+bin/
+obj/
 
+# Visual Studio 本機快取
+.vs/
+*.suo
+*.user
+
+# NuGet 還原目錄
 /packages
 /TestResults
-/General.Data.Test/bin
-/General.Data.Test/obj
-/General/bin
-/General/obj
-/General.CC/bin
-/General.CC/obj
-/General.Service.Test/obj
-/General.Service.Test/bin
-/General.Test/bin
-/General.Test/obj
-/Gerenal.Data/obj
-/Gerenal.Data/bin
-/General.UC/bin
-/General.UC/obj
-/*.suo
