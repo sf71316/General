@@ -25,7 +25,7 @@ This is a multi-project .NET class library solution providing shared infrastruct
 
 ### Mixed Target Frameworks & Project Styles
 
-- **General** (core library): .NET Standard 2.0, SDK-style csproj with PackageReference (Newtonsoft.Json, SystemWebAdapters, System.DirectoryServices, Konscious Argon2)
+- **General** (core library): .NET Standard 2.0, SDK-style csproj with PackageReference (Newtonsoft.Json, SystemWebAdapters, System.DirectoryServices, Konscious Argon2, BouncyCastle)
 - **General.Test**: net472, SDK-style, MSTest v2 — references General
 - **General.Data** (ORM): .NET Framework 4.0, legacy csproj, uses Dapper 1.50 via packages.config
 - **General.DataExpress** (lightweight DAC): .NET Framework 4.0, legacy csproj
@@ -34,8 +34,8 @@ This is a multi-project .NET class library solution providing shared infrastruct
 
 | Project | Folder | Purpose |
 |---|---|---|
-| General | `General/` | Core library: AES crypto, Argon2id password hashing, mail/Skype notification, SQL condition translator (new version), column mapper |
-| General.Test | `General.Test/` | MSTest v2 tests for General (SQLConditionConverter, PasswordHasher) |
+| General | `General/` | Core library: AES-GCM encryption, Argon2id password hashing, mail/Skype notification, SQL condition translator (new version), column mapper |
+| General.Test | `General.Test/` | MSTest v2 tests for General (SQLConditionConverter, PasswordHasher, AesEncryptor) |
 | General.Data | `Gerenal.Data/` | Full ORM layer with Dapper, Expression Tree → SQL WHERE translator, CRUD command builders |
 | General.DataExpress | `General.DataLw/` | Lightweight ADO.NET-only data access (no Dapper) |
 
@@ -80,6 +80,15 @@ Abstract `DapperCommandBuilder` with four implementations (Select/Insert/Update/
 **Dapper type mapping**: `FallbackTypeMapper` + `ColumnAttributeTypeMapper<T>` lets Dapper recognize `[Column(Name="xxx")]` attributes with fallback to default mapping.
 
 **ExpressionFactory** (`Gerenal.Data/Base/ExpressionFactory.cs`): Compiles property setter delegates via Expression Trees with static cache (double-checked locking) to avoid runtime reflection.
+
+**Reversible encryption** (`General/Crypto/AesEncryptor.cs`): AES-256-GCM via BouncyCastle, output
+`Base64(version(1) ‖ nonce(12) ‖ ciphertext ‖ tag(16))`. Nonce is always generated internally — there
+is deliberately no API to supply one, because nonce reuse under GCM is catastrophic. All decryption
+failures throw `CryptographicException` with an **identical** message so the error cannot be used as
+an oracle. Native `AesGcm` is unreachable here (needs netstandard2.1, which .NET Framework does not
+support), hence BouncyCastle. The old `CryptoProvider`/`AESCrypto`/`RijndaelCrypto`/`CryptoEum` were
+removed — they used unauthenticated CBC and were vulnerable to padding oracle attacks. See
+`General/Crypto/README.md`.
 
 **Password hashing** (`General/Crypto/Password/`): `PasswordHasher` — Argon2id via Konscious, PHC
 string output (`$argon2id$v=19$m=19456,t=2,p=1$salt$hash`). `Verify()` re-derives using the
