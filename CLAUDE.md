@@ -39,23 +39,24 @@ This is a multi-project .NET class library solution providing shared infrastruct
 | General.Data | `Gerenal.Data/` | Full ORM layer with Dapper, Expression Tree → SQL WHERE translator, CRUD command builders |
 | General.DataExpress | `General.DataLw/` | Lightweight ADO.NET-only data access (no Dapper) |
 
-### Legacy Projects (`legacy/`)
+### Retired Projects (deleted)
 
-These are **retired** and deliberately **not in General.sln**. Do not add code there expecting it
-to build with the solution; treat them as read-only archives kept for reference.
+Six .NET 3.5-era projects were retired and **deleted from the working tree**: `General.CC`
+(ASP.NET custom controls), `General.UC` (ASP.NET web app), `Gerneral.Helper` (validation
+utilities), `General.Data.Test` (MSTest v1), `General.Log`, and `General.Log.Test`.
 
-| Project | Folder | Was |
-|---|---|---|
-| General.CC | `legacy/General.CC/` | ASP.NET custom controls (ConfirmButton, DatePicker, FileUploader), net35 |
-| General.UC | `legacy/General.UC/` | ASP.NET web app with user controls, net35 |
-| Gerneral.Helper | `legacy/Gerneral.Helper/` | Validation utilities (NotNull, RegexMatch rules), net35 |
-| General.Data.Test | `legacy/General.Data.Test/` | MSTest v1 tests for General.Data, net35 |
-| General.Log | `legacy/General.Log/` | Logging wrapper |
-| General.Log.Test | `legacy/General.Log.Test/` | Tests for General.Log |
+They were first moved to `legacy/` (commit `3716746`), then deleted. To recover any of them,
+check out the tree at that commit — the full history is preserved:
 
-Their csproj files still reference live projects (`General`, `General.Data`) and `packages/` via
-`..\..\` relative paths, so they remain buildable with msbuild — but `legacy/General.Data.Test`
-needs `nuget restore` first (it wants Dapper 1.13, which is not restored locally).
+```bash
+git show 3716746 --stat                    # see what was there
+git checkout 3716746 -- legacy/General.CC  # restore one project
+```
+
+They also carried known-vulnerable dependencies that are now gone from the working tree:
+log4net 2.0.3 (CVE-2018-1285 XXE), jQuery 2.1.0/1.9.1 (four XSS CVEs), a 2007-era jQuery UI
+datepicker, and a Flash `uploadify.swf` (CVE-2018-9173). Do not resurrect these files without
+updating those dependencies first.
 
 `General.Extension/` also exists on disk and is not in the solution.
 
