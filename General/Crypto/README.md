@@ -47,9 +47,41 @@ using (var enc = AesEncryptor.FromPassword(password, salt))
 }
 ```
 
-採 PBKDF2-HMAC-SHA256、**600,000** 次迭代（OWASP 建議值）。
-**salt 與 iterations 必須保存**，否則無法還原金鑰。相同的
+採 PBKDF2-HMAC-SHA256、**600,000** 次迭代（OWASP 建議值）。相同的
 `password + salt + iterations` 必然衍生出相同金鑰。
+
+#### salt 要存在哪裡？
+
+**salt 不是機密，明文存放即可，就放在密文旁邊。**
+
+這點常與 pepper 混淆：
+
+| | 用途 | 是否機密 | 存放位置 |
+|---|---|---|---|
+| **salt** | 讓相同密碼在不同情境衍生出不同金鑰，並使預算好的彩虹表失效 | ❌ 不是機密 | 明文，與密文放一起 |
+| **pepper** | 全站共用的額外秘密 | ✅ 是機密 | KMS / HSM，絕不可與密文放一起 |
+
+salt 的要求是**唯一且隨機**，不是「藏起來」。攻擊者即使取得 salt，
+仍須對每一組 salt 各自重跑 600,000 次 PBKDF2。
+
+**情境 A — 加密備份檔**（一個檔案一把金鑰）：salt 寫進檔頭
+
+```
+[salt(16) ‖ iterations(4)] ‖ AesEncryptor 密文
+```
+
+**情境 B — 每個使用者一把金鑰**：salt 存在使用者資料列
+
+```sql
+ALTER TABLE Users ADD KeyDerivationSalt BINARY(16) NOT NULL;
+ALTER TABLE Users ADD KeyDerivationIterations INT NOT NULL DEFAULT 600000;
+```
+
+> ⚠️ **`iterations` 必須一併保存**。只存 salt 是常見疏忽 —— 日後若把預設迭代
+> 次數調高，舊資料將再也無法解密。
+
+> **salt 的層級是「一把金鑰」，不是「一筆訊息」。** 同一把衍生金鑰加密 1000 筆
+> 資料只需要**一個** salt。每筆訊息的唯一性由 nonce 負責，已自動處理。
 
 ---
 
@@ -126,24 +158,7 @@ ALTER TABLE Secrets ADD KeyVersion TINYINT NOT NULL DEFAULT 1;
 
 ---
 
-## 5. 為什麼用 BouncyCastle 而不是原生 `AesGcm`
-
-`System.Security.Cryptography.AesGcm` 需要 **netstandard2.1 以上**，
-而 .NET Framework **完全不支援 netstandard2.1**。本專案的 `General` 是
-netstandard2.0、`General.Test` 是 net472，改 TFM 會直接把 .NET Framework
-的使用端斷掉。
-
-`Microsoft.Bcl.Cryptography` 亦**不會**在 netstandard2.0 下提供 `AesGcm`（已實測確認）。
-
-因此改用 BouncyCastle 的 `GcmBlockCipher` —— 得到的是同一套標準演算法，
-無傳遞相依套件。
-
-> 日後若 `General` 升級到 .NET 8 之類的目標框架，可改用原生 `AesGcm`
-> 並移除此相依；密文格式不需要變動，兩者輸出完全相容。
-
----
-
-## 6. 錯誤處理行為
+## 5. 錯誤處理行為
 
 | 情境 | 行為 |
 |---|---|
@@ -159,9 +174,9 @@ netstandard2.0、`General.Test` 是 net472，改 TFM 會直接把 .NET Framework
 
 **所有解密失敗都回報完全相同的訊息**（`密文無效或已遭竄改。`），
 刻意不區分「標籤驗證失敗」「格式錯誤」「版本不符」。
-差異化的錯誤訊息會成為攻擊者的 oracle —— 舊版 `CryptoProvider` 正是
-因為 CBC 模式下缺乏驗證、且 padding 錯誤會拋出可辨識的例外，而存在
-padding oracle 風險。
+差異化的錯誤訊息會成為攻擊者的 oracle：只要能從回應分辨出「解密到一半才失敗」
+與「格式一開始就不對」，攻擊者就能藉由反覆送出變造的密文推導出明文內容。
+呼叫端也應留意 —— **不要把這個例外的細節回傳給外部使用者**。
 
 其他行為：
 
@@ -173,28 +188,7 @@ padding oracle 風險。
 
 ---
 
-## 7. 與舊版 `CryptoProvider` 的差異
-
-舊的 `CryptoProvider` / `AESCrypto` / `RijndaelCrypto` / `CryptoEum` 已**移除**。
-舊實作存在下列問題：
-
-| 問題 | 新實作的處理 |
-|---|---|
-| CBC 模式無任何完整性驗證 → padding oracle | GCM 為 AEAD，內建驗證 |
-| IV 由呼叫端管理，易誤用為固定 IV | nonce 內部隨機產生，不對外開放 |
-| `Mode` 屬性可被設為 ECB | 不提供該屬性 |
-| `Dispose()` 未使用即呼叫會 `NullReferenceException` | 已修正，並有測試涵蓋 |
-| 每次加解密洩漏 `MemoryStream` / `CryptoStream` | 不再持有 stream 欄位 |
-| 共用可變欄位，非執行緒安全 | 無共用可變狀態 |
-| `GetModule()` 未知型別回傳 `null` | 不再有工廠方法 |
-| `RijndaelManaged` 已過時（SYSLIB0022） | 移除 |
-
-舊密文**無法**用新實作解密（演算法與格式皆不同）。若有既有資料需要遷移，
-請保留舊程式碼的副本，以「舊實作解密 → 新實作加密」的方式批次轉換。
-
----
-
-## 8. 參考來源
+## 6. 參考來源
 
 - [NIST SP 800-38D — GCM 規範](https://csrc.nist.gov/publications/detail/sp/800-38d/final)
 - [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)
@@ -203,7 +197,7 @@ padding oracle 風險。
 
 ---
 
-## 9. 測試
+## 7. 測試
 
 ```bash
 dotnet test General.Test/General.Test.csproj --filter "FullyQualifiedName~AesEncryptorTests"
