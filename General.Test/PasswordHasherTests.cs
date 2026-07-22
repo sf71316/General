@@ -152,13 +152,38 @@ namespace General.Test
         }
 
         [TestMethod]
-        public void Verify_TamperedHash_ReturnsFalse()
+        public void Verify_TamperedSaltOrHash_ReturnsFalse()
         {
-            string phc = PasswordHasher.Hash(Password);
-            char last = phc[phc.Length - 1];
-            string tampered = phc.Substring(0, phc.Length - 1) + (last == 'A' ? 'B' : 'A');
+            // 不可直接改動 Base64 的最後一個字元：32 bytes 編碼為 43 個字元，
+            // 末字元的低 2 位元不承載資料，'A' 與 'B' 會解碼出相同位元組，
+            // 這種「竄改」實際上沒有改到任何東西。故一律對解碼後的位元組動手。
+            foreach (int segment in new[] { 4, 5 })      // 4 = salt、5 = hash
+            {
+                foreach (int index in new[] { 0, 7, -1 })
+                {
+                    string[] parts = PasswordHasher.Hash(Password).Split('$');
+                    byte[] raw = FromBase64Unpadded(parts[segment]);
+                    int i = index < 0 ? raw.Length - 1 : index;
 
-            Assert.IsFalse(PasswordHasher.Verify(Password, tampered));
+                    raw[i] ^= 0xFF;
+                    parts[segment] = ToBase64Unpadded(raw);
+
+                    Assert.IsFalse(PasswordHasher.Verify(Password, string.Join("$", parts)),
+                        "段 " + segment + " 的位元組 " + i + " 遭竄改卻通過驗證");
+                }
+            }
+        }
+
+        private static byte[] FromBase64Unpadded(string value)
+        {
+            int padding = value.Length % 4;
+            if (padding > 0) value += new string('=', 4 - padding);
+            return Convert.FromBase64String(value);
+        }
+
+        private static string ToBase64Unpadded(byte[] value)
+        {
+            return Convert.ToBase64String(value).TrimEnd('=');
         }
 
         #endregion

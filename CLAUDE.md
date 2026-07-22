@@ -34,8 +34,8 @@ This is a multi-project .NET class library solution providing shared infrastruct
 
 | Project | Folder | Purpose |
 |---|---|---|
-| General | `General/` | Core library: AES-GCM encryption, Argon2id password hashing, mail/Skype notification, SQL condition translator (new version), column mapper |
-| General.Test | `General.Test/` | MSTest v2 tests for General (SQLConditionConverter, PasswordHasher, AesEncryptor) |
+| General | `General/` | Core library: AES-GCM encryption, RSA encryption/signing, Argon2id password hashing, mail/Skype notification, SQL condition translator (new version), column mapper |
+| General.Test | `General.Test/` | MSTest v2 tests for General (SQLConditionConverter, PasswordHasher, AesEncryptor, Rsa) |
 | General.Data | `Gerenal.Data/` | Full ORM layer with Dapper, Expression Tree → SQL WHERE translator, CRUD command builders |
 | General.DataExpress | `General.DataLw/` | Lightweight ADO.NET-only data access (no Dapper) |
 
@@ -81,6 +81,17 @@ Abstract `DapperCommandBuilder` with four implementations (Select/Insert/Update/
 **Dapper type mapping**: `FallbackTypeMapper` + `ColumnAttributeTypeMapper<T>` lets Dapper recognize `[Column(Name="xxx")]` attributes with fallback to default mapping.
 
 **ExpressionFactory** (`Gerenal.Data/Base/ExpressionFactory.cs`): Compiles property setter delegates via Expression Trees with static cache (double-checked locking) to avoid runtime reflection.
+
+**Asymmetric crypto** (`General/Crypto/Rsa/`): `RsaKey` (generate / PEM import-export, PKCS#8 +
+SPKI out, PKCS#1 also accepted in), `RsaEncryptor` (envelope encryption — RSA-OAEP-SHA256 wraps a
+fresh AES-256 key, `AesEncryptor` encrypts the data, so there is no 190-byte limit), `RsaSigner`
+(RSASSA-PSS + SHA-256). Padding is not configurable — PKCS#1 v1.5 encryption is Bleichenbacher-
+vulnerable and is deliberately unreachable. **All RSA operations go through BouncyCastle, not the
+BCL**: on .NET Framework `RSA.Create()` returns `RSACryptoServiceProvider`, which supports neither
+OAEP-SHA256 nor PSS, and `RSACng` is unavailable on netstandard2.0. Verified interoperable with
+OpenSSL in both directions. Requesting a private-key operation on a public-only key throws
+`InvalidOperationException` (a programming error), while ciphertext problems throw
+`CryptographicException` with a uniform message. See `General/Crypto/Rsa/README.md`.
 
 **Reversible encryption** (`General/Crypto/AesEncryptor.cs`): AES-256-GCM via BouncyCastle, output
 `Base64(version(1) ‖ nonce(12) ‖ ciphertext ‖ tag(16))`. Nonce is always generated internally — there
