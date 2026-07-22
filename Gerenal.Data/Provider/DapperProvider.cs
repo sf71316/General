@@ -11,7 +11,7 @@ using General.Data.Dapper;
 namespace General.Data
 {
 
-    internal class DapperProvider : IDapperProvider 
+    internal class DapperProvider : IDapperProvider
     {
         IDbConnection cnn;
         public DapperProvider(IDbConnection connection)
@@ -33,7 +33,7 @@ namespace General.Data
         }
         public IEnumerable<IDictionary<string, object>> Query(string sql, object parameters)
         {
-            return this.cnn.Query(sql, parameters);
+            return this.cnn.Query(sql, parameters) as IEnumerable<IDictionary<string, object>>;
         }
         public IEnumerable<T> Query<T>(string sql, object parameters)
         {
@@ -59,7 +59,7 @@ namespace General.Data
         }
         private void setMapping<T>()
         {
-            SqlMapper.SetTypeMap(typeof(T),   new ColumnAttributeTypeMapper<T>());
+            SqlMapper.SetTypeMap(typeof(T), new ColumnAttributeTypeMapper<T>());
         }
         public IDbConnection Connection
         {

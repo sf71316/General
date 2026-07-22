@@ -34,6 +34,12 @@ namespace General.Data.Dapper
             return null;
         }
 
+        public ConstructorInfo FindExplicitConstructor()
+        {
+            return _mappers.Select(m => m.FindExplicitConstructor())
+                    .FirstOrDefault(result => result != null);
+        }
+
         public SqlMapper.IMemberMap GetConstructorParameter(ConstructorInfo constructor, string columnName)
         {
             foreach (var mapper in _mappers)
@@ -91,7 +97,7 @@ namespace General.Data.Dapper
                 new DefaultTypeMap(typeof(T))
                 })
         {
-            
+
         }
     }
 }
